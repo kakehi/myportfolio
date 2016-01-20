@@ -1,0 +1,271 @@
+<html>
+<head>
+<style>
+html{
+	overflow:hidden;
+}
+body{
+	margin:0;
+}
+#introPage1, #introPage2, #introPage3, #introPage4{
+	position:absolute;
+	width:100%;
+	height:100%;
+	margin:0px;
+	padding:0px;
+}
+#introPage1{
+	background-color:rgba(102,0,14,1);
+	z-index:2004;
+}
+#introPage2{
+	background-color:rgba(221,195,174,1);
+	z-index:2003;
+}
+#introPage3{
+	background-color:rgba(9,196,187,1);
+	z-index:2002;
+}
+#introPage4{
+	background-color:rgba(176,10,10,1);
+	z-index:2001;
+}
+#rojectContainer{
+	position:absolute;
+	overflow-y:scroll;
+	z-index:2000;
+}
+
+.project{
+	position:absolute;
+	border: thin solid #000;
+}
+
+</style>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="../js/jquery.mousewheel.min.js"></script>
+<script>
+$(document).ready(function(){
+
+	var scrollon = false;
+
+
+	var initialPos =0;
+	var animateSetTimeOut;
+	var projNumb = 0, pastprojNumb = 0;
+
+	var goalPosY1 = 0, goalPosY2 = 0, goalPosY3 = 0, goalPosY4 = 0;
+
+	var projectContainerHeight = 0;
+
+	var scrollInterval = 20;
+
+
+	$('body').mousewheel(function (event){
+		//console.log(initialPos);
+		if(scrollon === false){
+			initialPos -= event.deltaY;
+		}
+		
+    	event.preventDefault();
+
+		clearTimeout($.data(this, 'scrollTimer'));
+	    $.data(this, 'scrollTimer', setTimeout(function() {
+
+
+
+			if(initialPos < -5 && projNumb < 4 && scrollon == false && projectcandispatch === true){
+				projNumb += 1;
+				scrollon = true;
+			}
+			if(initialPos > 5 && projNumb > 0 && scrollon == false && projectcandispatch === true){
+				projNumb -= 1;
+				scrollon = true;
+			}
+
+			if(projNumb === 0){
+				goalPosY1 = goalPosY2 = goalPosY3 = goalPosY4 = 0;
+			}
+			if(projNumb === 1){
+				goalPosY1 = -1.5 * $(window).height();
+				goalPosY2 = goalPosY3 = goalPosY4 = 0;
+			}
+			if(projNumb === 2){
+				goalPosY1 = goalPosY2 = -1.5 * $(window).height();
+				goalPosY3 = goalPosY4 = 0;
+			}
+			if(projNumb === 3){
+				goalPosY1 = goalPosY2 = goalPosY3 = -1.5 * $(window).height();
+				goalPosY4 = 0;
+
+				if(projecton === true){
+					closeProject();
+					projecton = false;
+					scrollInterval = 20;
+				}
+				projectscrollable = false;
+			}
+			if(projNumb === 4){
+				
+				goalPosY1 = goalPosY2 = goalPosY3 = goalPosY4 =  -1.5 * $(window).height();
+
+				if(projecton === false){
+					openProject(1);
+					projecton = true;
+					scrollInterval = 0;
+				}
+			}
+
+
+			if(projectscrollable === true){
+
+				containerBasePos -= event.deltaY * 2.5;
+
+				animateProject(0, 100);
+			}
+
+			/*
+			The problem is projectscrollable turns off when scrolling up.
+			You cannot turn down.
+			*/
+
+	    	if(containerBasePos > 0){
+	    		containerBasePos = 0;
+	    		setTimeout(function(){
+	    			projectcandispatch = true;
+	    			
+	    		}, 600);
+				animateProject(0, 0);
+	    	}
+
+	    	if(containerBasePos < 0){
+
+				projectcandispatch = false;
+			}
+			
+
+			if(initialPos != 0){
+				var speed = Math.round(Math.abs(1000-Math.abs((initialPos+100)*2))/1.2);
+				if(speed>1000){speed = 1000;}
+				if(speed<600){speed = 600;}
+				var delay = 0;
+		        $('#introPage1').stop().animate({'top':goalPosY1},speed);
+				$('#introPage2').stop().animate({'top':goalPosY2},speed);
+				$('#introPage3').stop().animate({'top':goalPosY3},speed);
+				$('#introPage4').stop().animate({'top':goalPosY4},speed, function(){scrollon = false;});
+				initialPos = 0;
+			}
+
+	    },scrollInterval));
+		
+
+
+
+		
+    	//a.log()
+    	/*animateSetTimeOut = null;
+    	animateSetTimeOut = setTimeout(function(){
+    		$('#introPage1').animate({'top':initialPos});
+    	}, 500);*/
+	});
+
+	createProject();
+});
+
+var projecton = false;
+var projectscrollable = false;
+var projectcandispatch = true;
+
+var totalProject = 20;
+var containerBasePos = 0;
+
+// height and width of the project
+var projectSize = 0;
+var projectPos=[];
+
+function createProject(){
+
+	adjustSize();
+
+	for(var i=0; i<totalProject; i++){
+		$('#projectContainer').append('<div class="project" id="project'+i+'"></div>');
+		$('#projectContainer').find('#project'+i).css({
+			'width':0, 'height':0, 'top':projectPos[i].top + projectSize/2, 'left':projectPos[i].left + projectSize/2
+		});
+	}
+}
+function closeProject(){
+
+	for(var i=0; i<totalProject; i++){
+		$('#projectContainer').find('#project'+i).delay(Math.round(Math.random()*500+500)).animate({
+			'width':0, 'height':0, 'top':projectPos[i].top + projectSize/2, 'left':projectPos[i].left + projectSize/2
+		});
+	}
+
+}
+function openProject(d){
+
+	for(var i=0; i<totalProject; i++){
+		
+		console.log(projectPos[i]);
+
+		$('#projectContainer').find('#project'+i).delay(Math.round(Math.random()*500+500) * d).animate({
+			'width':projectSize, 'height':projectSize, 'top':projectPos[i].top + containerBasePos, 'left':projectPos[i].left
+		}, function(){projectscrollable = true;});
+	}
+
+}
+
+function animateProject(d, speed){
+	
+	for(var i=0; i<totalProject; i++){
+
+		$('#projectContainer').find('#project'+i).stop().animate({
+			'width':projectSize, 'height':projectSize, 'top':projectPos[i].top + containerBasePos, 'left':projectPos[i].left
+		}, speed);
+	}
+}
+
+function adjustSize(){
+
+	
+
+	var xcounter=1;
+	projectSize =  $(window).width();
+	while (projectSize > 600){
+		projectSize =  $(window).width()/xcounter;
+		xcounter++;
+	}
+
+	var j=0, k=0;
+	for(var i=0; i<totalProject; i++){
+
+		
+		projectPos[i] = {
+			top : projectSize * k,
+			left : projectSize * j
+		}
+		if(j<xcounter){
+			j++;
+		}else{
+			j=0;
+			k++;
+		}
+	}
+}
+
+$(window).resize(function(){
+
+});
+</script>
+
+</head>
+<body>
+<div id="introPage1"></div>
+<div id="introPage2"></div>
+<div id="introPage3"></div>
+<div id="introPage4"></div>
+<div id="projectContainer"></div>
+</body>
+</html>
