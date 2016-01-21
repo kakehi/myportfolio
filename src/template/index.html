@@ -1,8 +1,76 @@
 <html>
 <head>
 <style>
+
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('font/open-sans/opensans-regular-webfont.eot');
+    src: url('font/open-sans/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/open-sans/opensans-regular-webfont.woff2') format('woff2'),
+         url('font/open-sans/opensans-regular-webfont.woff') format('woff'),
+         url('font/open-sans/opensans-regular-webfont.ttf') format('truetype'),
+         url('font/open-sans/opensans-regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'open_sanssemibold';
+    src: url('font/open-sans/opensans-semibold-webfont.eot');
+    src: url('font/open-sans/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/open-sans/opensans-semibold-webfont.woff2') format('woff2'),
+         url('font/open-sans/opensans-semibold-webfont.woff') format('woff'),
+         url('font/open-sans/opensans-semibold-webfont.ttf') format('truetype'),
+         url('font/open-sans/opensans-semibold-webfont.svg#open_sanssemibold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'open_sanslight';
+    src: url('font/open-sans/opensans-light-webfont.eot');
+    src: url('font/open-sans/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/open-sans/opensans-light-webfont.woff2') format('woff2'),
+         url('font/open-sans/opensans-light-webfont.woff') format('woff'),
+         url('font/open-sans/opensans-light-webfont.ttf') format('truetype'),
+         url('font/open-sans/opensans-light-webfont.svg#open_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'open_sanslight_italic';
+    src: url('font/open-sans/opensans-lightitalic-webfont.eot');
+    src: url('font/open-sans/opensans-lightitalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/open-sans/opensans-lightitalic-webfont.woff2') format('woff2'),
+         url('font/open-sans/opensans-lightitalic-webfont.woff') format('woff'),
+         url('font/open-sans/opensans-lightitalic-webfont.ttf') format('truetype'),
+         url('font/open-sans/opensans-lightitalic-webfont.svg#open_sanslight_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'latin_modern_roman_caps10Ob';
+    src: url('font/lm-roman/lmromancaps10-oblique-webfont.eot');
+    src: url('font/lm-roman/lmromancaps10-oblique-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/lm-roman/lmromancaps10-oblique-webfont.woff2') format('woff2'),
+         url('font/lm-roman/lmromancaps10-oblique-webfont.woff') format('woff'),
+         url('font/lm-roman/lmromancaps10-oblique-webfont.ttf') format('truetype'),
+         url('font/lm-roman/lmromancaps10-oblique-webfont.svg#latin_modern_roman_caps10Ob') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
 html{
 	overflow:hidden;
+	font-family: Helvetica, sans-serif;
+	font-weight: lighter;
 }
 body{
 	margin:0;
@@ -41,14 +109,83 @@ body{
 
 .project{
 	position:absolute;
-	border: thin solid #000;
-	background-color: rgba(25,23,34,0.5);
-}
+	overflow:hidden;
 
+	cursor: pointer;
+
+	z-index:100000;
+}
+.project .img-over{
+	position:absolute;
+	background-color:#000;
+	width:100%;
+	height:100%;
+	opacity:0;
+}
+.project .img-container{
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+.project .img-over-caption{
+	position:absolute;
+	width:90%;
+	height:90%;
+	text-align:center;
+	color:white;
+	padding:20px;
+
+	-webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+
+	/* Rules below not implemented in browsers yet */
+	-o-user-select: none;
+	user-select: none;
+}
+.project .img-over-caption h1{
+	padding-top:20%;
+	font-size:64px;
+
+}
+.project .img-over-caption h3{
+	font-size:18px;
+	font-weight:100;
+	line-height: 100%;
+	font-family: latin_modern_roman_caps10Ob;
+}
+.project .img-over-caption h3 span{
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;  
+}
+.project img{
+	position:relative;
+	width:100%;
+}
+#videocontainer{
+	background-color:#000;
+	position:absolute;
+
+	width:100%; 
+
+}
+#videocontainer iframe{
+ 	display:block;
+ 	margin:100px auto;
+
+ 	width: 800px;
+	height: 450px;
+
+ 	border:none;
+}
 </style>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="../js/jquery.transform2d.js"></script>
 <script src="../js/jquery.mousewheel.min.js"></script>
+<script src="../js/commonfunction.js"></script>
+<script src="../js/loadProject.js"></script>
 <script>
 $(document).ready(function(){
 
@@ -73,8 +210,6 @@ $(document).ready(function(){
 		if(projectscrollable !== true){
     		event.preventDefault();
 		}
-
-		console.log(event.deltaY);
 
 		clearTimeout($.data(this, 'scrollTimer'));
 	    $.data(this, 'scrollTimer', setTimeout(function() {
@@ -185,16 +320,15 @@ $(document).ready(function(){
     		$('#introPage1').animate({'top':initialPos});
     	}, 500);*/
 	});
-	console.log(projectContainerHeight);
-	createProject();
-	console.log(projectContainerHeight);
+
+
+	_loadJSON($_GET('portfolio'), 'od6');
 });
 
 var projecton = false;
 var projectscrollable = false;
 var projectcandispatchUp = true;
 
-var totalProject = 30;
 var containerBasePos = 0;
 
 // height and width of the project
@@ -207,28 +341,48 @@ function createProject(){
 
 	adjustSize();
 
-	for(var i=0; i<totalProject; i++){
-		$('#projectContainer').append('<div class="project" id="project'+i+'"></div>');
+	for(var i=0; i<_myProjects.length; i++){
+		$('#projectContainer').append('<div class="project" id="project'+i+'"><div class="img-container"><img src="../img/'+_myProjects[i].thumb+'"></div><div class="img-over"></div><div class="img-over-caption"><h1>'+_myProjects[i].title+'</h1><h3><span>'+_myProjects[i].subtitle+'</span></h3></div></div>');
 		$('#projectContainer').find('#project'+i).css({
-			'width':0, 'height':0, 'top':projectPos[i].top + projectSize/2, 'left':projectPos[i].left + projectSize/2
+			'width':projectSize, 'height':projectSize, 'top':projectPos[i].top, 'left':projectPos[i].left, transform:'scale(0,0)'
+		});
+		$('#projectContainer').find('.img-over-caption').css({transform:'scale(.8,.8)', opacity:.2});
+
+		// hover action
+		$('#projectContainer').find('#project'+i).mouseenter(function() {
+			$(this).find('.img-container').animate({transform:'scale(1.2,1.2)'});
+			$(this).find('.img-over').animate({opacity:0.8});
+			$(this).find('.img-over-caption').animate({transform:'scale(1,1)', opacity:1});
+		}).mouseleave(function() {
+			$(this).find('.img-container').animate({transform:'scale(1.0,1.0)'});
+			$(this).find('.img-over').animate({opacity:0});
+			$(this).find('.img-over-caption').animate({transform:'scale(.2,.2)', opacity:.2});
 		});
 	}
+
+	if(isYoutube(_youtubeurl) != false){
+		$('#projectContainer').append('<div id="videocontainer" style="top:'+(projectContainerHeight + 600)+'"><iframe src="http://www.youtube.com/embed/'+isYoutube(_youtubeurl)+'?autoplay=0&controls=1&showinfo=0"></iframe></div>');
+	}
+
+	console.log('AAA', isYoutube(_youtubeurl));
 }
 function closeProject(){
 
-	for(var i=0; i<totalProject; i++){
+	for(var i=0; i<_myProjects.length; i++){
 		$('#projectContainer').find('#project'+i).delay(Math.round(Math.random()*500+500)).animate({
-			'width':0, 'height':0, 'top':projectPos[i].top + projectSize/2, 'left':projectPos[i].left + projectSize/2
+			transform:'scale(0,0)'
 		});
 	}
 
 }
 function openProject(d){
 
-	for(var i=0; i<totalProject; i++){
+	for(var i=0; i<_myProjects.length; i++){
 
 		$('#projectContainer').find('#project'+i).delay(Math.round(Math.random()*500+500) * d).animate({
-			'width':projectSize, 'height':projectSize, 'top':projectPos[i].top + containerBasePos, 'left':projectPos[i].left
+			'top':projectPos[i].top + containerBasePos,
+			'left':projectPos[i].left,
+			transform:'scale(1,1)'
 		}, function(){projectscrollable = true;});
 	}
 
@@ -237,12 +391,14 @@ function openProject(d){
 function animateProject(d, speed){
 	
 	projectscrollable = false;
-	for(var i=0; i<totalProject; i++){
+	for(var i=0; i<_myProjects.length; i++){
 
-		$('#projectContainer').find('#project'+i).stop().animate({
-			'width':projectSize, 'height':projectSize, 'top':projectPos[i].top + containerBasePos, 'left':projectPos[i].left
-		}, speed*5, function(){projectscrollable = true;});
+		$('#projectContainer').find('#project'+i).stop().animate({'width':projectSize,'height':projectSize,'top':projectPos[i].top + containerBasePos,'left':projectPos[i].left}, speed*5, function(){projectscrollable = true;});
 	}
+
+	$('#projectContainer').find('#videocontainer').animate({'top':(projectContainerHeight + 600)},  speed*5);
+	
+
 }
 
 function adjustSize(){
@@ -252,34 +408,43 @@ function adjustSize(){
 	var xcounter=1;
 	projectSize =  $(window).width();
 	while (projectSize > 600){
-		projectSize =  ($(window).width()-800)/xcounter;
+		projectSize =  Math.floor($(window).width()/xcounter);
 		xcounter++;
 	}
+	
+
+	projectPos = [];
 
 	var j=0, k=0;
-	for(var i=0; i<totalProject; i++){
+	for(var i=0; i<_myProjects.length; i++){
 
 		
 		projectPos[i] = {
 			top : projectSize * k,
 			left : projectSize * j
 		}
-		if(j<xcounter){
+		if(j<xcounter-2){
 			j++;
 		}else{
 			j=0;
 			k++;
 		}
 	}
-	console.log(k);
 	projectContainerHeight = k * projectSize;
-	console.log(projectContainerHeight);
 }
 
+
+var resizetimeout = false;
 $(window).resize(function(){
 
-	adjustSize();
-	animateProject(0, 100);
+	if(resizetimeout != null){
+		clearTimeout(resizetimeout);
+	}
+	resizetimeout = setTimeout(function(){
+		adjustSize();
+		animateProject(0, 100);
+	},300);
+	
 
 });
 </script>
