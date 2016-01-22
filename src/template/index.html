@@ -1,186 +1,6 @@
 <html>
 <head>
-<style>
-
-@font-face {
-    font-family: 'open_sansregular';
-    src: url('font/open-sans/opensans-regular-webfont.eot');
-    src: url('font/open-sans/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('font/open-sans/opensans-regular-webfont.woff2') format('woff2'),
-         url('font/open-sans/opensans-regular-webfont.woff') format('woff'),
-         url('font/open-sans/opensans-regular-webfont.ttf') format('truetype'),
-         url('font/open-sans/opensans-regular-webfont.svg#open_sansregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'open_sanssemibold';
-    src: url('font/open-sans/opensans-semibold-webfont.eot');
-    src: url('font/open-sans/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('font/open-sans/opensans-semibold-webfont.woff2') format('woff2'),
-         url('font/open-sans/opensans-semibold-webfont.woff') format('woff'),
-         url('font/open-sans/opensans-semibold-webfont.ttf') format('truetype'),
-         url('font/open-sans/opensans-semibold-webfont.svg#open_sanssemibold') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'open_sanslight';
-    src: url('font/open-sans/opensans-light-webfont.eot');
-    src: url('font/open-sans/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('font/open-sans/opensans-light-webfont.woff2') format('woff2'),
-         url('font/open-sans/opensans-light-webfont.woff') format('woff'),
-         url('font/open-sans/opensans-light-webfont.ttf') format('truetype'),
-         url('font/open-sans/opensans-light-webfont.svg#open_sanslight') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'open_sanslight_italic';
-    src: url('font/open-sans/opensans-lightitalic-webfont.eot');
-    src: url('font/open-sans/opensans-lightitalic-webfont.eot?#iefix') format('embedded-opentype'),
-         url('font/open-sans/opensans-lightitalic-webfont.woff2') format('woff2'),
-         url('font/open-sans/opensans-lightitalic-webfont.woff') format('woff'),
-         url('font/open-sans/opensans-lightitalic-webfont.ttf') format('truetype'),
-         url('font/open-sans/opensans-lightitalic-webfont.svg#open_sanslight_italic') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'latin_modern_roman_caps10Ob';
-    src: url('font/lm-roman/lmromancaps10-oblique-webfont.eot');
-    src: url('font/lm-roman/lmromancaps10-oblique-webfont.eot?#iefix') format('embedded-opentype'),
-         url('font/lm-roman/lmromancaps10-oblique-webfont.woff2') format('woff2'),
-         url('font/lm-roman/lmromancaps10-oblique-webfont.woff') format('woff'),
-         url('font/lm-roman/lmromancaps10-oblique-webfont.ttf') format('truetype'),
-         url('font/lm-roman/lmromancaps10-oblique-webfont.svg#latin_modern_roman_caps10Ob') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-
-html{
-	overflow:hidden;
-	font-family: Helvetica, sans-serif;
-	font-weight: lighter;
-}
-body{
-	margin:0;
-}
-#introPage1, #introPage2, #introPage3, #introPage4{
-	position:absolute;
-	width:100%;
-	height:100%;
-	margin:0px;
-	padding:0px;
-}
-#introPage1{
-	background-color:rgba(102,0,14,1);
-	z-index:2004;
-}
-#introPage2{
-	background-color:rgba(221,195,174,1);
-	z-index:2003;
-}
-#introPage3{
-	background-color:rgba(9,196,187,1);
-	z-index:2002;
-}
-#introPage4{
-	background-color:rgba(176,10,10,1);
-	z-index:2001;
-}
-#projectContainer{
-	position:absolute;
-	overflow-x:hidden;
-	overflow-y:scroll;
-	z-index:2000;
-	width:100%;
-	height:100%;
-}
-
-.project{
-	position:absolute;
-	overflow:hidden;
-
-	cursor: pointer;
-
-	z-index:100000;
-}
-.project .img-over{
-	position:absolute;
-	background-color:#000;
-	width:100%;
-	height:100%;
-	opacity:0;
-}
-.project .img-container{
-	position:absolute;
-	width:100%;
-	height:100%;
-}
-.project .img-over-caption{
-	position:absolute;
-	width:90%;
-	height:90%;
-	text-align:center;
-	color:white;
-	padding:20px;
-
-	-webkit-user-select: none; /* Chrome/Safari */        
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+ */
-
-	/* Rules below not implemented in browsers yet */
-	-o-user-select: none;
-	user-select: none;
-}
-.project .img-over-caption h1{
-	padding-top:20%;
-	font-size:64px;
-
-}
-.project .img-over-caption h3{
-	font-size:18px;
-	font-weight:100;
-	line-height: 100%;
-	font-family: latin_modern_roman_caps10Ob;
-}
-.project .img-over-caption h3 span{
-  display: inline-block;
-  vertical-align: middle;
-  line-height: normal;  
-}
-.project img{
-	position:relative;
-	width:100%;
-}
-#videocontainer{
-	background-color:#000;
-	position:absolute;
-
-	width:100%; 
-
-}
-#videocontainer iframe{
- 	display:block;
- 	margin:100px auto;
-
- 	width: 800px;
-	height: 450px;
-
- 	border:none;
-}
-</style>
-
+<link rel="stylesheet" type="text/css" href="../css/style.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="../js/jquery.transform2d.js"></script>
 <script src="../js/jquery.mousewheel.min.js"></script>
@@ -200,6 +20,8 @@ $(document).ready(function(){
 
 	var scrollInterval = 20;
 
+	// --  Measure if scroll is stuck at bottom
+	var lasctScrollTop = 0;
 
 	$('body').mousewheel(function (event){
 		//console.log(initialPos);
@@ -210,6 +32,7 @@ $(document).ready(function(){
 		if(projectscrollable !== true){
     		event.preventDefault();
 		}
+
 
 		clearTimeout($.data(this, 'scrollTimer'));
 	    $.data(this, 'scrollTimer', setTimeout(function() {
@@ -259,20 +82,6 @@ $(document).ready(function(){
 			}
 
 
-			/*if(projectscrollable === true){
-
-				containerBasePos -= event.deltaY * 12;
-
-				animateProject(0, 100);
-			}*/
-
-			/*
-			The problem is projectscrollable turns off when scrolling up.
-			You cannot turn down.
-			*/
-
-
-			
 
 	    	if($('#projectContainer').scrollTop() === 0){
 	    		containerBasePos = 0;
@@ -283,18 +92,13 @@ $(document).ready(function(){
 				//animateProject(0, 100);
 	    	}
 
-	    	/*console.log(containerBasePos, -1*(projectContainerHeight-$(window).height()));
-	    	if(containerBasePos < -1*(projectContainerHeight-$(window).height())){
-	    		containerBasePos = -1*(projectContainerHeight-$(window).height());
-				animateProject(0, 100);
-	    	}*/
-
 
 	    	if($('#projectContainer').scrollTop() > 0){
 
 				projectcandispatchUp = false;
 			}
 			
+			//console.log($('#projectContainer').scrollTop(), $('#projectContainer').height(),  projectContainerHeight+450);
 
 			if(initialPos != 0){
 				var speed = Math.round(Math.abs(1000-Math.abs((initialPos+100)*2))/1.2);
@@ -307,6 +111,23 @@ $(document).ready(function(){
 				$('#introPage4').stop().animate({'top':goalPosY4},speed, function(){scrollon = false;});
 				initialPos = 0;
 			}
+ 			
+ 			// --- Open Message
+ 			console.log(event.deltaY);
+ 			console.log(lasctScrollTop, $('#projectContainer').scrollTop(), $('#projectContainer').scrollTop() - (projectContainerHeight+450));
+			if(lasctScrollTop === $('#projectContainer').scrollTop() && $('#projectContainer').scrollTop() - (projectContainerHeight+450) < 150 && $('#projectContainer').scrollTop() !== 0){
+
+				if(event.deltaY < -5){
+					$('#introPage5').css({'display':'inherit'}).animate({opacity:1});
+					_openComment();
+				}
+				console.log($('#boxForComment textarea').val().trim().length === 0);
+				if(event.deltaY > 5 && $('#boxForComment textarea').val().trim().length === 0){
+					_closeComment();
+				}
+			}
+
+			lasctScrollTop = $('#projectContainer').scrollTop();
 
 	    },scrollInterval));
 		
@@ -346,7 +167,7 @@ function createProject(){
 		$('#projectContainer').find('#project'+i).css({
 			'width':projectSize, 'height':projectSize, 'top':projectPos[i].top, 'left':projectPos[i].left, transform:'scale(0,0)'
 		});
-		$('#projectContainer').find('.img-over-caption').css({transform:'scale(.8,.8)', opacity:.2});
+		$('#projectContainer').find('.img-over-caption').css({transform:'scale(1.2,1.2)', opacity:0});
 
 		// hover action
 		$('#projectContainer').find('#project'+i).mouseenter(function() {
@@ -356,7 +177,7 @@ function createProject(){
 		}).mouseleave(function() {
 			$(this).find('.img-container').animate({transform:'scale(1.0,1.0)'});
 			$(this).find('.img-over').animate({opacity:0});
-			$(this).find('.img-over-caption').animate({transform:'scale(.2,.2)', opacity:.2});
+			$(this).find('.img-over-caption').animate({transform:'scale(1.2,1.2)', opacity:0});
 		});
 	}
 
@@ -364,7 +185,6 @@ function createProject(){
 		$('#projectContainer').append('<div id="videocontainer" style="top:'+(projectContainerHeight + 600)+'"><iframe src="http://www.youtube.com/embed/'+isYoutube(_youtubeurl)+'?autoplay=0&controls=1&showinfo=0"></iframe></div>');
 	}
 
-	console.log('AAA', isYoutube(_youtubeurl));
 }
 function closeProject(){
 
@@ -400,6 +220,218 @@ function animateProject(d, speed){
 	
 
 }
+
+
+
+function _closeComment(){
+	$('#introPage5').animate({opacity:0}, function(){
+						$(this).css({'display':'none'});
+					});
+
+	//$('.commentTextBox').css({'font-size':'360px'});
+	$('.close').css({'displaye':'none'});
+}
+
+var textInput = false, textOpen = false, emailInput = false, emailOpen = false;
+var maxTextAreaSize = Math.round(2*$(window).height()/3);
+function _openComment(){
+		
+		$('#boxForComment').css({'display':'inherit'});
+		
+		var textInput = false;
+		var textOpen = false;
+		var emailInput = false;
+		var emailOpen = false;
+
+		var maxTextAreaSize = Math.round(2*$(window).height()/3);
+		$('#boxForCommentBody').css({'height':maxTextAreaSize});
+		$('.commentTextBox').css({'height':maxTextAreaSize});
+
+		fixTextAreaSize();
+
+		$(window).keypress(function(e){
+			
+			
+
+			if(emailOpen === false){
+				fixTextAreaSize(maxTextAreaSize);
+			}
+
+			//
+			// -- Check Email Address
+			var email = $('#emailinput input').val();
+			if (email !== "") {  // If something was entered
+			    if (!isValidEmailAddress(email)) {
+			      	emailInput = false;
+			    }else{
+			    	 emailInput = true;
+			    	 $('#emailSend').animate({'opacity':'1'});
+			    }
+			} 
+			// -- Open Close with Email
+			if($('.commentTextBox').val().trim().length === 0 && textInput === true){
+				textInput = false;
+				$('#commentOk').animate({opacity:0.2});
+				$('.close').css({'display':'none'});
+			}
+			if($('.commentTextBox').val().trim().length !== 0 && textInput === false){
+				textInput = true;
+				$('#commentOk').animate({opacity:1});
+				$('.close').css({'display':'inherit'});
+			}
+			// -- Hit Enter
+			/*if(e.which == 13 && $('.commentTextBox').val().trim().length !== 0) {
+		        $('#emailinput').css({'display':'inherit'}).animate({'opacity':'1'});
+		        $('#boxForComment').animate({'opacity':'.2'});
+		    }*/
+			/*console.log();
+
+			console.log(email);
+
+			if($('#emailinput').val()==="" && textInput === true){
+				textInput = false;
+				$('.boxForCommentFooterContent').animate({'opacity':'.2'});
+				$('.close').css({'display':'none'});
+			}
+			if($('#emailinput').val()!=="" && textInput !== true){
+				textInput = true;
+				$('.boxForCommentFooterContent').animate({'opacity':'1'});
+				$('.close').css({'display':'inherit'});
+			}*/
+			
+		});
+
+		$('.close').click(function(){
+			_closeComment();
+		});
+
+		// check if the user has moved back to main taxt
+		$('.commentTextBox').focus(function() {
+			
+			if(emailOpen === true){
+				textOpen = true;
+				emailOpen = false;
+				$('#boxForComment').animate({'opacity':'1'});
+				$('#emailinput').animate({'opacity':'0'}, function(){
+					$('#emailinput').css({'display':'none'});
+				});
+			}
+		});
+		$('#commentOk').click(function(){
+			if(textInput === true){
+				$('#emailinput').css({'opacity':'0', 'display':'inherit'}).animate({'opacity':'1'});
+				$('#boxForComment').animate({'opacity':'.2'});
+			}
+		});
+		$('#emailSend').click(function(){
+			if(emailInput === true){
+				$('#introPage5').delay(3600).animate({opacity:0});
+				$('#boxForComment').animate({opacity:0}, function(){
+					$(this).css({'display':'none'});
+					emptyContact();
+				});
+				$('#emailinput').animate({opacity:0});
+				
+				/*$('#emailinput').animate({'opacity':'0'},function(){
+					$(this).css({'display':'none'});
+					emptyContact();
+				});*/
+			}
+		});
+		
+
+		
+		
+				
+		
+		/*$('#hoverForComment').css({'display':'inherit'}).animate({'opacity': '0.85'}, function(){
+			$('#boxForComment').animate({'left': String(Math.round(_parentWidth/2 - _reviewCommentWidth/2))+'px', 'width':String(_reviewCommentWidth)+'px'}, 200);
+			
+			$('.boxForCommentFooterContent').mouseover(function(){
+				$(this).animate({'opacity':'.5'},100);
+			});
+			$('.boxForCommentFooterContent').mouseout(function(){
+					$(this).animate({'opacity':'1'},300);
+			});
+			$('.boxForCommentFooterContent').click(function(){
+				
+				clearInterval(updateTextArea);
+				
+				$('#boxForComment').animate({'left': String(_parentWidth/2)+'px', 'width':'0px'}, 200, function(){
+					$('#hoverForComment').animate({'opacity':'0'});
+					$('.reviewContainer').animate({'opacity':'0'});
+					$('#iLogo').animate({'height': '112px', 'margin-top': '160px'});	
+					$('.headerBackground').animate({'height':'600px'});
+					$('#container').animate({'height':'600px'});
+					window.parent.$('#PLEYiFrame').animate({ 'height': '700px' }, 'fast');
+					$('#iheaderSubTitle').css({'display':'inherit'})
+					$('#iheaderTitle').html('THANK YOU!!!')
+					$('#container').animate({'opacity':'0'}, function(){
+						$('#container').css({'display':'none'});
+						location.reload();
+					});
+				});
+			});
+		});*/
+	}
+
+function fixTextAreaSize(maxTextAreaSize){
+
+	if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '360px'){
+				$('.commentTextBox').css({'font-size':'210px'});
+			}else if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '210px'){
+				console.log('BBBBBB');
+				$('.commentTextBox').css({'font-size':'96px'});
+			}else if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '96px'){
+				console.log('CCCCCC');
+				$('.commentTextBox').css({'font-size':'64px'});
+			}else if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '64px'){
+				console.log('DDDDDD');
+				$('.commentTextBox').css({'font-size':'36px'});
+			}else if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '36px'){
+				console.log('EEEEEE');
+				$('.commentTextBox').css({'font-size':'18px', 'overflow-y':'scroll'});
+			}
+
+
+			if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '36px'){
+				console.log('AAAAAA');
+				$('.commentTextBox').css({'font-size':'64px', 'overflow-y':'none'});
+			}
+			if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '64px'){
+				console.log('BBBBBB');
+				$('.commentTextBox').css({'font-size':'96px', 'overflow-y':'none'});
+			}
+			if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '96px'){
+				console.log('CCCCCC');
+				$('.commentTextBox').css({'font-size':'210px', 'overflow-y':'none'});
+			}
+			if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '210px'){
+				console.log('DDDDDD');
+				$('.commentTextBox').css({'font-size':'360px', 'overflow-y':'none'});
+			}
+}
+
+function isValidEmailAddress(emailAddress) {
+	var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
+	return pattern.test(emailAddress);
+};
+function emptyContact(){
+	$('.commentTextBox').val('');
+	$('#emailinput input').val('');
+	$('#emailinput').css({'display':'none'});
+	
+	maxTextAreaSize = Math.round(2*$(window).height()/3);
+	textInput = false, textOpen = false, emailInput = false, emailOpen = false;
+
+	$('.boxForComment').css({opacity:1});
+	$('#boxForCommentBody').css({'height':maxTextAreaSize});
+	$('.commentTextBox').css({'height':maxTextAreaSize, 'font-size':'360px'});
+	$('.close').css({'display':'none'});
+}
+
+
+
 
 function adjustSize(){
 
@@ -456,6 +488,29 @@ $(window).resize(function(){
 <div id="introPage3"></div>
 <div id="introPage4"></div>
 <div id="projectContainer"></div>
-<div id="introPage5"></div>
+<div id="introPage5">
+	<a href="#" class="close"></a>
+    <div id="boxForComment">
+    	<div id="boxForCommentBody">
+    	 	Please Feel Free to Contact
+			<textarea name="styled-textarea" class="commentTextBox" id="styled" placeholder="..." onfocus=""></textarea>
+        </div>
+        <div class="commentButton" id="commentOk">
+		    OK
+		</div>
+    </div>
+</div>
+<div id="emailinput">
+	<section>
+				  <ul class="input-list style-2" style="list-style:none;">
+				    <li>
+				      <input type="text" placeholder="your email">
+				    </li>
+				  </ul>
+	</section>
+	<div class="commentButton" id="emailSend">
+	    Send Message
+	</div>
+</div>
 </body>
 </html>
