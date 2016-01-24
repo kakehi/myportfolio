@@ -71,7 +71,24 @@ html{
 body{
 	margin:0;
 }
-#introPage1, #introPage2, #introPage3, #introPage4, #introPage5{
+.fullscreenimagediv{
+  position: fixed;  
+  width: 100%; 
+  height: 100%;
+}
+.fullscreenimagediv img{
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 100%;
+  min-height: 100%;
+  max-width: 150%;
+  max-height: 150%;
+}
+#introPage1, /*#introPage2,*/ #introPage3, #introPage4, #introPage5{
 	position:absolute;
 	width:100%;
 	height:100%;
@@ -111,11 +128,12 @@ body{
 
 .project{
 	position:absolute;
-	overflow:hidden;
-
+	overflow:hidden !important;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
 	cursor: pointer;
-
-	z-index:100000;
 }
 .project .img-over{
 	position:absolute;

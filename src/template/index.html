@@ -163,7 +163,7 @@ function createProject(){
 	adjustSize();
 
 	for(var i=0; i<_myProjects.length; i++){
-		$('#projectContainer').append('<div class="project" id="project'+i+'"><div class="img-container"><img src="../img/'+_myProjects[i].thumb+'"></div><div class="img-over"></div><div class="img-over-caption"><h1>'+_myProjects[i].title+'</h1><h3><span>'+_myProjects[i].subtitle+'</span></h3></div></div>');
+		$('#projectContainer').append('<div class="project" id="project'+i+'" style="z-index:'+(10000+i)+'"><img class="img-container"src="../img/'+_myProjects[i].thumb+'"><div class="img-over"></div><div class="img-over-caption"><h1>'+_myProjects[i].title+'</h1><h3><span>'+_myProjects[i].subtitle+'</span></h3></div></div>');
 		$('#projectContainer').find('#project'+i).css({
 			'width':projectSize, 'height':projectSize, 'top':projectPos[i].top, 'left':projectPos[i].left, transform:'scale(0,0)'
 		});
@@ -171,11 +171,11 @@ function createProject(){
 
 		// hover action
 		$('#projectContainer').find('#project'+i).mouseenter(function() {
-			$(this).find('.img-container').animate({transform:'scale(1.2,1.2)'});
+			$(this).find('.img-container').animate({transform:'scale(1.3,1.3s)'});
 			$(this).find('.img-over').animate({opacity:0.8});
 			$(this).find('.img-over-caption').animate({transform:'scale(1,1)', opacity:1});
 		}).mouseleave(function() {
-			$(this).find('.img-container').animate({transform:'scale(1.0,1.0)'});
+			$(this).find('.img-container').animate({transform:'scale(1,1)'});
 			$(this).find('.img-over').animate({opacity:0});
 			$(this).find('.img-over-caption').animate({transform:'scale(1.2,1.2)', opacity:0});
 		});
@@ -237,17 +237,12 @@ var maxTextAreaSize = Math.round(2*$(window).height()/3);
 function _openComment(){
 		
 		$('#boxForComment').css({'display':'inherit'});
-		
-		var textInput = false;
-		var textOpen = false;
-		var emailInput = false;
-		var emailOpen = false;
 
 		var maxTextAreaSize = Math.round(2*$(window).height()/3);
 		$('#boxForCommentBody').css({'height':maxTextAreaSize});
 		$('.commentTextBox').css({'height':maxTextAreaSize});
 
-		fixTextAreaSize();
+		fixTextAreaSize(maxTextAreaSize);
 
 		$(window).keypress(function(e){
 			
@@ -259,15 +254,9 @@ function _openComment(){
 
 			//
 			// -- Check Email Address
-			var email = $('#emailinput input').val();
-			if (email !== "") {  // If something was entered
-			    if (!isValidEmailAddress(email)) {
-			      	emailInput = false;
-			    }else{
-			    	 emailInput = true;
-			    	 $('#emailSend').animate({'opacity':'1'});
-			    }
-			} 
+
+			emailValidation();
+			
 			// -- Open Close with Email
 			if($('.commentTextBox').val().trim().length === 0 && textInput === true){
 				textInput = false;
@@ -279,7 +268,6 @@ function _openComment(){
 				$('#commentOk').animate({opacity:1});
 				$('.close').css({'display':'inherit'});
 			}
-			// -- Hit Enter
 			/*if(e.which == 13 && $('.commentTextBox').val().trim().length !== 0) {
 		        $('#emailinput').css({'display':'inherit'}).animate({'opacity':'1'});
 		        $('#boxForComment').animate({'opacity':'.2'});
@@ -298,7 +286,12 @@ function _openComment(){
 				$('.boxForCommentFooterContent').animate({'opacity':'1'});
 				$('.close').css({'display':'inherit'});
 			}*/
+
 			
+		});
+		
+		$('#emailinput input').bind("change keyup",function(){
+			emailValidation();
 		});
 
 		$('.close').click(function(){
@@ -323,23 +316,42 @@ function _openComment(){
 				$('#boxForComment').animate({'opacity':'.2'});
 			}
 		});
-		$('#emailSend').click(function(){
-			if(emailInput === true){
-				$('#introPage5').delay(3600).animate({opacity:0});
+
+
+		$("#contactForm").submit(function(event){
+
+			/* stop form from submitting normally */
+			event.preventDefault();
+
+		    if (emailInput === true) {  // If something was entered
+
+			    /* get some values from elements on the page: */
+			    var $form = $( this ), $submit = $form.find( 'button[type="submit"]' ), email_value = $form.find( 'input[name="email"]' ).val(), message_value = $form.find( 'textarea[name="message"]' ).val(), url = $form.attr('action');
+			    
+			    /* Send the data using post */
+			    var posting = $.post( url, {email: email_value, message: message_value});
+
+			    posting.done(function( data ){
+			        /* Put the results in a div */
+			        $( "#contactResponse" ).html(data);
+
+			        /* Change the button text. */
+			        $submit.text('Sent, Thank you');
+
+			        /* Disable the button. */
+			        $submit.attr("disabled", true);
+
+			    });
+
+			    $('#introPage5').delay(3600).animate({opacity:0});
 				$('#boxForComment').animate({opacity:0}, function(){
 					$(this).css({'display':'none'});
 					emptyContact();
 				});
 				$('#emailinput').animate({opacity:0});
-				
-				/*$('#emailinput').animate({'opacity':'0'},function(){
-					$(this).css({'display':'none'});
-					emptyContact();
-				});*/
 			}
-		});
-		
 
+		});
 		
 		
 				
@@ -375,7 +387,23 @@ function _openComment(){
 		});*/
 	}
 
+function emailValidation(){
+
+	var email = $('#emailinput input').val();
+	console.log( isValidEmailAddress(email));
+
+	if (email !== "" && isValidEmailAddress(email)) {  // If something was entered
+		emailInput = true;
+		$('#emailSend').stop().animate({'opacity':'1'});
+	}else{
+		emailInput = false;
+		$('#emailSend').stop().animate({'opacity':'0.2'});
+	}
+
+}
+
 function fixTextAreaSize(maxTextAreaSize){
+
 
 	if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '360px'){
 				$('.commentTextBox').css({'font-size':'210px'});
@@ -394,7 +422,7 @@ function fixTextAreaSize(maxTextAreaSize){
 			}
 
 
-			if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '36px'){
+			/*if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '36px'){
 				console.log('AAAAAA');
 				$('.commentTextBox').css({'font-size':'64px', 'overflow-y':'none'});
 			}
@@ -409,7 +437,7 @@ function fixTextAreaSize(maxTextAreaSize){
 			if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '210px'){
 				console.log('DDDDDD');
 				$('.commentTextBox').css({'font-size':'360px', 'overflow-y':'none'});
-			}
+			}*/
 }
 
 function isValidEmailAddress(emailAddress) {
@@ -479,21 +507,31 @@ $(window).resize(function(){
 	
 
 });
+
+
+
 </script>
 
 </head>
 <body>
 <div id="introPage1"></div>
-<div id="introPage2"></div>
-<div id="introPage3"></div>
-<div id="introPage4"></div>
+<div id="introPage2" class="fullscreenimagediv">
+	<img src="../img/workingspace.jpg"/>
+</div>
+<div id="introPage3" class="fullscreenimagediv">
+	<img src="../img/diagram.jpg"/>
+</div>
+<div id="introPage4" class="fullscreenimagediv">
+	<img src="../img/javascript.jpeg"/>
+</div>
 <div id="projectContainer"></div>
+<form id="contactForm" action="mail.php" method="POST">
 <div id="introPage5">
 	<a href="#" class="close"></a>
     <div id="boxForComment">
     	<div id="boxForCommentBody">
     	 	Please Feel Free to Contact
-			<textarea name="styled-textarea" class="commentTextBox" id="styled" placeholder="..." onfocus=""></textarea>
+			<textarea name="message" class="commentTextBox" id="styled" placeholder="..." onfocus=""  ></textarea>
         </div>
         <div class="commentButton" id="commentOk">
 		    OK
@@ -501,16 +539,21 @@ $(window).resize(function(){
     </div>
 </div>
 <div id="emailinput">
-	<section>
-				  <ul class="input-list style-2" style="list-style:none;">
-				    <li>
-				      <input type="text" placeholder="your email">
-				    </li>
-				  </ul>
-	</section>
-	<div class="commentButton" id="emailSend">
-	    Send Message
-	</div>
+	
+		<section>
+			<ul class="input-list style-2" style="list-style:none;">
+				<li>
+					<input type="text" placeholder="your email" name="email">
+				</li>
+			</ul>
+		</section>
+		<button type="submit" class="commentButton" id="emailSend">Send Message</button>
+		<!--input type="submit" value="Send Message" class="commentButton" id="emailSend"-->
+	
 </div>
+</form>
 </body>
+<script>
+
+</script>
 </html>
