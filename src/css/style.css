@@ -88,6 +88,42 @@ body{
   max-width: 150%;
   max-height: 150%;
 }
+.centered{
+   position: absolute;
+    width: 100%;
+    height: 240px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom:0 ;
+    margin: auto;
+    text-align:center;
+}
+
+
+@keyframes example {
+    0%   {background-color: #60C4F0;}
+    25%  {background-color: #FFCE03;}
+    50%  {background-color: #EE3255;}
+    75%  {background-color: #64BD5A;}
+    100% {background-color: #60C4F0;}
+}
+header{
+	color:#FFFFFF;
+    animation-name: example;
+    animation-duration: 100s;
+    animation-iteration-count: infinite;
+}
+header h1{
+   font-size: 3rem;
+}
+header h2{
+   font-size: 2rem;
+   font-style:italic;
+   font-family:Didot, Helvetica, sans-serif;
+}
+
+
 #introPage1, /*#introPage2,*/ #introPage3, #introPage4, #introPage5{
 	position:absolute;
 	width:100%;
@@ -96,27 +132,84 @@ body{
 	padding:0px;
 }
 #introPage1{
-	background-color:rgba(102,0,14,1);
-	z-index:2004;
+	/*background-color: White;
+	background-color:rgba(102,0,14,1);*/
+	z-index:2005;
+
+
 }
 #introPage2{
 	background-color:rgba(221,195,174,1);
-	z-index:2003;
+	z-index:2004;
 }
 #introPage3{
 	background-color:rgba(9,196,187,1);
-	z-index:2002;
+	z-index:2003;
 }
 #introPage4{
 	background-color:rgba(176,10,10,1);
-	z-index:2001;
+	z-index:2002;
 }
 #introPage5{
 	background-color:rgba(0,0,0,.85);
-	z-index:2005;
+	z-index:2006;
 	opacity:0;
 	display:none;
 }
+
+
+#projectFilter{
+	position:absolute;
+	z-index:2001;
+	top:0px;
+	right:0px;
+	width:60px;
+	height:60px;
+}
+#filterButton{
+	color:white;
+	text-align: right;
+	position:absolute;
+	font-size: 1.5rem;
+	font-style:italic;
+   font-family:Didot, Helvetica, sans-serif;
+	top:20px;
+	right:40px;
+	width:60px;
+	height:30px;
+	padding:20px;
+	background-color:black;
+	cursor:pointer;
+}
+#filterButton img{
+	width:80px;
+	height:80px;
+}
+#filterOverlay{
+	position:absolute;
+	background-color:rgba(255,255,255,.7);
+	display:none;
+	opacity:0;
+}
+#_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu{
+	color:black;
+	width:100%;
+	height:10%;
+	margin-top:10%;
+	text-align:center;
+}
+#_headerCategoryMenu li, #_headerRoleMenu li, #_headerSoftMenu li{
+	list-style: none;
+	display:inline;
+	cursor:pointer;
+	
+	vertical-align:middle;
+
+}
+
+
+
+
 #projectContainer{
 	position:absolute;
 	overflow-x:hidden;

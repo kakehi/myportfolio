@@ -83,6 +83,7 @@
 
 	
 	var _myProjects = [];
+	var _sotrtedProject = [];
 	var _myButtonNames, _myImageViewersContainerArray;
 	var _numberOfPrologue = 2;
 	
@@ -184,10 +185,13 @@
 			_myImageViewersContainerArray = _myButtonNames.slice(0);
 			_myImageViewersContainerArray.unshift(['_toClientList','clients','', '']);
 			
+			// -- Default Sort Array to be Full Project Array;
+			_sotrtedProject = _myProjects;
 			
 			// ------------------Initialize
 			//_loadProjects();
-			//_createSortButton();
+			// --- Filter
+			_createSortButton();
 			//_loadMenu();
 			//_loadAdditionalSlides();
 			//_newStylize();

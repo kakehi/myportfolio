@@ -4,6 +4,8 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="../js/jquery.transform2d.js"></script>
 <script src="../js/jquery.mousewheel.min.js"></script>
+<script src="../js/contact.js"></script>
+<script src="../js/filter.js"></script>
 <script src="../js/commonfunction.js"></script>
 <script src="../js/loadProject.js"></script>
 <script>
@@ -98,7 +100,7 @@ $(document).ready(function(){
 				projectcandispatchUp = false;
 			}
 			
-			//console.log($('#projectContainer').scrollTop(), $('#projectContainer').height(),  projectContainerHeight+450);
+			console.log($('#projectContainer').scrollTop(), $('#projectContainer').height(),  projectContainerHeight+450);
 
 			if(initialPos != 0){
 				var speed = Math.round(Math.abs(1000-Math.abs((initialPos+100)*2))/1.2);
@@ -113,15 +115,14 @@ $(document).ready(function(){
 			}
  			
  			// --- Open Message
- 			console.log(event.deltaY);
- 			console.log(lasctScrollTop, $('#projectContainer').scrollTop(), $('#projectContainer').scrollTop() - (projectContainerHeight+450));
+ 			
 			if(lasctScrollTop === $('#projectContainer').scrollTop() && $('#projectContainer').scrollTop() - (projectContainerHeight+450) < 150 && $('#projectContainer').scrollTop() !== 0){
 
 				if(event.deltaY < -5){
 					$('#introPage5').css({'display':'inherit'}).animate({opacity:1});
 					_openComment();
 				}
-				console.log($('#boxForComment textarea').val().trim().length === 0);
+
 				if(event.deltaY > 5 && $('#boxForComment textarea').val().trim().length === 0){
 					_closeComment();
 				}
@@ -144,6 +145,15 @@ $(document).ready(function(){
 
 
 	_loadJSON($_GET('portfolio'), 'od6');
+
+
+	$('#filterButton').click(function(){
+		if(filterOpen === false){
+			openFilter();
+		}else{
+			closeFilter();
+		}
+	});
 });
 
 var projecton = false;
@@ -158,12 +168,22 @@ var projectPos=[];
 
 var projectContainerHeight;
 
+var _projectDiv = [];
+var _sortedProjectDiv = [];
+
 function createProject(){
+
+	for(var i=0; i<_myProjects.length; i++){
+		$('#projectContainer').append('<div class="project" id="project'+i+'" style="z-index:'+(10000+i)+'"><img class="img-container"src="../img/'+_myProjects[i].thumb+'"><div class="img-over"></div><div class="img-over-caption"><h1>'+_myProjects[i].title+'</h1><h3><span>'+_myProjects[i].subtitle+'</span></h3></div></div>');
+		_projectDiv.push($('#projectContainer').find('#project'+i));
+	}
+	
+	_sortedProjectDiv = _projectDiv;
 
 	adjustSize();
 
 	for(var i=0; i<_myProjects.length; i++){
-		$('#projectContainer').append('<div class="project" id="project'+i+'" style="z-index:'+(10000+i)+'"><img class="img-container"src="../img/'+_myProjects[i].thumb+'"><div class="img-over"></div><div class="img-over-caption"><h1>'+_myProjects[i].title+'</h1><h3><span>'+_myProjects[i].subtitle+'</span></h3></div></div>');
+		
 		$('#projectContainer').find('#project'+i).css({
 			'width':projectSize, 'height':projectSize, 'top':projectPos[i].top, 'left':projectPos[i].left, transform:'scale(0,0)'
 		});
@@ -179,7 +199,11 @@ function createProject(){
 			$(this).find('.img-over').animate({opacity:0});
 			$(this).find('.img-over-caption').animate({transform:'scale(1.2,1.2)', opacity:0});
 		});
+
+		
 	}
+
+	
 
 	if(isYoutube(_youtubeurl) != false){
 		$('#projectContainer').append('<div id="videocontainer" style="top:'+(projectContainerHeight + 600)+'"><iframe src="http://www.youtube.com/embed/'+isYoutube(_youtubeurl)+'?autoplay=0&controls=1&showinfo=0"></iframe></div>');
@@ -188,8 +212,8 @@ function createProject(){
 }
 function closeProject(){
 
-	for(var i=0; i<_myProjects.length; i++){
-		$('#projectContainer').find('#project'+i).delay(Math.round(Math.random()*500+500)).animate({
+	for(var i=0; i<_sortedProjectDiv.length; i++){
+		_sortedProjectDiv[i].delay(Math.round(Math.random()*500+500)).animate({
 			transform:'scale(0,0)'
 		});
 	}
@@ -197,9 +221,9 @@ function closeProject(){
 }
 function openProject(d){
 
-	for(var i=0; i<_myProjects.length; i++){
+	for(var i=0; i<_sortedProjectDiv.length; i++){
 
-		$('#projectContainer').find('#project'+i).delay(Math.round(Math.random()*500+500) * d).animate({
+		_sortedProjectDiv[i].delay(Math.round(Math.random()*500+500) * d).animate({
 			'top':projectPos[i].top + containerBasePos,
 			'left':projectPos[i].left,
 			transform:'scale(1,1)'
@@ -211,9 +235,9 @@ function openProject(d){
 function animateProject(d, speed){
 	
 	projectscrollable = false;
-	for(var i=0; i<_myProjects.length; i++){
+	for(var i=0; i<_sortedProjectDiv.length; i++){
 
-		$('#projectContainer').find('#project'+i).stop().animate({'width':projectSize,'height':projectSize,'top':projectPos[i].top + containerBasePos,'left':projectPos[i].left}, speed*5, function(){projectscrollable = true;});
+		_sortedProjectDiv[i].stop().animate({'width':projectSize,'height':projectSize,'top':projectPos[i].top + containerBasePos,'left':projectPos[i].left}, speed*5, function(){projectscrollable = true;});
 	}
 
 	$('#projectContainer').find('#videocontainer').animate({'top':(projectContainerHeight + 600)},  speed*5);
@@ -223,240 +247,9 @@ function animateProject(d, speed){
 
 
 
-function _closeComment(){
-	$('#introPage5').animate({opacity:0}, function(){
-						$(this).css({'display':'none'});
-					});
-
-	//$('.commentTextBox').css({'font-size':'360px'});
-	$('.close').css({'displaye':'none'});
-}
-
-var textInput = false, textOpen = false, emailInput = false, emailOpen = false;
-var maxTextAreaSize = Math.round(2*$(window).height()/3);
-function _openComment(){
-		
-		$('#boxForComment').css({'display':'inherit'});
-
-		var maxTextAreaSize = Math.round(2*$(window).height()/3);
-		$('#boxForCommentBody').css({'height':maxTextAreaSize});
-		$('.commentTextBox').css({'height':maxTextAreaSize});
-
-		fixTextAreaSize(maxTextAreaSize);
-
-		$(window).keypress(function(e){
-			
-			
-
-			if(emailOpen === false){
-				fixTextAreaSize(maxTextAreaSize);
-			}
-
-			//
-			// -- Check Email Address
-
-			emailValidation();
-			
-			// -- Open Close with Email
-			if($('.commentTextBox').val().trim().length === 0 && textInput === true){
-				textInput = false;
-				$('#commentOk').animate({opacity:0.2});
-				$('.close').css({'display':'none'});
-			}
-			if($('.commentTextBox').val().trim().length !== 0 && textInput === false){
-				textInput = true;
-				$('#commentOk').animate({opacity:1});
-				$('.close').css({'display':'inherit'});
-			}
-			/*if(e.which == 13 && $('.commentTextBox').val().trim().length !== 0) {
-		        $('#emailinput').css({'display':'inherit'}).animate({'opacity':'1'});
-		        $('#boxForComment').animate({'opacity':'.2'});
-		    }*/
-			/*console.log();
-
-			console.log(email);
-
-			if($('#emailinput').val()==="" && textInput === true){
-				textInput = false;
-				$('.boxForCommentFooterContent').animate({'opacity':'.2'});
-				$('.close').css({'display':'none'});
-			}
-			if($('#emailinput').val()!=="" && textInput !== true){
-				textInput = true;
-				$('.boxForCommentFooterContent').animate({'opacity':'1'});
-				$('.close').css({'display':'inherit'});
-			}*/
-
-			
-		});
-		
-		$('#emailinput input').bind("change keyup",function(){
-			emailValidation();
-		});
-
-		$('.close').click(function(){
-			_closeComment();
-		});
-
-		// check if the user has moved back to main taxt
-		$('.commentTextBox').focus(function() {
-			
-			if(emailOpen === true){
-				textOpen = true;
-				emailOpen = false;
-				$('#boxForComment').animate({'opacity':'1'});
-				$('#emailinput').animate({'opacity':'0'}, function(){
-					$('#emailinput').css({'display':'none'});
-				});
-			}
-		});
-		$('#commentOk').click(function(){
-			if(textInput === true){
-				$('#emailinput').css({'opacity':'0', 'display':'inherit'}).animate({'opacity':'1'});
-				$('#boxForComment').animate({'opacity':'.2'});
-			}
-		});
 
 
-		$("#contactForm").submit(function(event){
 
-			/* stop form from submitting normally */
-			event.preventDefault();
-
-		    if (emailInput === true) {  // If something was entered
-
-			    /* get some values from elements on the page: */
-			    var $form = $( this ), $submit = $form.find( 'button[type="submit"]' ), email_value = $form.find( 'input[name="email"]' ).val(), message_value = $form.find( 'textarea[name="message"]' ).val(), url = $form.attr('action');
-			    
-			    /* Send the data using post */
-			    var posting = $.post( url, {email: email_value, message: message_value});
-
-			    posting.done(function( data ){
-			        /* Put the results in a div */
-			        $( "#contactResponse" ).html(data);
-
-			        /* Change the button text. */
-			        $submit.text('Sent, Thank you');
-
-			        /* Disable the button. */
-			        $submit.attr("disabled", true);
-
-			    });
-
-			    $('#introPage5').delay(3600).animate({opacity:0});
-				$('#boxForComment').animate({opacity:0}, function(){
-					$(this).css({'display':'none'});
-					emptyContact();
-				});
-				$('#emailinput').animate({opacity:0});
-			}
-
-		});
-		
-		
-				
-		
-		/*$('#hoverForComment').css({'display':'inherit'}).animate({'opacity': '0.85'}, function(){
-			$('#boxForComment').animate({'left': String(Math.round(_parentWidth/2 - _reviewCommentWidth/2))+'px', 'width':String(_reviewCommentWidth)+'px'}, 200);
-			
-			$('.boxForCommentFooterContent').mouseover(function(){
-				$(this).animate({'opacity':'.5'},100);
-			});
-			$('.boxForCommentFooterContent').mouseout(function(){
-					$(this).animate({'opacity':'1'},300);
-			});
-			$('.boxForCommentFooterContent').click(function(){
-				
-				clearInterval(updateTextArea);
-				
-				$('#boxForComment').animate({'left': String(_parentWidth/2)+'px', 'width':'0px'}, 200, function(){
-					$('#hoverForComment').animate({'opacity':'0'});
-					$('.reviewContainer').animate({'opacity':'0'});
-					$('#iLogo').animate({'height': '112px', 'margin-top': '160px'});	
-					$('.headerBackground').animate({'height':'600px'});
-					$('#container').animate({'height':'600px'});
-					window.parent.$('#PLEYiFrame').animate({ 'height': '700px' }, 'fast');
-					$('#iheaderSubTitle').css({'display':'inherit'})
-					$('#iheaderTitle').html('THANK YOU!!!')
-					$('#container').animate({'opacity':'0'}, function(){
-						$('#container').css({'display':'none'});
-						location.reload();
-					});
-				});
-			});
-		});*/
-	}
-
-function emailValidation(){
-
-	var email = $('#emailinput input').val();
-	console.log( isValidEmailAddress(email));
-
-	if (email !== "" && isValidEmailAddress(email)) {  // If something was entered
-		emailInput = true;
-		$('#emailSend').stop().animate({'opacity':'1'});
-	}else{
-		emailInput = false;
-		$('#emailSend').stop().animate({'opacity':'0.2'});
-	}
-
-}
-
-function fixTextAreaSize(maxTextAreaSize){
-
-
-	if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '360px'){
-				$('.commentTextBox').css({'font-size':'210px'});
-			}else if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '210px'){
-				console.log('BBBBBB');
-				$('.commentTextBox').css({'font-size':'96px'});
-			}else if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '96px'){
-				console.log('CCCCCC');
-				$('.commentTextBox').css({'font-size':'64px'});
-			}else if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '64px'){
-				console.log('DDDDDD');
-				$('.commentTextBox').css({'font-size':'36px'});
-			}else if($('.commentTextBox')[0].scrollHeight >maxTextAreaSize && $('.commentTextBox').css('font-size') === '36px'){
-				console.log('EEEEEE');
-				$('.commentTextBox').css({'font-size':'18px', 'overflow-y':'scroll'});
-			}
-
-
-			/*if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '36px'){
-				console.log('AAAAAA');
-				$('.commentTextBox').css({'font-size':'64px', 'overflow-y':'none'});
-			}
-			if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '64px'){
-				console.log('BBBBBB');
-				$('.commentTextBox').css({'font-size':'96px', 'overflow-y':'none'});
-			}
-			if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '96px'){
-				console.log('CCCCCC');
-				$('.commentTextBox').css({'font-size':'210px', 'overflow-y':'none'});
-			}
-			if($('.commentTextBox')[0].scrollHeight < maxTextAreaSize && $('.commentTextBox').css('font-size') === '210px'){
-				console.log('DDDDDD');
-				$('.commentTextBox').css({'font-size':'360px', 'overflow-y':'none'});
-			}*/
-}
-
-function isValidEmailAddress(emailAddress) {
-	var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
-	return pattern.test(emailAddress);
-};
-function emptyContact(){
-	$('.commentTextBox').val('');
-	$('#emailinput input').val('');
-	$('#emailinput').css({'display':'none'});
-	
-	maxTextAreaSize = Math.round(2*$(window).height()/3);
-	textInput = false, textOpen = false, emailInput = false, emailOpen = false;
-
-	$('.boxForComment').css({opacity:1});
-	$('#boxForCommentBody').css({'height':maxTextAreaSize});
-	$('.commentTextBox').css({'height':maxTextAreaSize, 'font-size':'360px'});
-	$('.close').css({'display':'none'});
-}
 
 
 
@@ -476,7 +269,7 @@ function adjustSize(){
 	projectPos = [];
 
 	var j=0, k=0;
-	for(var i=0; i<_myProjects.length; i++){
+	for(var i=0; i<_sortedProjectDiv.length; i++){
 
 		
 		projectPos[i] = {
@@ -490,7 +283,9 @@ function adjustSize(){
 			k++;
 		}
 	}
+
 	projectContainerHeight = k * projectSize;
+
 }
 
 
@@ -508,13 +303,16 @@ $(window).resize(function(){
 
 });
 
-
-
 </script>
 
 </head>
 <body>
-<div id="introPage1"></div>
+<header id="introPage1">
+	<div class = "centered">
+		<h1>TAKUMA KAKEHI</h1>
+		<h2> - Online Portfolio - </h2>
+	</div>
+</header>
 <div id="introPage2" class="fullscreenimagediv">
 	<img src="../img/workingspace.jpg"/>
 </div>
@@ -524,7 +322,21 @@ $(window).resize(function(){
 <div id="introPage4" class="fullscreenimagediv">
 	<img src="../img/javascript.jpeg"/>
 </div>
-<div id="projectContainer"></div>
+
+<div id="projectFilter">
+	<div id="filterOverlay">
+		<div id="_headerCategoryMenu"></div>
+		<div id="_headerRoleMenu"></div>
+		<div id="_headerSoftMenu"></div>
+
+	</div>
+	<div id="filterButton">
+		Filter
+	</div>
+</div>
+<div id="projectContainer">
+
+</div>
 <form id="contactForm" action="mail.php" method="POST">
 <div id="introPage5">
 	<a href="#" class="close"></a>
