@@ -40,12 +40,28 @@ var filterOpen = false;
 
 function openFilter(){
 	filterOpen = true;
+
+	// turn on the filter tag
+	$('#filterButton').html('Close');
+
 	$('#projectFilter').css({'width':'100%', 'height':'100%'});
 	$('#filterOverlay').css({'display':'block', 'width':'100%', 'height':'100%'}).stop().animate({opacity:1});
+
 }
 function closeFilter(){
 	filterOpen = false;
-	$('#projectFilter').css({'width':'0%', 'height':'0%'});
+	
+	// turn on the filter tag
+	if(_currentSort){
+		$('#filterButton').html('Filter : ' + _myProjectSort[_currentSort]);
+	}else{	
+		// turn off the filter tag
+		$('#filterButton').html('Filter');
+	}
+	
+
+	var tempWidth =  $('#filterButton').width() + 100;
+	$('#projectFilter').css({'width':tempWidth, 'height':'200px'});
 	$('#filterOverlay').stop().animate({opacity:0}, function(){
 		$('this').css({'display':'none','width':'0%', 'height':'0%'});
 	});
@@ -73,7 +89,9 @@ function _sortProject(id){
 		for(var j=0; j<_myProjects.length; j++){
 			$('#project'+j).css({'opacity':'1', 'display':'inherit'});
 		}
-	
+		
+
+
 	}else{
 		_currentSort = parseInt(id);
 	
@@ -113,7 +131,7 @@ function _sortProject(id){
 				$('#project'+j).css({opacity:1, 'display':'inherit'});
 			}
 		}
-		
+	
 	}
 	// -- turn off other buttons
 	for(var j=0; j<_myProjectSort.length; j++){
@@ -123,7 +141,6 @@ function _sortProject(id){
 			$('#_myProjectSort'+ String(j)).stop().animate({'opacity':'1'});
 		}
 	}
-
 
 	upDateThumbnails();
 
