@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
 <meta name="robots" content="noindex">
 <style>
 html{
@@ -10,12 +10,12 @@ html{
 }
 </style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script src="../js/jquery.transform2d.js"></script>
-<script src="../js/jquery.mousewheel.min.js"></script>
-<script src="../js/contact.js"></script>
-<script src="../js/filter.js"></script>
-<script src="../js/commonfunction.js"></script>
-<script src="../js/loadProject.js"></script>
+<script src="js/jquery.transform2d.js"></script>
+<script src="js/jquery.mousewheel.min.js"></script>
+<script src="js/contact.js"></script>
+<script src="js/filter.js"></script>
+<script src="js/commonfunction.js"></script>
+<script src="js/loadProject.js"></script>
 <script>
 var projectPage = false;
 
@@ -51,7 +51,7 @@ $(document).ready(function(){
 		clearTimeout($.data(this, 'scrollTimer'));
 	    $.data(this, 'scrollTimer', setTimeout(function() {
 
-	    	movePage();
+	    	movePage(event);
 
 			
 	    },scrollInterval));
@@ -82,7 +82,7 @@ $(document).ready(function(){
 });
 
 
-function movePage(){
+function movePage(event){
 
 if(initialPos < -5 && projNumb < 4 && scrollon == false){
 				projNumb += 1;
@@ -194,7 +194,7 @@ var _sortedProjectDiv = [];
 function createProject(){
 
 	for(var i=0; i<_myProjects.length; i++){
-		$('#projectContainer').append('<div class="project" id="project'+i+'" data-id="'+i+'" style="z-index:'+(10000+i)+'"><img class="img-container"src="../img/'+_myProjects[i].thumb+'"><div class="img-over"></div><div class="img-over-caption"><h1>'+_myProjects[i].title+'</h1><h3><span>'+_myProjects[i].subtitle+'</span></h3></div></div>');
+		$('#projectContainer').append('<div class="project" id="project'+i+'" data-id="'+i+'" style="z-index:'+(10000+i)+'"><img class="img-container"src="img/'+_myProjects[i].thumb+'"><div class="img-over"></div><div class="img-over-caption"><h1>'+_myProjects[i].title+'</h1><h3><span>'+_myProjects[i].subtitle+'</span></h3></div></div>');
 		_projectDiv.push($('#projectContainer').find('#project'+i));
 	}
 	
@@ -345,17 +345,17 @@ $(window).resize(function(){
 	</div>
 </header>
 <div id="introPage2" class="fullscreenimagediv">
-	<img src="../img/workingspace.jpg"/>
+	<img src="img/workingspace.jpg"/>
 </div>
 <div id="introPage3" class="fullscreenimagediv">
-	<img src="../img/diagram.jpg"/>
+	<img src="img/diagram.jpg"/>
 	<div class = "centered">
 		<h1>Draw Design Visualize</h1>
 		<h1>BRING IT</h1>
 	</div>
 </div>
 <div id="introPage4" class="fullscreenimagediv">
-	<img src="../img/javascript.jpeg"/>
+	<img src="img/javascript.jpeg"/>
 </div>
 
 <div id="projectFilter">

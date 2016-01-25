@@ -59,8 +59,7 @@ function closeFilter(){
 		$('#filterButton').html('Filter');
 	}
 	
-
-	var tempWidth =  $('#filterButton').width() + 100;
+	var tempWidth =  $('#filterButton').width() + 200;
 	$('#projectFilter').css({'width':tempWidth, 'height':'200px'});
 	$('#filterOverlay').stop().animate({opacity:0}, function(){
 		$('this').css({'display':'none','width':'0%', 'height':'0%'});
@@ -80,14 +79,13 @@ function _sortProject(id){
 
 	// id = category id for category // id = project id for project
 	if(_currentSort === id || id === false){
-		console.log(id, 'AAAAA');
 		_currentSort = null;
 		_currentSortType = null;
 			
 		_sortedProjectDiv = _projectDiv;
 
 		for(var j=0; j<_myProjects.length; j++){
-			$('#project'+j).css({'opacity':'1', 'display':'inherit'});
+			$('#project'+j).css({'display':'inherit'});
 		}
 		
 
@@ -126,9 +124,9 @@ function _sortProject(id){
 
 			// -- animate to thumbnails
 			if(amICategorized != true){
-				$('#project'+j).css({opacity:0, 'display':'none'});
+				$('#project'+j).css({'display':'none'});
 			}else{
-				$('#project'+j).css({opacity:1, 'display':'inherit'});
+				$('#project'+j).css({'display':'inherit'});
 			}
 		}
 	
@@ -144,11 +142,11 @@ function _sortProject(id){
 
 	upDateThumbnails();
 
-		
+	alert(_currentSort);
 	
-	if(_currentSortType == 'proj'){
+	/*if(_currentSortType == 'proj'){
 		projectWasClicked((id-1000));
-	}
+	}*/
 	
 }
 

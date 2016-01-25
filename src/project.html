@@ -1,0 +1,214 @@
+<html>
+<head>
+
+<meta name="robots" content="noindex">
+
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="js/jquery.transform2d.js"></script>
+<script src="js/jquery.mousewheel.min.js"></script>
+<script src="js/contact.js"></script>
+
+<script src="js/filter.js"></script>
+
+<script>
+	var projectPage = true;
+</script>
+<script src="js/commonfunction.js"></script>
+<script src="js/singleproject.js"></script>
+<script src="js/loadProject.js"></script>
+<script src="js/singleproject.js"></script>
+<script>
+
+
+
+$(document).ready(function(){
+
+	var scrollon = false;
+
+
+	var initialPos =0;
+	var animateSetTimeOut;
+	var projNumb = 0, pastprojNumb = 0;
+
+	var goalPosY1 = 0, goalPosY2 = 0, goalPosY3 = 0, goalPosY4 = 0;
+
+	var scrollInterval = 20;
+
+	// --  Measure if scroll is stuck at bottom
+	var lasctScrollTop = 0;
+
+
+
+	_loadJSON($_GET('portfolio'), 'od6');
+
+
+	$('#filterButton').click(function(){
+		if(filterOpen === false){
+			openFilter();
+		}else{
+			closeFilter();
+		}
+	});
+
+});
+
+var projecton = false;
+var projectscrollable = false;
+var projectcandispatchUp = true;
+
+var containerBasePos = 0;
+
+// height and width of the project
+var projectSize = 0;
+var projectPos=[];
+
+var projectContainerHeight;
+
+var _projectDiv = [];
+var _sortedProjectDiv = [];
+
+function createProject(){
+
+	for(var i=0; i<_myProjects.length; i++){
+		$('#projectContainer').append('<div class="project" id="project'+i+'" style="z-index:'+(10000+i)+'"><img class="img-container"src="img/'+_myProjects[i].thumb+'"><div class="img-over"></div><div class="img-over-caption"><h1>'+_myProjects[i].title+'</h1><h3><span>'+_myProjects[i].subtitle+'</span></h3></div></div>');
+		_projectDiv.push($('#projectContainer').find('#project'+i));
+	}
+	
+	_sortedProjectDiv = _projectDiv;
+
+	adjustSize();
+
+	for(var i=0; i<_myProjects.length; i++){
+		
+		$('#projectContainer').find('#project'+i).css({
+			'width':projectSize, 'height':projectSize, 'top':projectPos[i].top, 'left':projectPos[i].left, transform:'scale(0,0)'
+		});
+		$('#projectContainer').find('.img-over-caption').css({transform:'scale(1.2,1.2)', opacity:0});
+
+		// hover action
+		$('#projectContainer').find('#project'+i).mouseenter(function() {
+			$(this).find('.img-container').animate({transform:'scale(1.3,1.3s)'});
+			$(this).find('.img-over').animate({opacity:0.8});
+			$(this).find('.img-over-caption').animate({transform:'scale(1,1)', opacity:1});
+		}).mouseleave(function() {
+			$(this).find('.img-container').animate({transform:'scale(1,1)'});
+			$(this).find('.img-over').animate({opacity:0});
+			$(this).find('.img-over-caption').animate({transform:'scale(1.2,1.2)', opacity:0});
+		});
+
+		
+	}
+
+	
+
+	if(isYoutube(_youtubeurl) != false){
+		$('#projectContainer').append('<div id="videocontainer" style="top:'+(projectContainerHeight + 600)+'"><iframe src="http://www.youtube.com/embed/'+isYoutube(_youtubeurl)+'?autoplay=0&controls=1&showinfo=0"></iframe></div>');
+	}
+
+}
+function closeProject(){
+
+	for(var i=0; i<_sortedProjectDiv.length; i++){
+		_sortedProjectDiv[i].delay(Math.round(Math.random()*500+500)).animate({
+			transform:'scale(0,0)'
+		});
+	}
+
+}
+function openProject(d){
+
+	for(var i=0; i<_sortedProjectDiv.length; i++){
+
+		_sortedProjectDiv[i].delay(Math.round(Math.random()*500+500) * d).animate({
+			'top':projectPos[i].top + containerBasePos,
+			'left':projectPos[i].left,
+			transform:'scale(1,1)'
+		}, function(){projectscrollable = true;});
+	}
+
+}
+
+function animateProject(d, speed){
+	
+	projectscrollable = false;
+	for(var i=0; i<_sortedProjectDiv.length; i++){
+
+		_sortedProjectDiv[i].stop().animate({'width':projectSize,'height':projectSize,'top':projectPos[i].top + containerBasePos,'left':projectPos[i].left}, speed*5, function(){projectscrollable = true;});
+	}
+
+	$('#projectContainer').find('#videocontainer').animate({'top':(projectContainerHeight + 600)},  speed*5);
+	
+
+}
+
+
+
+
+
+
+
+
+
+
+function adjustSize(){
+
+	
+
+	var xcounter=1;
+	projectSize =  $(window).width();
+	while (projectSize > 600){
+		projectSize =  Math.floor($(window).width()/xcounter);
+		xcounter++;
+	}
+	
+
+	projectPos = [];
+
+	var j=0, k=0;
+	for(var i=0; i<_sortedProjectDiv.length; i++){
+
+		
+		projectPos[i] = {
+			top : projectSize * k,
+			left : projectSize * j
+		}
+		if(j<xcounter-2){
+			j++;
+		}else{
+			j=0;
+			k++;
+		}
+	}
+
+	projectContainerHeight = k * projectSize;
+
+}
+
+
+var resizetimeout = false;
+$(window).resize(function(){
+
+	if(resizetimeout != null){
+		clearTimeout(resizetimeout);
+	}
+	resizetimeout = setTimeout(function(){
+		adjustSize();
+		animateProject(0, 100);
+	},300);
+	
+
+});
+
+</script>
+
+</head>
+<body>
+<div class="_imageTextBox">
+</div>
+</body>
+<script>
+
+</script>
+</html>

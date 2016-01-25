@@ -1,3 +1,6 @@
+
+var imgLink = "img/";
+
 // -------------- LOADING DATABASE -----------------------
 	var _isItTouchDevice;
 	
@@ -196,22 +199,54 @@
 			//_loadAdditionalSlides();
 			//_newStylize();
 
-			createProject();
+			createProject(_findCategNumber(window.location.hash.replace("#", "")));
 
 			// Sort with appropriate URL
+
+
 			if(window.location.hash.replace("#", "")!=="" && _findCategNumber(window.location.hash.replace("#", ""))!== false){
-				var refreshIntervalId = setInterval(sortCat, 2000); 
+				var refreshIntervalId = setInterval(sortCat, 700); 
 				function sortCat(){
 					_sortProject(_findCategNumber(window.location.hash.replace("#", "")));
+					closeFilter();
+					if(projectPage){
+						if(_currentSortType === 'proj'){
+							displaySingleProject();
+						}
+					}else{
+						projNumb = 4;
+						initialPos = -1;
+						movePage();
+						for(var i=0; i<_projectDiv.length; i++){
+							_projectDiv[i].css({transform:'scale(1,1)'});
+						}
+					}
 					clearInterval(refreshIntervalId);
 				}
 			}
 			
+
+
 			$(window).scroll(function(){scrollFunction();});
 	}
 
 
-
+	function _findCategNumber(tag){
+		
+		for(var i=0; i<_myProjects.length; i++){
+			if(_myProjects[i].id ===tag){
+				_currentSortType = 'proj';
+				return i+1000;
+			}
+		}
+		for(var i=0; i<_myProjectSort.length; i++){
+			if(_myProjectSort[i]===tag){
+				_currentSortType = 'cat';
+				return i;
+			}
+		}
+		return false;
+	}
 		
 	// -------------- COMMON -----------------------
 	function _convertStringToID(str){
