@@ -10,20 +10,15 @@ function _createSortButton(){
 		var tempDiv;
 		if(i < _myProjectCategories.length){ 
 			tempDiv = $('#_headerCategoryMenu');
+			tempDiv.append('<span id="_myProjectSort'+String(i)+'" class="_myProjectSort1" data-numb="'+String(i)+'">'+_myProjectSort[i]+'</li>');
 		}else if(i < (_myProjectCategories.length+_myProjectRoles.length)){
-			tempDiv = $('#_headerRoleMenu');
+			tempDiv = $('#_headerRoleMenu');			
+			tempDiv.append('<span id="_myProjectSort'+String(i)+'" class="_myProjectSort2"  data-numb="'+String(i)+'">'+_myProjectSort[i]+'</li>');
 		}else{
 			tempDiv = $('#_headerSoftMenu');
+			tempDiv.append('<span id="_myProjectSort'+String(i)+'" class="_myProjectSort3" data-numb="'+String(i)+'">'+_myProjectSort[i]+'</li>');
 		}
 			
-		tempDiv.append('<li id="_myProjectSort'+String(i)+'" data-numb="'+String(i)+'">'+_myProjectSort[i]+'</li>');
-		if(i < _myProjectCategories.length){ 
-			$("#_myProjectSort"+String(i)).css({'font-weight':'bold', 'font-family':'Raleway, Helvetica, sans-serif', 'font-size':'3rem', 'margin':'8rem 3rem'});
-		}else if(i < (_myProjectCategories.length+_myProjectRoles.length)){
-			$("#_myProjectSort"+String(i)).css({'font-style':'italic', 'font-family':'Didot, Helvetica, sans-serif', 'font-size':'6rem', 'margin':'8rem 3rem'});
-		}else{
-			$("#_myProjectSort"+String(i)).css({'font-style':'italic', 'font-weight':'bold', 'font-family':'Raleway, Helvetica, sans-serif', 'font-size':'2rem', 'margin':'8rem 1rem'});
-		}
 			
 		$('#_myProjectSort'+ String(i)).click(function(evt){
 			_currentSortType = 'cat';
@@ -62,7 +57,7 @@ function closeFilter(){
 	var tempWidth =  $('#filterButton').width() + 200;
 	$('#projectFilter').css({'width':tempWidth, 'height':'200px'});
 	$('#filterOverlay').stop().animate({opacity:0}, function(){
-		$('this').css({'display':'none','width':'0%', 'height':'0%'});
+		$('#filterOverlay').css({'display':'none','width':'0%', 'height':'0%'});
 	});
 }
 
@@ -88,7 +83,7 @@ function _sortProject(id){
 			$('#project'+j).css({'display':'inherit'});
 		}
 		
-
+		location.hash = "";
 
 	}else{
 		_currentSort = parseInt(id);
@@ -141,8 +136,6 @@ function _sortProject(id){
 	}
 
 	upDateThumbnails();
-
-	alert(_currentSort);
 	
 	/*if(_currentSortType == 'proj'){
 		projectWasClicked((id-1000));

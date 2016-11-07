@@ -56,7 +56,7 @@ var imgLink = "img/";
 	function _loadJSON(urlkey, sheetkey){
 			
 			// -- assign default if no value
-			console.log(urlkey);
+			//console.log(urlkey);
 
 			if(urlkey === false){
 				urlkey = '1LjdZTcQD3IiaL55n-W1PN2naSrYEN0THl5KKe7HlTiI';
@@ -64,7 +64,7 @@ var imgLink = "img/";
 			
 			var apiURL = "https://spreadsheets.google.com/feeds/list/" + urlkey + "/" + sheetkey + "/public/values";
 			apiURL = apiURL + "?alt=json-in-script&callback=?";
-			console.log(apiURL);
+			//console.log(apiURL);
 			
 			$.ajax({
 				type: 'GET',
@@ -96,6 +96,8 @@ var imgLink = "img/";
 	var _currentSortType = null; // 'cat' or 'proj'
 	
 
+	var refreshIntervalId;
+
 	function _createDatabase(json){
 			
 			/* -- populate pages --*/
@@ -120,13 +122,23 @@ var imgLink = "img/";
 				
 				var _pageTypeQuery = "y";
 				if(_pageType === 'mkkpn' || _pageType === false){
+				
 					_pageTypeQuery = json.feed.entry[i].gsx$mkkpn.$t;
-				}else if(_pageType === 'xrva5'){
-					_pageTypeQuery = json.feed.entry[i].gsx$xrva5.$t;
+				
+				}else if(_pageType === 'ylagyf'){
+				
+					_pageTypeQuery = json.feed.entry[i].gsx$ylagyf.$t;
 					
-				}else if(_pageType === 'epaz'){
+				}else if(_pageType === 'epanz'){
+				
 					_pageTypeQuery = json.feed.entry[i].gsx$epanz.$t;
+				
+				}else if(_pageType === 'gacdpe'){
+				
+					_pageTypeQuery = json.feed.entry[i].gsx$gacdpe.$t;
+				
 				}
+				
 				if(_pageTypeQuery !== ""){
 					
 					var projectArray = [];
@@ -204,32 +216,38 @@ var imgLink = "img/";
 			// Sort with appropriate URL
 
 
-			if(window.location.hash.replace("#", "")!=="" && _findCategNumber(window.location.hash.replace("#", ""))!== false){
-				var refreshIntervalId = setInterval(sortCat, 700); 
-				function sortCat(){
-					_sortProject(_findCategNumber(window.location.hash.replace("#", "")));
-					closeFilter();
-					if(projectPage){
-						if(_currentSortType === 'proj'){
-							displaySingleProject();
-						}
+			if(window.location.hash.replace("#", "")!=="" && _findCategNumber(window.location.hash.replace("#", ""))!== false|| isFirstTime === false){
+				refreshIntervalId = setInterval(sortCat, 700); 
+				
+			}else{
+				
+				var counter = 0;
+				var startAnimation =  setInterval(function(){
+					_movePageImmediately(1);
+					if(counter < 1){
+						counter ++;
 					}else{
-						projNumb = 4;
-						initialPos = -1;
-						movePage();
-						for(var i=0; i<_projectDiv.length; i++){
-							_projectDiv[i].css({transform:'scale(1,1)'});
-						}
+						clearInterval(startAnimation);
 					}
-					clearInterval(refreshIntervalId);
-				}
-			}
-			
+				}, 2000);
+				
+			}	
 
 
 			$(window).scroll(function(){scrollFunction();});
 	}
 
+
+	// -- for mobile and if it was sheen before
+	function _movePageImmediately(n){
+		projNumb += n;
+		initialPos = -0.5;
+		scrollon = true;
+		movePage();
+		/*for(var i=0; i<_projectDiv.length; i++){
+			_projectDiv[i].css({transform:'scale(1,1)'});
+		}*/
+	}
 
 	function _findCategNumber(tag){
 		
@@ -247,39 +265,17 @@ var imgLink = "img/";
 		}
 		return false;
 	}
+
+	function sortCat(){
+					_sortProject(_findCategNumber(window.location.hash.replace("#", "")));
+					closeFilter();
+					if(projectPage){
+						if(_currentSortType === 'proj'){
+							displaySingleProject();
+						}
+					}else{
+						_movePageImmediately(1);
+					}
+					clearInterval(refreshIntervalId);
+				}
 		
-	// -------------- COMMON -----------------------
-	function _convertStringToID(str){
-		str = str.replace(/(\r\n|\n|\r)/g,"");
-		str = replaceAll(str, ' ', '');
-		return str.toLowerCase();
-	}
-	function _convertStringToArray(str){
-		str = str.replace(/(\r\n|\n|\r)/g,"");
-		str = replaceAll(str, ' ', '');
-		return str.split(',');
-	}
-	function replaceAll(str, find, replace1) {
-		 return str.replace(new RegExp(find, 'g'), replace1);
-	}
-	 function processAjaxData(response, urlPath){
-		 document.getElementById("content").innerHTML = response.html;
-		 document.title = response.pageTitle;
-		 window.history.pushState({"html":response.html,"pageTitle":response.pageTitle},"", urlPath);
-	 }
-	 function getParmsFromURL(url) {
-		var parms = {}, pieces, parts, i;
-		var hash = url.lastIndexOf("#");
-		
-		console.log(url);
-
-		if (hash !== -1) {
-			// remove hash value
-			url = url.slice(0, hash);
-
-		}
-
-		console.log(parms);
-		return parms;
-	}
-	// -------------- COMMON -----------------------

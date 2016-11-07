@@ -1,6 +1,8 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+ <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css'>
+<meta charset="UTF-8">
 <meta name="robots" content="noindex">
 <style>
 html{
@@ -12,15 +14,20 @@ html{
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="js/jquery.transform2d.js"></script>
 <script src="js/jquery.mousewheel.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
 <script src="js/contact.js"></script>
 <script src="js/filter.js"></script>
+<script src="js/footer.js"></script>
 <script src="js/commonfunction.js"></script>
 <script src="js/loadProject.js"></script>
 <script>
-var projectPage = false;
+	
+	var isFirstTime = false;
+	var isMobile = false;
+	
+	var projectPage = false;
 
-var scrollon = false;
-
+	var scrollon = false;
 
 	var initialPos =0;
 	var animateSetTimeOut;
@@ -28,7 +35,7 @@ var scrollon = false;
 
 	var goalPosY1 = 0, goalPosY2 = 0, goalPosY3 = 0, goalPosY4 = 0;
 
-	var scrollInterval = 20;
+	var scrollInterval = 5;
 
 	// --  Measure if scroll is stuck at bottom
 	var lasctScrollTop = 0;
@@ -36,9 +43,41 @@ var scrollon = false;
 $(document).ready(function(){
 
 
+	// check cookie
+    var visited = $.cookie("visited")
 
-	$('body').mousewheel(function (event){
+    if ($.cookie("visited") != 'yes') {
+        $.cookie('visited', 'yes');
+        isFirstTime = true;       
+    }
+
+    // set cookie
+    $.cookie('visited', 'yes', { expires: 1, path: '/' });
+
+	// --- Check Device
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+		isMobile = true;
+	}
+
+
+	if(isMobile === true){
+		var lastScrollTop = 0;
+		window.addEventListener('scroll', function() { 
+			var st = $(this).scrollTop();
+		   if (st > lastScrollTop){
+		   	  scrollon = true;
+		      movePage(false);
+		   } else {
+		      // upscroll code
+		   }
+		   lastScrollTop = st;
+		});
+	}
+
+
+	/*$('body').mousewheel(function (event){
 		//console.log(initialPos);
+
 		if(scrollon === false){
 			initialPos += event.deltaY;
 		}
@@ -48,13 +87,15 @@ $(document).ready(function(){
 		}
 
 
-		clearTimeout($.data(this, 'scrollTimer'));
-	    $.data(this, 'scrollTimer', setTimeout(function() {
+		//clearTimeout($.data(this, 'scrollTimer'));
+	    //$.data(this, 'scrollTimer', setTimeout(function() {
 
+	    if(scrollon === false){
 	    	movePage(event);
+	    }
 
 			
-	    },scrollInterval));
+	    //},scrollInterval));
 		
 
 
@@ -65,13 +106,13 @@ $(document).ready(function(){
     	animateSetTimeOut = setTimeout(function(){
     		$('#introPage1').animate({'top':initialPos});
     	}, 500);*/
-	});
+	//});
 
 
 	_loadJSON($_GET('portfolio'), 'od6');
 
 
-	$('#filterButton').click(function(){
+	$('#filterButton').click(function(event){
 		if(filterOpen === false){
 			openFilter();
 		}else{
@@ -84,19 +125,20 @@ $(document).ready(function(){
 
 function movePage(event){
 
-if(initialPos < -5 && projNumb < 4 && scrollon == false){
+			if(initialPos < -2 && projNumb < 4 && scrollon === false){
 				projNumb += 1;
 				scrollon = true;
 			}
-			if(initialPos > 5 && projNumb > 0 && scrollon == false && projectcandispatchUp === true){
+
+			if(initialPos > 2 && projNumb > 0 && scrollon === false && projectcandispatchUp === true){
 				projNumb -= 1;
 				scrollon = true;
 			}
-
+			
 			if(projNumb === 0){
 				goalPosY1 = goalPosY2 = goalPosY3 = goalPosY4 = 0;
 			}
-			if(projNumb === 1){
+			/*if(projNumb === 1){
 				goalPosY1 = -1.5 * $(window).height();
 				goalPosY2 = goalPosY3 = goalPosY4 = 0;
 			}
@@ -114,8 +156,9 @@ if(initialPos < -5 && projNumb < 4 && scrollon == false){
 					scrollInterval = 100;
 				}
 				projectscrollable = false;
-			}
-			if(projNumb === 4){
+			}*/
+
+			if(projNumb === 1){
 				
 				goalPosY1 = goalPosY2 = goalPosY3 = goalPosY4 =  -1.5 * $(window).height();
 
@@ -125,7 +168,6 @@ if(initialPos < -5 && projNumb < 4 && scrollon == false){
 					scrollInterval = 100;
 				}
 			}
-
 
 
 	    	if($('#projectContainer').scrollTop() === 0){
@@ -142,10 +184,10 @@ if(initialPos < -5 && projNumb < 4 && scrollon == false){
 
 				projectcandispatchUp = false;
 			}
-			
-			console.log($('#projectContainer').scrollTop(), $('#projectContainer').height(),  projectContainerHeight+450);
 
-			if(initialPos != 0){
+			//console.log($('#projectContainer').scrollTop(), $('#projectContainer').height(),  projectContainerHeight+450);
+
+			if(initialPos != 0 && scrollon === true){
 				var speed = Math.round(Math.abs(1000-Math.abs((initialPos+100)*2))/1.2);
 				if(speed>1000){speed = 1000;}
 				if(speed<600){speed = 600;}
@@ -153,13 +195,25 @@ if(initialPos < -5 && projNumb < 4 && scrollon == false){
 		        $('#introPage1').stop().animate({'top':goalPosY1},speed);
 				$('#introPage2').stop().animate({'top':goalPosY2},speed);
 				$('#introPage3').stop().animate({'top':goalPosY3},speed);
-				$('#introPage4').stop().animate({'top':goalPosY4},speed, function(){scrollon = false;});
+				$('#introPage4').stop().animate({'top':goalPosY4},speed, function(){
+					var t = 0;
+					if(projNumb === 4 && $('#projectContainer').scrollTop() < 150){
+						t = 3500;
+					}else{
+						t = 600;
+					}
+					setTimeout(function(){
+						scrollon = false;
+					}, t);
+					
+				});
 				initialPos = 0;
 			}
  			
  			// --- Open Message
- 			
-			if(lasctScrollTop === $('#projectContainer').scrollTop() && $('#projectContainer').scrollTop() - (projectContainerHeight+450) < 150 && $('#projectContainer').scrollTop() !== 0){
+ 			/*console.log($('#projectContainer').scrollTop() - (projectContainerHeight));
+ 			console.log(lasctScrollTop === $('#projectContainer').scrollTop(), $('#projectContainer').scrollTop() - (projectContainerHeight) < 150, $('#projectContainer').scrollTop() !== 0, isMobile ===  false);
+			if(lasctScrollTop === $('#projectContainer').scrollTop() && $('#projectContainer').scrollTop() - (projectContainerHeight + $('footer').height()) < 150 && $('#projectContainer').scrollTop() !== 0 && isMobile ===  false){
 
 				if(event.deltaY < -5){
 					$('#introPage5').css({'display':'inherit'}).animate({opacity:1});
@@ -169,7 +223,7 @@ if(initialPos < -5 && projNumb < 4 && scrollon == false){
 				if(event.deltaY > 5 && $('#boxForComment textarea').val().trim().length === 0){
 					_closeComment();
 				}
-			}
+			}*/
 
 			lasctScrollTop = $('#projectContainer').scrollTop();
 
@@ -210,18 +264,21 @@ function createProject(){
 		$('#projectContainer').find('.img-over-caption').css({transform:'scale(1.2,1.2)', opacity:0});
 
 		// hover action
-		$('#projectContainer').find('#project'+i).mouseenter(function() {
-			$(this).find('.img-container').animate({transform:'scale(1.3,1.3s)'});
-			$(this).find('.img-over').animate({opacity:0.8});
-			$(this).find('.img-over-caption').animate({transform:'scale(1,1)', opacity:1});
+		if(isMobile === false){
+			$('#projectContainer').find('#project'+i).mouseenter(function() {
+				$(this).find('.img-container').stop().animate({transform:'scale(1.3,1.3s)'}, 8000, "linear");
+				$(this).find('.img-over').animate({opacity:0.5});
+				$(this).find('.img-over-caption').animate({transform:'scale(1,1)', opacity:1});
 
-		}).mouseleave(function() {
-			$(this).find('.img-container').animate({transform:'scale(1,1)'});
-			$(this).find('.img-over').animate({opacity:0});
-			$(this).find('.img-over-caption').animate({transform:'scale(1.2,1.2)', opacity:0});
-		}).click(function() {
+			}).mouseleave(function() {
+				$(this).find('.img-container').stop().animate({transform:'scale(1,1)'}, 200, "linear");
+				$(this).find('.img-over').animate({opacity:0});
+				$(this).find('.img-over-caption').animate({transform:'scale(1.2,1.2)', opacity:0});
+			});
+		}	
+		$('#projectContainer').find('#project'+i).click(function(event) {
 			
-			console.log($_GET('type'));
+			//console.log($_GET('type'));
 
 			if($_GET('type') !== false){
 				window.location.href = 'project.html?type='+$_GET('type')+'#' + _myProjects[$(this).data('id')].id;
@@ -234,11 +291,15 @@ function createProject(){
 		
 	}
 
-	
+	createFooter($('#projectContainer'));
+
+	$('footer').attr({'id':'videocontainer'});
+	$('footer').css({'top':(projectContainerHeight + 600)});
 
 	if(isYoutube(_youtubeurl) != false){
-		$('#projectContainer').append('<div id="videocontainer" style="top:'+(projectContainerHeight + 600)+'"><iframe src="http://www.youtube.com/embed/'+isYoutube(_youtubeurl)+'?autoplay=0&controls=1&showinfo=0"></iframe></div>');
+		$('footer').prepend('<iframe src="http://www.youtube.com/embed/'+isYoutube(_youtubeurl)+'?autoplay=0&controls=1&showinfo=0"></iframe>');
 	}
+	
 
 }
 function closeProject(){
@@ -271,7 +332,8 @@ function animateProject(d, speed){
 		_sortedProjectDiv[i].stop().animate({'width':projectSize,'height':projectSize,'top':projectPos[i].top + containerBasePos,'left':projectPos[i].left}, speed*5, function(){projectscrollable = true;});
 	}
 
-	$('#projectContainer').find('#videocontainer').animate({'top':(projectContainerHeight + 600)},  speed*5);
+	console.log(projectContainerHeight, projectContainerHeight/kk, kk, projectSize);
+	$('#projectContainer').find('#videocontainer').stop().animate({'top':(projectContainerHeight)},  speed*5);
 	
 
 }
@@ -279,7 +341,7 @@ function animateProject(d, speed){
 
 
 
-
+var kk;
 
 
 
@@ -295,6 +357,10 @@ function adjustSize(){
 		projectSize =  Math.floor($(window).width()/xcounter);
 		xcounter++;
 	}
+
+	xcounter = Math.floor($(window).width()/projectSize);
+
+	$('.img-over-caption h1').css({'font-size':Math.round(projectSize/0.9)/10});
 	
 
 	projectPos = [];
@@ -307,7 +373,7 @@ function adjustSize(){
 			top : projectSize * k,
 			left : projectSize * j
 		}
-		if(j<xcounter-2){
+		if(j<xcounter-1){
 			j++;
 		}else{
 			j=0;
@@ -315,7 +381,7 @@ function adjustSize(){
 		}
 	}
 
-	projectContainerHeight = k * projectSize;
+	projectContainerHeight = Math.ceil((_sortedProjectDiv.length-1)/xcounter) * projectSize;
 
 }
 
@@ -338,7 +404,7 @@ $(window).resize(function(){
 
 </head>
 <body>
-<header id="introPage1">
+<!--header id="introPage1">
 	<div class = "centered">
 		<h1>TAKUMA KAKEHI</h1>
 		<h2> - Online Portfolio - </h2>
@@ -356,7 +422,7 @@ $(window).resize(function(){
 </div>
 <div id="introPage4" class="fullscreenimagediv">
 	<img src="img/javascript.jpeg"/>
-</div>
+</div-->
 
 <div id="projectFilter">
 	<div id="filterOverlay">
@@ -387,7 +453,7 @@ $(window).resize(function(){
 </div>
 <div id="emailinput">
 	
-		<section>
+		<ssection>
 			<ul class="input-list style-2" style="list-style:none;">
 				<li>
 					<input type="text" placeholder="your email" name="email">
