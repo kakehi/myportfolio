@@ -1,0 +1,57 @@
+doctype html
+html(lang="en")
+	head
+		link(rel="stylesheet" type="text/css" href="css/style.css")
+		link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css')
+		meta(charset="UTF-8")
+		meta(name="robots" content="noindex")
+		style(type='text/css').
+			html{
+				overflow:hidden;
+				font-family: Helvetica, sans-serif;
+				font-weight: lighter;
+			}
+		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+		script(src="js/jquery.transform2d.js")
+		script(src="js/jquery.mousewheel.min.js")
+		script(src="js/jquery.cookie.js")
+		script(src="js/contact.min.js")
+		script(src="js/filter.min.js")
+		script(src="js/footer.min.js")
+		script(src="js/commonfunction.min.js")
+		script(src="js/loadProject.min.js")
+		script(src="js/frontPage.min.js")
+		body
+			div#projectFilter
+				div.filterOverlay#filterL.filterClosed
+				div.filterOverlay#filterR.filterClosed
+				div.filterTexts
+					div#_headerCategoryMenu.filterClosed
+					div#_headerRoleMenu.filterClosed
+					div#_headerSoftMenu.filterClosed
+				//-div#filterButton Filter
+			div.svg-wrapper
+				span
+				span
+				span
+				svg(height="60" width="60" xmlns="http://www.w3.org/2000/svg")
+					rect.shape(height="60" width="60")
+			div#projectContainer
+			form#contactForm(action="mail.php" method="POST")
+				div#introPage5
+					a.close(href="#")
+					div#boxForComment
+						div#boxForCommentBody
+							h2 Please Feel Free to Message
+							textarea.commentTextBox#styled(name="message" placeholder="..." onfocus="")
+						div.commentButton#commentOk OK
+				div#emailinput
+					section
+						ul.input-list.style-2(style="list-style:none;")
+							li
+								input(type="text" placeholder="your email" name="email")
+						button.commentButton#emailSend(type="submit") Send Message
+						
+
+
+						
