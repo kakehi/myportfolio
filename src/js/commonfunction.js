@@ -3,7 +3,6 @@
 // check youtube is avaialble and return ID if exists. Otherwise, return false
 function isYoutube(url){
 
-	console.log(url);
 	if (url.indexOf("youtube.com") === -1){
 		return false;
 	}else{
@@ -46,8 +45,6 @@ function isYoutube(url){
 	 function getParmsFromURL(url) {
 		var parms = {}, pieces, parts, i;
 		var hash = url.lastIndexOf("#");
-		
-		console.log(url);
 
 		if (hash !== -1) {
 			// remove hash value
@@ -55,7 +52,6 @@ function isYoutube(url){
 
 		}
 
-		console.log(parms);
 		return parms;
 	}
 	function getParam(param) {

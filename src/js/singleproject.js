@@ -1,46 +1,84 @@
 
-
+/*
+	Inserting Project Information
+*/
 function displaySingleProject(){
 
 	$('#notfound').css({'display':'none'});
 
 	var i =_currentSort-1000;
 
-	$('._imageTextBox').append('<div><h1 class="_projectTitle">' + String(_myProjects[i].title) + '</h1><h2 class="_projectSubttle">' + String(_myProjects[i].subtitle) + '</div><div style="width:100%; max-width:1280px; border-bottom:solid thin #CCC; border-top:solid thin #CCC; padding:50px 0px;"><div id="informationList"><div class="informationList">Client : ' + String(_myProjects[i].client) + '</div><div class="informationList">Year : ' + String(_myProjects[i].year) + '</div><div class="informationList">Status : ' + String(_myProjects[i].status) + '</div></div><div class="informationDescription">' + String(_myProjects[i].desc) + '</div><div style="clear: both;"></div> </div>');
+	/*
+		Inserting Information
+	*/
 
+	/* Project Title */
+	$('._projectTitle').text(String(_myProjects[i].title));
+	/* Project Subtitle */
+	$('._projectSubttle').text(String(_myProjects[i].subtitle));
+	/* Project Categories */
+	for(var j=0; j<_myProjects[i].cat.length; j++){
+		$('.projectCategory ul').append('<li>' + String(_myProjects[i].cat[j]) + '</li>');
+	}
+	/* Project Meta Information */
+	// Client
+	$('.projectClient').text(String(_myProjects[i].client));
+	// Year
+	$('.projectYear').text(String(_myProjects[i].year));
+	// Status
+	$('.projectStatus').text(String(_myProjects[i].status));
+	/* Project Description */
+	$('.informationDescription').text(String(_myProjects[i].desc));
 
+	/*
+		Inserting Images
+	*/
 	for(var j=0; j<_myProjects[i].img.length; j++){
-		$('._imageTextBox').append('<div class="_imageViewers"><img src="' + imgLink +String(_myProjects[i].img[j])+'"></div>');
-					
+		$('.singleProjectImageContainer').append('<div class="_imageViewers"><img src="' + imgLink +String(_myProjects[i].img[j])+'"></div>');
 	}
 
-	if(_myProjects[i].special !== ""){
-		$('._imageTextBox').append(_myProjects[i].special);
-	}
+
+	/*
+		Inserting Special Contents
+	*/
+	if(_myProjects[i].special !== "")
+		$('.singleProjectImageContainer').append(_myProjects[i].special);
 }
 
 
-var timer = false;
+/* 
+	Navigation animation 
+*/
+var timer;
 $(window).scroll(function(){
 
 	if(isMobile === false){
-	if (timer !== false && $(window).scrollTop() > 200 ){
-        clearTimeout(timer);
-    }
-    timer = setTimeout(function() {
-        if($(window).scrollTop() > 200 ){
-			timer = true;
-			$('header nav').stop().animate({'height':'72px'}, function(){
-				timer = false;
-			});
-		}else{
-			timer = true;
-			$('header nav').stop().animate({'height':'0px'}, function(){
-				timer = false;
-			});
-		}
+		timer = setTimeout(function() {
+			if($(window).scrollTop() > 200 )
+				$('header nav').removeClass('headerClosed').addClass('headerOpened');
+			else
+				$('header nav').removeClass('headerOpened').addClass('headerClosed');
 
-    }, 100);
+		}, 100);
 	}
 
+});
+
+
+/* 
+	Navigation Links
+*/
+// -- Expand / Contract Image
+var imageExpanded = false;
+$('#linkImage').text('Images ++');
+$('.linkImage').click(function(){
+	if(!imageExpanded){
+		$('.singleProjectImageContainer').removeClass('sizeDefault').addClass('sizeExpanded');
+		imageExpanded = true;
+		$('#linkImage').text('Images --');
+	}else{
+		$('.singleProjectImageContainer').removeClass('sizeExpanded').addClass('sizeDefault');
+		imageExpanded = false;
+		$('#linkImage').text('Images ++');
+	}
 });

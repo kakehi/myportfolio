@@ -11,6 +11,10 @@ html(lang="en")
 				font-family: Helvetica, sans-serif;
 				font-weight: lighter;
 			}
+		script(type='text/javascript').
+			var isFirstTime = false;
+			var projectPage = false;
+			var isMobile = false;
 		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
 		script(src="js/jquery.transform2d.js")
 		script(src="js/jquery.mousewheel.min.js")
@@ -20,6 +24,7 @@ html(lang="en")
 		script(src="js/footer.min.js")
 		script(src="js/commonfunction.min.js")
 		script(src="js/loadProject.min.js")
+		//-- Per Pages
 		script(src="js/frontPage.min.js")
 		body
 			div#projectFilter

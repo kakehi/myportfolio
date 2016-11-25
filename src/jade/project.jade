@@ -1,0 +1,61 @@
+doctype html
+html(lang="en")
+	head
+		link(rel="stylesheet" type="text/css" href="css/style.css")
+		link(rel="stylesheet" type="text/css" href="css/single.css")
+		link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css')
+		meta(charset="UTF-8")
+		meta(name="robots" content="noindex")
+		script(type='text/javascript').
+			var isFirstTime = false;
+			var projectPage = true;
+			var isMobile = false;
+		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+		script(src="js/jquery.transform2d.js")
+		script(src="js/jquery.mousewheel.min.js")
+		script(src="js/jquery.cookie.js")
+		script(src="js/contact.min.js")
+		script(src="js/filter.min.js")
+		script(src="js/footer.min.js")
+		script(src="js/commonfunction.min.js")
+		script(src="js/loadProject.min.js")
+		script(src="js/projectPage.min.js")
+		body
+			header
+				nav.headerClosed
+					div
+						ul
+							li
+								a.animatedunderline#linktoback
+									img(width="16" style="margin-top:12px;" src="img/backbutton.png")
+							li.linktoproject#_footerProject
+								section
+									a.animatedunderline Projects
+							li
+								section
+									a.animatedunderline(href="mailto:takuma.kakehi@gmail.com") Contact
+							li.linkImage
+								section
+									a.animatedunderline#linkImage
+			div.singleProjectBody
+				div.singleProjectInfoContainer
+					h1._projectTitle
+					h2._projectSubttle
+					div.projectCategory
+						ul
+					div.detailInformationContainer
+						div#informationList
+							div.informationList
+								div.informationListTitle Client:
+								div.projectClient
+							div.informationList
+								div.informationListTitle Year:
+								div.projectYear
+							div.informationList
+								div.informationListTitle Project Status:
+								div.projectStatus
+						div.informationDescription
+						div(style="clear: both;")
+				div.singleProjectImageContainer.sizeDefault
+		//-- Per Pages
+		script(src="js/singleproject.min.js")

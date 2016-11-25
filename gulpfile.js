@@ -112,9 +112,9 @@ gulp.task('default', ['open', 'scripts', /*'compass',*/ 'style', 'jade', 'browse
 // //////////////////////////////////////
 gulp.task('open', function(){
     var options = {
-        uri: 'localhost:3000/public/index.html',
+        uri: 'http://localhost:3000/public/index.html',
         app: '/Applications/Google\ Chrome.app'
     };
-  gulp.src('')
-  .pipe(open(options));
+  gulp.src('./public/index.html')
+  .pipe(open());
 });
