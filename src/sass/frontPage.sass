@@ -1,0 +1,383 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed)
+
+/* * Predefined Elements * */
+
+// fonts
+$font-default: Helvetica Arial sans-serif
+$font-didot: Didot, Helvetica, sans-serif
+$font-railway: Raleway, Helvetica, sans-serif
+$font-roboto: Roboto Condensed, Helvetica, sans-serif
+$font-didot: Didot, Helvetica, sans-serif
+$font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
+
+// animation
+@mixin transition($property, $duration, $type)
+	-webkit-transition: $property $duration $type
+	-moz-transition: $property $duration $type
+	-ms-transition: $property $duration $type
+	-o-transition: $property $duration $type
+	transition: $property $duration $type
+
+// animation transform
+@mixin transform($property)
+	-webkit-transform: $property
+	-moz-transform: $property
+	-ms-transform: $property
+	-o-transform: $property
+	transform: $property
+
+
+/* * Filter * */
+
+.svg-wrapper
+	position: absolute
+	top: 15px
+	right: 15px
+	width: 60px
+	z-index: 10000000
+	height: 60px
+	cursor: pointer
+	background-color: rgba(#000 , .2)
+
+	&.open
+		background-color: rgba(#000 ,0)
+
+		span:nth-child(1)
+			top: 32px
+			background: #000;
+			@include transform(rotate(135deg))
+			@include transition('', .25s, ease-in-out)
+		span:nth-child(2)
+			opacity: 0
+			left: -60px
+		span:nth-child(3)
+			top: 32px
+			background: #000;
+			@include transform(rotate(-135deg))
+			@include transition('', .25s, ease-in-out)
+
+		.shape
+			stroke: #000
+
+	&:hover .shape
+		stroke-width: 1px
+		stroke-dashoffset: 0
+		stroke-dasharray: 760;
+
+	span
+		display: block
+		position: absolute
+		height: 1px
+		width: 50%
+		background: #FFF
+		border-radius: 0px
+		opacity: 1
+		left: 25%
+		@include transform(rotate(0deg))
+		@include transition('', .25s, ease-in-out)
+
+		&:nth-child(1)
+			top: 20px
+		&:nth-child(2)
+			top: 30px
+		&:nth-child(3)
+			top: 40px
+		&:nth-child(4)
+			top: 30px
+
+.svg-wrapper, .shape
+	stroke-dasharray: 140 540
+	stroke-dashoffset: -474
+	stroke-width: 1px
+	fill: transparent
+	stroke: #FFF
+	@include transition(all, 1s, ease-in-out)
+
+
+#projectFilter
+
+.filterOverlay
+	position: absolute
+	z-index: 2001
+	background-color: rgba(#FFF,0.85)
+	width: 50%
+
+#filterL
+	left: 0px
+	display: inherit
+	&.filterOpened
+		height: 2000px
+		@include transition(height, .4s, ease-out)
+	&.filterClosed
+		height: 0px;
+		@include transition(height, .3s, ease-out)
+		transition-delay: 0.1s
+#filterR
+	left: 50%
+	&.filterOpened
+		height: 2000px
+		@include transition(height, .4s, ease-out)
+		transition-delay: 0.2s
+	&.filterClosed
+		height: 0px
+		@include transition(height, .3s, ease-out)
+
+.filterTexts
+	position: absolute
+	z-index: 2002
+	width: 100%
+	-webkit-font-smoothing: antialiased
+	&.filterOpened
+		top: 0px
+	&.filterClosed
+		top: -1200px
+
+#_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu
+	color: rgba(0,0,0,1)
+	width: 100%
+	height: 10%
+	margin: 10% 0rem 8rem 0rem
+	text-align: center
+	cursor: pointer
+	
+	li
+		list-style: none
+		display: inline
+		cursor: pointer
+		vertical-align: middle
+	span
+		display: inline-block
+
+#_headerCategoryMenu
+	&.filterOpened
+		opacity: 0.8
+		@include transition(opacity, .8s, ease-out)
+		transition-delay: 0.8s
+	&.filterClosed
+		opacity: 0
+		@include transition(opacity, .2s, ease-out)
+
+#_headerRoleMenu
+	&.filterOpened
+		opacity: 0.8
+		@include transition(opacity, .8s, ease-out)
+		transition-delay: 1.0s
+	&.filterClosed
+		opacity: 0
+		@include transition(opacity, .2s, ease-out)
+
+#_headerSoftMenu
+	&.filterOpened
+		opacity: 0.8
+		@include transition(opacity, .8s, ease-out)
+		transition-delay: 1.2s
+	&.filterClosed
+		opacity: 0;
+		@include transition(opacity, .2s, ease-out)
+
+._myProjectSort1
+	font-weight: bold
+	font-family: $font-railway
+	font-size: 3rem
+	margin: 1rem 3rem
+._myProjectSort2
+	font-style: italic
+	font-family: $font-didot
+	font-size: 6rem
+	margin: 1rem 3rem
+._myProjectSort3
+	font-style: italic
+	font-weight: bold
+	font-family: $font-railway
+	font-size: 2rem
+	margin: 1rem 3rem
+
+/* * Filter * */
+
+
+/* * PROJECT * */
+
+#projectContainer
+	position: absolute
+	overflow-x: hidden
+	overflow-y: scroll
+	z-index: 2000
+	width: 100%
+	height: 100%
+	-webkit-overflow-scrolling: touch
+
+.project
+	position: absolute
+	overflow: hidden !important
+	-webkit-backface-visibility: hidden
+	-moz-backface-visibility: hidden
+	-webkit-transform: translate3d(0, 0, 0)
+	-moz-transform: translate3d(0, 0, 0)
+	cursor: pointer
+
+	// Black Overlay
+	.img-over
+		position: absolute
+		background-color: #000
+		opacity: 0.5
+
+		&.closed
+			width: 0%
+			height: 0%
+			left: 0px
+			top: 0px
+		&.opened
+			width: 100%
+			height: 100%
+			margin-left: 0px
+			margin-top: 0px
+		&.prepareOpenFromLeft
+			width: 0%
+			height: 100%
+			margin-left: 0px
+			margin-top: 0px
+		&.openedFromLeft
+			width: 100%;
+			@include transition(width, .2s, ease-out)
+		&.prepareOpenFromRight
+			width: 0%
+			height: 100%
+			margin-top: 0px
+			margin-left: 600px
+		&.openedFromRight
+			width: 100%
+			margin-left: 0px
+			@include transition(all, .2s, ease-out)
+		&.prepareOpenFromTop
+			width: 100%
+			height: 0%
+			margin-left: 0px
+			margin-top: 0px
+		&.openedFromTop
+			height: 100%
+			@include transition(height, .2s, ease-out)
+		&.prepareOpenFromBottom
+			width: 100%
+			height: 0%
+			margin-left: 0px
+			margin-top: 500px
+		&.openedFromBottom
+			height: 100%
+			margin-top: 0px;
+			@include transition(all, .2s, ease-out)
+		&.closedToLeft
+			width: 0%
+			height: 100%;
+			@include transition(all, .2s, ease-out)
+		&.closedToRight
+			width: 0%
+			height: 100%
+			margin-left: 600px
+			@include transition(all, .2s, ease-out)
+		&.closedToTop
+			width: 100%
+			height: 0%
+			@include transition(all, .2s, ease-out)
+		&.closedToBottom
+			width: 100%
+			height: 0%
+			margin-top: 600px
+			@include transition(all, .3s, ease-out)
+
+	.img-container
+		position: absolute
+		width: 100%
+		height: 100%
+	.img-over-caption
+		position: absolute
+		width: 90%
+		height: 90%
+		text-align: center
+		color: white
+		padding: 20px
+		-webkit-user-select: none /* Chrome/Safari */
+		-moz-user-select: none /* Firefox */
+		-ms-user-select: none /* IE10+ */
+		-o-user-select: none
+		user-select: none
+
+		h1
+			padding-top: 20%
+			font-size: 64px
+		h3
+			font-size: 18px
+			font-weight: 100
+			line-height: 100%
+			font-family: latin_modern_roman_caps10Ob
+
+			span
+				display: inline-block
+				vertical-align: middle
+				line-height: normal
+
+	img
+		position: relative
+		width: 100%
+
+/* * PROJECT * */
+
+
+@media screen and (max-width: 1600px)
+	
+	/* Filter */
+
+	#_headerCategoryMenu span
+		font-size: 3.2rem
+	#_headerRoleMenu span
+		font-size: 3.2rem
+	#_headerSoftMenu span
+		font-size: 1.6rem
+	
+	/* Filter */
+
+@media screen and (max-width: 1024px)
+
+	/* Filter */
+
+	#_headerCategoryMenu, #_headerRoleMenu
+		display: table
+		margin: 4rem 0rem
+
+		span
+			display: table-row
+			font-size: 3.2rem
+			line-height: 5.2rem
+
+	#_headerSoftMenu
+		display: none
+	
+	/* Filter */
+
+@media screen and (max-width: 760px)
+
+	/* Filter */
+
+	#_headerCategoryMenu, #_headerRoleMenu
+		margin: 2rem 0rem
+		span
+			font-size: 2.4rem
+			line-height: 3.6rem
+
+	/* Filter */
+
+@media screen and (max-width: 640px)
+	
+	/* Filter */
+	
+	#filterL
+		width: 100%
+	#filterR
+		display: none
+	
+	#_headerCategoryMenu, #_headerRoleMenu
+		margin: 1.8rem 0rem
+		span
+			font-size: 2rem
+			line-height: 3.2rem
+
+	/* Filter */

@@ -22,6 +22,7 @@ var _youtubeurl;
 /* -- buttons --*/
 
 var _myProjectSort, _myProjectCategories, _myProjectRoles, _myProjectSofts;
+var _mySelectedCat = [];
 
 
 function $_GET(param) {
@@ -120,7 +121,7 @@ function _createDatabase(json) {
         // -- exclude if exlucde flag is on
 
         var _pageTypeQuery = "y";
-        
+
         if (_pageType === 'mkkpn' || _pageType === false)
             _pageTypeQuery = json.feed.entry[i].gsx$mkkpn.$t;
 		else if (_pageType === 'ylagyf') 
@@ -149,10 +150,28 @@ function _createDatabase(json) {
             projectArray[8] = "";
             /* -- information --*/
 
-
-
             /* -- category --*/
             project.cat = _convertStringToArray(json.feed.entry[8 + i].gsx$content.$t);
+            // check which categories
+            for(var j=0; j<project.cat.length; j++){
+	            if(_mySelectedCat.length > 0){
+	            	var k=0;
+	            	var tempPlace = true;
+		            while(k < _mySelectedCat.length){
+		            	if(_mySelectedCat[k] == project.cat[j]){
+		            		tempPlace = false;
+		            		k = _mySelectedCat.length;
+		            	}else{
+		            		k++;
+		            	}
+		            }
+		            if(tempPlace)
+		            	_mySelectedCat.push(project.cat[j]);
+		        }else{
+		        	_mySelectedCat.push(project.cat[j]);
+		        }
+		    }
+
             /* -- category --*/
 
             /* -- thumb --*/
@@ -174,6 +193,58 @@ function _createDatabase(json) {
         _projectCounter++;
 
     }
+
+
+    /* -- Eliminate Categories that Do Not Exist --*/
+
+    var tempArr = [];
+    for(i = 0; i<_mySelectedCat.length; i++){
+    	var j=0;
+    	var doesNotExist = true;
+    	while(j< _myProjectCategories.length){
+    		if( _mySelectedCat[i] == _myProjectCategories[j]){
+    			doesNotExist = false;
+    			j = _myProjectCategories.length;
+    		}else
+    			j++;
+    	}
+    	if(!doesNotExist)
+    		tempArr.push(_myProjectCategories.splice(_myProjectCategories.indexOf(_mySelectedCat[i]), 1)[0]);
+    }
+    _myProjectCategories = tempArr;
+
+	tempArr = [];
+    for(i = 0; i<_mySelectedCat.length; i++){
+    	var j=0;
+    	var doesNotExist = true;
+    	while(j< _myProjectRoles.length){
+    		if( _mySelectedCat[i] == _myProjectRoles[j]){
+    			doesNotExist = false;
+    			j = _myProjectRoles.length;
+    		}else
+    			j++;
+    	}
+    	if(!doesNotExist)
+    		tempArr.push(_myProjectRoles.splice(_myProjectRoles.indexOf(_mySelectedCat[i]), 1)[0]);
+    }
+    _myProjectRoles = tempArr;
+
+    tempArr = [];
+    for(i = 0; i<_mySelectedCat.length; i++){
+    	var j=0;
+    	var doesNotExist = true;
+    	while(j< _myProjectSofts.length){
+    		if( _mySelectedCat[i] == _myProjectSofts[j]){
+    			doesNotExist = false;
+    			j = _myProjectSofts.length;
+    		}else
+    			j++;
+    	}
+    	if(!doesNotExist)
+    		tempArr.push(_myProjectSofts.splice(_myProjectSofts.indexOf(_mySelectedCat[i]), 1)[0]);
+    }
+    _myProjectSofts = tempArr;
+
 
     /* -- projects --*/
 
