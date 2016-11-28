@@ -12,11 +12,14 @@ html(lang="en")
 				font-family: Helvetica, sans-serif;
 				font-weight: lighter;
 			}
-		script(type='text/javascript').
-			var isFirstTime = false;
-			var projectPage = false;
-			var isMobile = false;
+		//- jQuery
 		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+		//- Variables per Page
+		script(type='text/javascript').
+			var projectPage = false;
+		//- Common Variables for All Pages
+		script(src="js/common.min.js")
+		//- Library
 		script(src="js/jquery.transform2d.js")
 		script(src="js/jquery.mousewheel.min.js")
 		script(src="js/jquery.cookie.js")

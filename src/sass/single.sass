@@ -1,17 +1,50 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto+Condensed)
 
 /* * Predefined Elements * */
-$font-roboto: Roboto Condensed, Helvetica, sans-serif
+
+// fonts
+$font-default: Helvetica Arial sans-serif
 $font-didot: Didot, Helvetica, sans-serif
 $font-railway: Raleway, Helvetica, sans-serif
+$font-roboto: Roboto Condensed, Helvetica, sans-serif
+$font-didot: Didot, Helvetica, sans-serif
+$font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 
 // animation
-@mixin transition($property, $duration)
-	-webkit-transition: $property $duration
-	-moz-transition: $property $duration
-	-ms-transition: $property $duration
-	-o-transition: $property $duration
-	transition: $property $duration
+@mixin transition($property, $duration, $type)
+	-webkit-transition: $property $duration $type
+	-moz-transition: 	$property $duration $type
+	-ms-transition: 	$property $duration $type
+	-o-transition: 		$property $duration $type
+	transition: 		$property $duration $type
+
+// transform
+@mixin transform($property)
+	-webkit-transform: 	$property
+	-moz-transform: 	$property
+	-ms-transform: 		$property
+	-o-transform: 		$property
+	transform: 			$property
+
+// transform
+@mixin transform-transit($property, $duration, $type)
+	-webkit-transform: 	$property
+	-moz-transform: 	$property
+	-ms-transform:		$property
+	-o-transform: 		$property
+	transform: 			$property
+	-webkit-transition: all $duration $type
+	-moz-transition: 	all $duration $type
+	-ms-transition: 	all $duration $type
+	-o-transition: 		all $duration $type
+	transition: 		all $duration $type
+
+// border radius
+=border-radius($radius)
+	-webkit-border-radius: $radius
+	-moz-border-radius:    $radius
+	-ms-border-radius:     $radius
+	border-radius:         $radius
 
 // border
 @mixin border( $coordinates: 0 0 0 0, $colour: #000000, $style: solid )
@@ -52,7 +85,7 @@ header
 		width: 100%
 		height: 0px
 		overflow: hidden
-		border-bottom: thin solid #CCC
+		@include border(0 0 1px 0, #CCC, solid)
 		background-color: #FFF
 		z-index: 100000
 
@@ -73,12 +106,13 @@ header
 
 		&.headerOpened
 			height: 76px
-			@include transition(height, .2s)
+			@include transition(height, .2s, ease-out)
 
 		&.headerClosed
 			height: 0px
-			@include transition(height, .2s)
+			@include transition(height, .2s, ease-out)
 
+/* * Predefined Elements * */
 
 /* * PROJECT * */
 
@@ -118,10 +152,17 @@ header
 		li
 			display: inline
 			color: #000
-			background-color: #ffff01
-			border-radius: 0px
+			@include border-radius(0px);
 			padding: 10px 20px
 			margin: 10px 5px
+
+			&.projectCat
+				background-color: #4990E2
+			&.projectRole
+				background-color: #50E3C2
+			&.projectSoft
+				background-color: #ffff01
+
 
 // Other Information
 .detailInformationContainer
@@ -153,10 +194,10 @@ header
 	
 	&.sizeDefault
 		max-width: 900px
-		@include transition(max-width, .2s)
+		@include transition(max-width, .2s, ease-out)
 	&.sizeExpanded
 		max-width: 1920px
-		@include transition(max-width, .5s)
+		@include transition(max-width, .5s, ease-out)
 
 ._imageViewers img
 	width: 100%

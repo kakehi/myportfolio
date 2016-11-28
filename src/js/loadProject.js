@@ -104,11 +104,11 @@ function _createDatabase(json) {
     /* -- populate pages --*/
     /* -- populate pages --*/
 
-    _clientlist = _convertStringToArray(json.feed.entry[0].gsx$content.$t);
+    _clientlist = _convertStringToArray(json.feed.entry[0].gsx$content.$t, false);
 
-    _myProjectCategories = _convertStringToArray(json.feed.entry[1].gsx$content.$t);
-    _myProjectRoles = _convertStringToArray(json.feed.entry[2].gsx$content.$t);
-    _myProjectSofts = _convertStringToArray(json.feed.entry[3].gsx$content.$t);
+    _myProjectCategories = _convertStringToArray(json.feed.entry[1].gsx$content.$t, false);
+    _myProjectRoles = _convertStringToArray(json.feed.entry[2].gsx$content.$t, false);
+    _myProjectSofts = _convertStringToArray(json.feed.entry[3].gsx$content.$t, false);
 
     _youtubeurl = json.feed.entry[4].gsx$content.$t;
 
@@ -151,8 +151,9 @@ function _createDatabase(json) {
             /* -- information --*/
 
             /* -- category --*/
-            project.cat = _convertStringToArray(json.feed.entry[8 + i].gsx$content.$t);
-            // check which categories
+            project.cat = _convertStringToArray(json.feed.entry[8 + i].gsx$content.$t, false);
+            
+            // check which categories there are per project and accumulates all types
             for(var j=0; j<project.cat.length; j++){
 	            if(_mySelectedCat.length > 0){
 	            	var k=0;
@@ -179,7 +180,7 @@ function _createDatabase(json) {
             /* -- thumb --*/
 
             /* -- images --*/
-            project.img = _convertStringToArray(json.feed.entry[10 + i].gsx$content.$t);
+            project.img = _convertStringToArray(json.feed.entry[10 + i].gsx$content.$t, true);
             /* -- images --*/
 
             /* -- special contents --*/

@@ -10,13 +10,13 @@ function _createSortButton(){
 		var tempDiv;
 		if(i < _myProjectCategories.length){ 
 			tempDiv = $('#_headerCategoryMenu');
-			tempDiv.append('<span id="_myProjectSort'+String(i)+'" class="_myProjectSort1" data-numb="'+String(i)+'">'+_myProjectSort[i]+'</li>');
+			tempDiv.append('<span id="_myProjectSort'+String(i)+'" data-numb="'+String(i)+'"><a class="animatedunderline black">'+_myProjectSort[i]+'</a></li>');
 		}else if(i < (_myProjectCategories.length+_myProjectRoles.length)){
 			tempDiv = $('#_headerRoleMenu');			
-			tempDiv.append('<span id="_myProjectSort'+String(i)+'" class="_myProjectSort2"  data-numb="'+String(i)+'">'+_myProjectSort[i]+'</li>');
+			tempDiv.append('<span id="_myProjectSort'+String(i)+'" data-numb="'+String(i)+'"><a class="animatedunderline black">'+_myProjectSort[i]+'</a></li>');
 		}else{
-			tempDiv = $('#_headerSoftMenu');
-			tempDiv.append('<span id="_myProjectSort'+String(i)+'" class="_myProjectSort3" data-numb="'+String(i)+'">'+_myProjectSort[i]+'</li>');
+			//tempDiv = $('#_headerSoftMenu');
+			//tempDiv.append('<span id="_myProjectSort'+String(i)+'" data-numb="'+String(i)+'">'+_myProjectSort[i]+'</li>');
 		}
 			
 			

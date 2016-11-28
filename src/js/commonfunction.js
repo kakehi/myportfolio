@@ -29,9 +29,13 @@ function isYoutube(url){
 		str = replaceAll(str, ' ', '');
 		return str.toLowerCase();
 	}
-	function _convertStringToArray(str){
+	function _convertStringToArray(str, RemoveAllSpaces){
 		str = str.replace(/(\r\n|\n|\r)/g,"");
-		str = replaceAll(str, ' ', '');
+		// For file names, to avoid mistakes, remove all spaces unconditionally.
+		if(RemoveAllSpaces)
+			str = replaceAll(str, ' ', '');
+		else
+			str = replaceAll(str, ', ', ',');
 		return str.split(',');
 	}
 	function replaceAll(str, find, replace1) {

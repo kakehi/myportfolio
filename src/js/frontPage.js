@@ -29,10 +29,6 @@ $(document).ready(function() {
 	// set cookie
 	$.cookie('visited', 'yes', { expires: 1, path: '/' });
 
-	// --- Check Device
-	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
-		isMobile = true;
-	}
 
 	if (isMobile === true) {
 		var lastScrollTop = 0;
@@ -153,7 +149,7 @@ var _sortedProjectDiv = [];
 function createProject() {
 
 	for (var i = 0; i < _myProjects.length; i++) {
-		$('#projectContainer').append('<div class="project" id="project' + i + '" data-id="' + i + '" style="z-index:' + (10000 + i) + '"><img class="img-container"src="img/' + _myProjects[i].thumb + '"><div class="img-over closed"></div><div class="img-over-caption"><h1>' + _myProjects[i].title + '</h1><h3><span>' + _myProjects[i].subtitle + '</span></h3></div></div>');
+		$('#projectContainer').append('<div class="project" id="project' + i + '" data-id="' + i + '" style="z-index:' + (10000 + i) + '"><img class="img-container closed"src="img/' + _myProjects[i].thumb + '"><div class="img-over closed"></div><div class="img-over-caption closed"><h1>' + _myProjects[i].title + '</h1><h3><span>' + _myProjects[i].subtitle + '</span></h3></div></div>');
 		_projectDiv.push($('#projectContainer').find('#project' + i));
 	}
 
@@ -170,14 +166,12 @@ function createProject() {
 			'left': projectPos[i].left,
 			transform: 'scale(0,0)'
 		});
-		$('#projectContainer').find('.img-over-caption').css({ transform: 'scale(1.2,1.2)', opacity: 0 });
 
 		// hover action
 		if (isMobile === false) {
 			$('#projectContainer').find('#project' + i).mouseenter(function(event) {
-				$(this).find('.img-container').stop().animate({ transform: 'scale(1.3,1.3s)' }, 8000, "linear");
-				//$(this).find('.img-over').animate({opacity:0.5});
-				$(this).find('.img-over-caption').animate({ transform: 'scale(1,1)', opacity: 1 });
+				$(this).find('.img-container').removeClass('closed').addClass('opened');
+				$(this).find('.img-over-caption').removeClass('closed').addClass('opened');
 
 				// -- Check Where mouse entered from
 				var tempX = event.pageX - $(this).offset().left;
@@ -212,8 +206,9 @@ function createProject() {
 				// -- Check Where mouse entered from
 
 			}).mouseleave(function(event) {
-				$(this).find('.img-container').stop().animate({ transform: 'scale(1,1)' }, 200, "linear");
-				$(this).find('.img-over-caption').animate({ transform: 'scale(1.2,1.2)', opacity: 0 });
+				$(this).find('.img-container').removeClass('opened').addClass('closed');
+				$(this).find('.img-over-caption').removeClass('opened').addClass('closed');
+
 
 				// -- Check Where mouse exited from
 				var tempX = event.pageX - $(this).offset().left;
@@ -286,7 +281,7 @@ function animateProject(d, speed) {
 	projectscrollable = false;
 	for (var i = 0; i < _sortedProjectDiv.length; i++) {
 
-		_sortedProjectDiv[i].stop().animate({ 'width': projectSize, 'height': projectSize, 'top': projectPos[i].top + containerBasePos, 'left': projectPos[i].left }, speed * 5, function() { projectscrollable = true; });
+		_sortedProjectDiv[i].stop().animate({ 'width': projectSize, 'height': projectSize, 'top': projectPos[i].top + containerBasePos, 'left': projectPos[i].left, transform:'scale(1, 1)'}, speed * 5, function() { projectscrollable = true; });
 	}
 
 	$('#projectContainer').find('#videocontainer').stop().animate({ 'top': (projectContainerHeight) }, speed * 5);
@@ -327,15 +322,15 @@ function adjustSize() {
 			top: projectSize * k,
 			left: projectSize * j
 		}
-		if (j < xcounter - 1) {
+		if (j < xcounter - 1)
 			j++;
-		} else {
+		else {
 			j = 0;
 			k++;
 		}
 	}
 
-	projectContainerHeight = Math.ceil((_sortedProjectDiv.length - 1) / xcounter) * projectSize;
+	projectContainerHeight = Math.ceil(_sortedProjectDiv.length / xcounter) * projectSize;
 
 }
 
@@ -343,9 +338,9 @@ function adjustSize() {
 var resizetimeout = false;
 $(window).resize(function() {
 
-	if (resizetimeout != null) {
+	if (resizetimeout != null)
 		clearTimeout(resizetimeout);
-	}
+
 	resizetimeout = setTimeout(function() {
 		adjustSize();
 		animateProject(0, 100);

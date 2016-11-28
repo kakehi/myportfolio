@@ -12,40 +12,82 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 
 // animation
 @mixin transition($property, $duration, $type)
-	@if($property == "")
-		-webkit-transition: $duration $type
-		-moz-transition: $duration $type
-		-ms-transition: $duration $type
-		-o-transition: $duration $type
-		transition: $duration $type
-	@else
-		-webkit-transition: $property $duration $type
-		-moz-transition: $property $duration $type
-		-ms-transition: $property $duration $type
-		-o-transition: $property $duration $type
-		transition: $property $duration $type
+	-webkit-transition: $property $duration $type
+	-moz-transition: 	$property $duration $type
+	-ms-transition: 	$property $duration $type
+	-o-transition: 		$property $duration $type
+	transition: 		$property $duration $type
 
-// animation transform
+// transform
 @mixin transform($property)
-	-webkit-transform: $property
-	-moz-transform: $property
-	-ms-transform: $property
-	-o-transform: $property
-	transform: $property
+	-webkit-transform: 	$property
+	-moz-transform: 	$property
+	-ms-transform: 		$property
+	-o-transform: 		$property
+	transform: 			$property
+
+// transform
+@mixin transform-transit($property, $duration, $type)
+	-webkit-transform: 	$property
+	-moz-transform: 	$property
+	-ms-transform:		$property
+	-o-transform: 		$property
+	transform: 			$property
+	-webkit-transition: all $duration $type
+	-moz-transition: 	all $duration $type
+	-ms-transition: 	all $duration $type
+	-o-transition: 		all $duration $type
+	transition: 		all $duration $type
+
+// border radius
+=border-radius($radius)
+	-webkit-border-radius: $radius
+	-moz-border-radius:    $radius
+	-ms-border-radius:     $radius
+	-o-border-radius: 	   $radius
+	border-radius:         $radius
+
+// Column Count
+=column-count($count)
+	-webkit-column-count: $count
+	-moz-column-count:    $count
+	-ms-column-count:     $count
+	-o-column-count:      $count
+	column-count:         $count
+
+// Column Count
+=column-width($width)
+	-webkit-column-width: $width
+	-moz-column-width:    $width
+	-ms-column-width:     $width
+	-o-column-width:      $width
+	column-width:         $width
+
+// border
+@mixin border( $coordinates: 0 0 0 0, $colour: #000000, $style: solid )
+	$top: nth($coordinates, 1)
+	$right: nth($coordinates, 2)
+	$bottom: nth($coordinates, 3)
+	$left: nth($coordinates, 4)
+	
+	@if not(unitless($top))
+		border-top: $top $style $colour
+	@if not(unitless($right))
+		border-right: $right $style $colour
+	@if not(unitless($bottom))
+		border-bottom: $bottom $style $colour
+	@if not(unitless($left))
+		border-left: $left $style $colour
 
 
 
 html
-	font-size: 17px
 	font-family: $font-default
-
-@media (max-width: 900px)
-	html
-		font-size: 15px
-
-@media (max-width: 400px)
-	html
-		font-size: 13px
+	//-webkit-font-smoothing: antialiased
+	//-moz-font-smoothing: 	antialiased
+	//-ms-font-smoothing: 	antialiased
+	//-o-font-smoothing: 		antialiased
+	//font-smoothing: 		antialiased
 
 body
 	margin: 0
@@ -79,7 +121,8 @@ body
 	text-align: center
 
 	h1
-		font-size: 4rem
+		font-size: 3.6rem
+		font-family: $font-didot
 
 	h2
 		font-size: 2rem
@@ -141,6 +184,12 @@ section
 		&:after
 			width: 100%
 
+	&.black
+		&:after
+			background-color: #000
+		&:hover
+			color: #000
+
 
 #introPage1, /*#introPage2,*/ #introPage3, #introPage4, #introPage5
 	position: absolute
@@ -169,10 +218,6 @@ section
 	z-index: 2006
 	opacity: 0
 	display: none
-
-
-
-
 
 
 #videocontainer
@@ -336,21 +381,17 @@ footer
 		margin: 0px auto
 	.innercontainer1, .innercontainer2, .innercontainer3
 		float: left
+		padding: 0 2%
 	.innercontainer1
-		width: 66%
+		width: 60%
 		div
-			-webkit-column-count: 2 /* Chrome, Safari, Opera */
-			-moz-column-count: 2 /* Firefox */
-			column-count: 2
-			-webkit-column-count: none /* Chrome, Safari, Opera */
-			-moz-column-count: none /* Firefox */
-			column-count: none
-			-webkit-column-width: 50% /* Chrome, Safari, Opera */
-			column-width: 50%
+			@include column-count(2)
+			@include column-width(50%)
+
 	.innercontainer2
 		display: none
 	.innercontainer3
-		width: 33%
+		width: 30%
 	ul
 		-webkit-padding-start: 0px
 		li
@@ -377,13 +418,11 @@ footer
 	footer 
 		.innercontainer1, .innercontainer3
 			font-size: 1.8rem
-			width: 45%
+			width: 40%
 			margin: 0 2.5%
 
 		.innercontainer1 div
-			-webkit-column-count: 1 /* Chrome, Safari, Opera */
-			-moz-column-count: 1 /* Firefox */
-			column-count: 1
+			@include column-count(1)
 
 		a
 			font-size: 1.6rem

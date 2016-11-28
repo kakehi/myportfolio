@@ -17,8 +17,36 @@ function displaySingleProject(){
 	/* Project Subtitle */
 	$('._projectSubttle').text(String(_myProjects[i].subtitle));
 	/* Project Categories */
-	for(var j=0; j<_myProjects[i].cat.length; j++){
-		$('.projectCategory ul').append('<li>' + String(_myProjects[i].cat[j]) + '</li>');
+	var j=0;
+	while(j<_myProjects[i].cat.length){
+		var k=0;
+		while(k<_myProjectCategories.length){
+			if(_myProjectCategories[k] == _myProjects[i].cat[j]){
+				$('.projectCategory ul').append('<li class="projectCat">' + String(_myProjects[i].cat[j]) + '</li>');
+				k = _myProjectCategories.length;
+			}else{
+				k++;
+			}
+		}
+		k=0;
+		while(k<_myProjectRoles.length){
+			if(_myProjectRoles[k] == _myProjects[i].cat[j]){
+				$('.projectCategory ul').append('<li class="projectRole">' + String(_myProjects[i].cat[j]) + '</li>');
+				k = _myProjectRoles.length;
+			}else{
+				k++;
+			}
+		}
+		k=0;
+		while(k<_myProjectSofts.length){
+			if(_myProjectSofts[k] == _myProjects[i].cat[j]){
+				$('.projectCategory ul').append('<li class="projectSoft">' + String(_myProjects[i].cat[j]) + '</li>');
+				k = _myProjectSofts.length;
+			}else{
+				k++;
+			}
+		}
+		j++;
 	}
 	/* Project Meta Information */
 	// Client
@@ -28,7 +56,7 @@ function displaySingleProject(){
 	// Status
 	$('.projectStatus').text(String(_myProjects[i].status));
 	/* Project Description */
-	$('.informationDescription').text(String(_myProjects[i].desc));
+	$('.informationDescription').append(String(_myProjects[i].desc));
 
 	/*
 		Inserting Images

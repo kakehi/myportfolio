@@ -1,41 +1,36 @@
 $(document).ready(function(){
 
-	var scrollon = false;
+	//var scrollon = false;
 
  	
-	var initialPos =0;
-	var animateSetTimeOut;
-	var projNumb = 0, pastprojNumb = 0;
+	//var initialPos =0;
+	//var animateSetTimeOut;
+	//var projNumb = 0, pastprojNumb = 0;
 
-	var goalPosY1 = 0, goalPosY2 = 0, goalPosY3 = 0, goalPosY4 = 0;
+	//var goalPosY1 = 0, goalPosY2 = 0, goalPosY3 = 0, goalPosY4 = 0;
 
-	var scrollInterval = 20;
+	//var scrollInterval = 20;
 
 	// --  Measure if scroll is stuck at bottom
-	var lasctScrollTop = 0;
+	//var lasctScrollTop = 0;
 
-
-	// --- Check Device
-	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
-		isMobile = true;
-	}
 
 	_loadJSON($_GET('portfolio'), 'od6');
 
 
-	$('#filterButton').click(function(){
+	/*$('#filterButton').click(function(){
 		if(filterOpen === false){
 			openFilter();
 		}else{
 			closeFilter();
 		}
-	});
+	});*/
 
 });
 
-var projecton = false;
-var projectscrollable = false;
-var projectcandispatchUp = true;
+//var projecton = false;
+//var projectscrollable = false;
+//var projectcandispatchUp = true;
 
 var containerBasePos = 0;
 
@@ -54,7 +49,7 @@ function createProject(){
 	createFooter($('body'));	
 
 }
-function closeProject(){
+/*function closeProject(){
 
 	for(var i=0; i<_sortedProjectDiv.length; i++){
 		_sortedProjectDiv[i].delay(Math.round(Math.random()*500+500)).animate({
@@ -74,7 +69,7 @@ function openProject(d){
 		}, function(){projectscrollable = true;});
 	}
 
-}
+}*/
 
 function animateProject(d, speed){
 	

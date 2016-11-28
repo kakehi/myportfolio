@@ -13,18 +13,54 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 // animation
 @mixin transition($property, $duration, $type)
 	-webkit-transition: $property $duration $type
-	-moz-transition: $property $duration $type
-	-ms-transition: $property $duration $type
-	-o-transition: $property $duration $type
-	transition: $property $duration $type
+	-moz-transition: 	$property $duration $type
+	-ms-transition: 	$property $duration $type
+	-o-transition: 		$property $duration $type
+	transition: 		$property $duration $type
 
-// animation transform
+// transform
 @mixin transform($property)
-	-webkit-transform: $property
-	-moz-transform: $property
-	-ms-transform: $property
-	-o-transform: $property
-	transform: $property
+	-webkit-transform: 	$property
+	-moz-transform: 	$property
+	-ms-transform: 		$property
+	-o-transform: 		$property
+	transform: 			$property
+
+// transform
+@mixin transform-transit($property, $duration, $type)
+	-webkit-transform: 	$property
+	-moz-transform: 	$property
+	-ms-transform:		$property
+	-o-transform: 		$property
+	transform: 			$property
+	-webkit-transition: all $duration $type
+	-moz-transition: 	all $duration $type
+	-ms-transition: 	all $duration $type
+	-o-transition: 		all $duration $type
+	transition: 		all $duration $type
+
+// border radius
+=border-radius($radius)
+	-webkit-border-radius: $radius
+	-moz-border-radius:    $radius
+	-ms-border-radius:     $radius
+	border-radius:         $radius
+
+// border
+@mixin border( $coordinates: 0 0 0 0, $colour: #000000, $style: solid )
+	$top: nth($coordinates, 1)
+	$right: nth($coordinates, 2)
+	$bottom: nth($coordinates, 3)
+	$left: nth($coordinates, 4)
+	
+	@if not(unitless($top))
+		border-top: $top $style $colour
+	@if not(unitless($right))
+		border-right: $right $style $colour
+	@if not(unitless($bottom))
+		border-bottom: $bottom $style $colour
+	@if not(unitless($left))
+		border-left: $left $style $colour
 
 
 /* * Filter * */
@@ -46,7 +82,7 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 			top: 32px
 			background: #000;
 			@include transform(rotate(135deg))
-			@include transition('', .25s, ease-in-out)
+			@include transition(all, .25s, ease-in-out)
 		span:nth-child(2)
 			opacity: 0
 			left: -60px
@@ -54,7 +90,7 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 			top: 32px
 			background: #000;
 			@include transform(rotate(-135deg))
-			@include transition('', .25s, ease-in-out)
+			@include transition(all, .25s, ease-in-out)
 
 		.shape
 			stroke: #000
@@ -70,11 +106,10 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		height: 1px
 		width: 50%
 		background: #FFF
-		border-radius: 0px
 		opacity: 1
 		left: 25%
 		@include transform(rotate(0deg))
-		@include transition('', .25s, ease-in-out)
+		@include transition(all, .25s, ease-in-out)
 
 		&:nth-child(1)
 			top: 20px
@@ -106,7 +141,7 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 	left: 0px
 	display: inherit
 	&.filterOpened
-		height: 2000px
+		height: 3000px
 		@include transition(height, .4s, ease-out)
 	&.filterClosed
 		height: 0px;
@@ -115,7 +150,7 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 #filterR
 	left: 50%
 	&.filterOpened
-		height: 2000px
+		height: 3000px
 		@include transition(height, .4s, ease-out)
 		transition-delay: 0.2s
 	&.filterClosed
@@ -126,7 +161,6 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 	position: absolute
 	z-index: 2002
 	width: 100%
-	-webkit-font-smoothing: antialiased
 	&.filterOpened
 		top: 0px
 	&.filterClosed
@@ -149,6 +183,11 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		display: inline-block
 
 #_headerCategoryMenu
+	span
+		font-weight: bold
+		font-family: $font-railway
+		font-size: 3rem
+		margin: 1rem 3rem
 	&.filterOpened
 		opacity: 0.8
 		@include transition(opacity, .8s, ease-out)
@@ -158,6 +197,11 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		@include transition(opacity, .2s, ease-out)
 
 #_headerRoleMenu
+	span
+		font-style: italic
+		font-family: $font-didot
+		font-size: 4.2rem
+		margin: 1rem 3rem
 	&.filterOpened
 		opacity: 0.8
 		@include transition(opacity, .8s, ease-out)
@@ -167,6 +211,12 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		@include transition(opacity, .2s, ease-out)
 
 #_headerSoftMenu
+	span
+		font-style: italic
+		font-weight: bold
+		font-family: $font-railway
+		font-size: 2rem
+		margin: 1rem 3rem
 	&.filterOpened
 		opacity: 0.8
 		@include transition(opacity, .8s, ease-out)
@@ -174,23 +224,6 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 	&.filterClosed
 		opacity: 0;
 		@include transition(opacity, .2s, ease-out)
-
-._myProjectSort1
-	font-weight: bold
-	font-family: $font-railway
-	font-size: 3rem
-	margin: 1rem 3rem
-._myProjectSort2
-	font-style: italic
-	font-family: $font-didot
-	font-size: 6rem
-	margin: 1rem 3rem
-._myProjectSort3
-	font-style: italic
-	font-weight: bold
-	font-family: $font-railway
-	font-size: 2rem
-	margin: 1rem 3rem
 
 /* * Filter * */
 
@@ -288,6 +321,11 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		position: absolute
 		width: 100%
 		height: 100%
+		&.opened
+			@include transform-transit(scale(1.3,1.3), 8s, linear)
+		&.closed
+			@include transform-transit(scale(1,1), 2s, linear)
+
 	.img-over-caption
 		position: absolute
 		width: 90%
@@ -301,19 +339,28 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		-o-user-select: none
 		user-select: none
 
+		&.opened
+			opacity: 1
+			@include transform(scale(1,1))
+			@include transition(all, 0.6s, ease-in-out)
+		&.closed
+			opacity: 0
+			@include transform(scale(1.2,1.2))
+			@include transition(all, 0.4s, ease-in-out)
+
 		h1
 			padding-top: 20%
-			font-size: 64px
+			font-size: 3.2rem!important
+
 		h3
-			font-size: 18px
+			font-size: 1.2rem
 			font-weight: 100
-			line-height: 100%
-			font-family: latin_modern_roman_caps10Ob
+			line-height: 1.8rem!important
+			font-family: $font-gotham
 
 			span
 				display: inline-block
 				vertical-align: middle
-				line-height: normal
 
 	img
 		position: relative
@@ -321,6 +368,33 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 
 /* * PROJECT * */
 
+/* * Media Heights * */
+
+@media screen and (max-height: 2000px)
+	#filterL
+		&.filterOpened
+			height: 2020px
+	#filterR
+		&.filterOpened
+			height: 2020px
+@media screen and (max-height: 1600px)
+	#filterL
+		&.filterOpened
+			height: 1620px
+	#filterR
+		&.filterOpened
+			height: 1620px
+@media screen and (max-height: 1080px)
+	#filterL
+		&.filterOpened
+			height: 1100px
+	#filterR
+		&.filterOpened
+			height: 1100px
+
+/* * Media Heights * */
+
+/* * Media Width * */
 
 @media screen and (max-width: 1600px)
 	
@@ -345,7 +419,7 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 
 		span
 			display: table-row
-			font-size: 3.2rem
+			font-size: 2.4rem
 			line-height: 5.2rem
 
 	#_headerSoftMenu
@@ -358,7 +432,7 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 	/* Filter */
 
 	#_headerCategoryMenu, #_headerRoleMenu
-		margin: 2rem 0rem
+		margin: 4rem 0rem
 		span
 			font-size: 2.4rem
 			line-height: 3.6rem
@@ -375,7 +449,7 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		display: none
 	
 	#_headerCategoryMenu, #_headerRoleMenu
-		margin: 1.8rem 0rem
+		margin: 2.4rem 0rem
 		span
 			font-size: 2rem
 			line-height: 3.2rem
