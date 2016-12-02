@@ -49,8 +49,11 @@ html(lang="en" ng-app="myApp")
 				div.singleProjectInfoContainer
 					h1._projectTitle.angularFade.sec1 {{myProject.title}}
 					h2._projectSubttle.angularFade.sec2 {{myProject.subtitle}}
-					div.projectCategory
+					div.projectCategory.angularFade.sec3
 						ul
+							li.projectCat(ng-repeat="category in myCategories") {{category.name}}
+							li.projectRole(ng-repeat="role in myRoles") {{role.name}}
+							li.projectSoft(ng-repeat="software in mySoftwares") {{software.name}}
 					div.detailInformationContainer
 						div.line.sec1
 						div#informationList

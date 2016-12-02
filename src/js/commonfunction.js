@@ -129,6 +129,7 @@ function isYoutube(url){
 
 	// -------------- COMMON -----------------------
 	function _convertStringToID(str){
+		if(!str)return false; // return if some undefined was sent
 		str = str.replace(/(\r\n|\n|\r)/g,"");
 		str = replaceAll(str, ' ', '');
 		return str.toLowerCase();

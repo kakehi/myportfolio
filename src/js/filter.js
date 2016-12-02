@@ -191,11 +191,7 @@ function _CheckMySortFromURL(){
 		}
 	}
 
-    if (projectPage) {
-        if (_$currentSortType === 'proj') {
-            displaySingleProject();
-        }
-    } else {
+    if (!projectPage) {
         _movePageImmediately(1);
     }
 

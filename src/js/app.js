@@ -43,6 +43,35 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 			// -- Project Injections
 			$scope.myProject = _$singleProjectData;
 
+			// -- Filters
+			var MyCategories = [], MyRoles = [], MySoftwares = [];
+			
+			var j=0;
+			while(j<_$singleProjectData.cat.length){
+				j = CheckFilter(_$catArray, MyCategories, j);
+				j = CheckFilter(_$roleArray, MyRoles, j);
+				j = CheckFilter(_$softArray, MySoftwares, j);
+			}
+
+			function CheckFilter(Arr, TrgArr, j){
+				var k=0;
+				while(k<Arr.length){
+					if(Arr[k].nameid == _convertStringToID(_$singleProjectData.cat[j]) ){
+						TrgArr.push(Arr[k]);
+						j++;
+						return j;
+					}else{
+						k++;
+					}
+				}
+				return j;
+			}
+
+			// - Injecting Filters
+			$scope.myCategories = MyCategories;
+			$scope.myRoles = MyRoles;
+			$scope.mySoftwares = MySoftwares;
+
 
 			// -- Special Contents
 			if(_$singleProjectData.special !== "")
@@ -193,7 +222,7 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 
 /* Window Sizes*/
 var _$windowWidth, _$windowHeight, 
-_$windowTopPos, _$windowTopPosOld = 0, _$windowBottomPos;
+_$windowTopPos, _$windowTopPosOld = -1, _$windowBottomPos;
 
 
 var isFirstTime = false;
@@ -215,8 +244,8 @@ function _JustLoaded(){
 	// -- Run once to get all size values
 	_WindowResized();
 
-	// -- Run in case if project image is within view port. 
-	_ScrollFunction();
+	// -- Run in case if project image is within view port.
+	setTimeout(_ScrollFunction, 1200);
 
 	$('footer').css({'visibility':'visible'}).removeClass('closed').addClass('opened');
 
@@ -226,6 +255,8 @@ function _JustLoaded(){
 	$('#linktoback').click(function(){
 		window.history.back();
 	});
+
+	$(window).scrollTop();
 
 }
 
