@@ -132,6 +132,13 @@ header
 	margin-bottom: 120px
 	background: rgba(#FFF,255.5)
 
+	@include transition(padding-top, .2s, ease-out)
+
+	&.headerClosed
+		padding-top: 20px;
+	&.headerOpened
+		padding-top: 60px;
+
 // Caption
 .singleProjectInfoContainer
 	max-width: 900px

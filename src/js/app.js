@@ -2,7 +2,7 @@
 	Angular
 */
 
-var myApp = angular.module("myApp", ['ngAnimate'])
+var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 .controller("myProjects", ['$scope', '$http', '$sce', function($scope, $http, $sce) {
 	
 	// External Link
@@ -38,8 +38,7 @@ var myApp = angular.module("myApp", ['ngAnimate'])
 		}else{
 
 			// -- PROJECT PAGE
-			
-			_$singleProjectData = _GetProjectFromNameID (window.location.hash.substr(1));
+			_$singleProjectData = _GetProjectFromNameID (window.location.hash.substr(2));
 
 			// -- Project Injections
 			$scope.myProject = _$singleProjectData;
@@ -114,15 +113,16 @@ var myApp = angular.module("myApp", ['ngAnimate'])
 	*/ 
 	$scope.loadProjectPage = function($projectTitle) {
 
-		
-		if(_$currentPageType == "Top"){
-			// If you are currently in the front page, just update the hash tag and reload
-			window.location.hash = _convertStringToID($projectTitle);
-			window.location.reload();
-
-		}else{
+		if(_$currentPageType == "top"){
 			// If otherwise, just load new project page with hashtag
 			_linkFromFooter(_convertStringToID($projectTitle), false, false);
+
+		}else{
+			
+			// If you are currently in the project page, just update the hash tag and reload
+			window.location.hash = _convertStringToID($projectTitle);
+			window.location.reload();
+			
 			
 		}
 
@@ -143,7 +143,7 @@ var myApp = angular.module("myApp", ['ngAnimate'])
 	*/
 	$scope.linkToHome = function(){
 
-		_linkFromFooter(false, true, true);
+		_linkFromFooter(false, true, (_$currentPageType == "home"));
 
 	}
 
@@ -169,7 +169,7 @@ var myApp = angular.module("myApp", ['ngAnimate'])
 
 			/* -- Project Page -- */
 
-			_linkFromFooter($Filter.nameid, true, false);
+			_linkFromFooter($Filter.nameid, true, (_$currentPageType == "home"));
 		
 		}
 
@@ -192,13 +192,17 @@ var myApp = angular.module("myApp", ['ngAnimate'])
 /////////////////
 
 /* Window Sizes*/
-var _$windowWidth, _$windowHeight, _$windowTopPos;
-
+var _$windowWidth, _$windowHeight, _$windowTopPos, _$windowBottomPos;
+/* Scroll Animation Related */
+var _$scrollYOld = 0;
 
 /*
 	Runs after the data is loaded and after angular is ran
 */
 function _JustLoaded(){
+
+	// -- Run once to get all size values
+	WindowResized();
 
 	$('footer').css({'visibility':'visible'}).removeClass('closed').addClass('opened');
 
@@ -209,10 +213,8 @@ function _JustLoaded(){
 		window.history.back();
 	});
 
-	$('.linktoproject').click(function(){
-		_linkFromFooter(false, false, true);
-	});
 }
+
 
 
 /*
@@ -220,13 +222,29 @@ function _JustLoaded(){
 */
 function _ScrollFunction(){
 	
-	var WindowHeight = $(window).height();
-	var WindowTopPos = $(window).scrollTop();
-	var WindowBottomPos = (WindowTopPos + WindowHeight);
+	// -- Updating the current scroll pos	
+	var CurrentYPos = $(this).scrollTop();
+
+	// -- Updating Windows' Positions
+	_$windowTopPos = $(window).scrollTop();
+	_$windowBottomPos = (_$windowTopPos + _$windowHeight);
 
 
 	if(_$currentPageType == "project"){
 		
+		if(!isMobile){
+			if (CurrentYPos > _$scrollYOld){
+				// downscroll code
+				$('header nav').removeClass('headerOpened').addClass('headerClosed');
+				$('.singleProjectBody').removeClass('headerOpened').addClass('headerClosed');
+			} else {
+				  // upscroll code
+				$('header nav').removeClass('headerClosed').addClass('headerOpened');
+				$('.singleProjectBody').removeClass('headerClosed').addClass('headerOpened');
+			}
+		}
+
+
 		// Check if Project Images are in View Port
 		
 		$.each($('.projectImage'), function() {
@@ -244,13 +262,18 @@ function _ScrollFunction(){
 		var ElementBottomPos = (ElementTopPos + ElementHeight);
 
 		// Check if this is in the viewport
-		if ((ElementBottomPos >= WindowTopPos + 200) &&
-			(ElementTopPos <= WindowBottomPos - 200)){
+		if ((ElementBottomPos >= _$windowTopPos + 200) &&
+			(ElementTopPos <= _$windowBottomPos - 200)){
 			Element.addClass('inViewPort inViewPortAlready');
 		}else{
 			Element.removeClass('inViewPort');
 		}
 	}
+
+
+	// -- Updating Old Scroll
+	 _$scrollYOld = CurrentYPos;
+
 }
 
 
@@ -260,6 +283,9 @@ function _ScrollFunction(){
 var _$resizetimeout = false;
 function WindowResized(){
 
+	// -- Update Window Sizes
+	_$windowHeight = $(window).height();
+	_$windowWidth = $(window).width();
 	
 	// -- Individual Pages
 	adjustSize_perPage();
@@ -303,6 +329,7 @@ function _linkFromFooter(hash, top, home){
 	}else{
 		dest = dest + hashparam;
 	}
+
 
 	window.location.href = dest;
 }
@@ -502,20 +529,4 @@ function _CreateDataFromSpreadSheet($data){
 
 	
 }
-
-
-function createProject2() {
-
-	createFooter($('#projectContainer'));
-
-	$('footer').attr({ 'id': 'videocontainer' });
-	$('footer').css({ 'top': (projectContainerHeight + 600) });
-
-	if (isYoutube(_youtubeurl) != false) {
-		$('footer').prepend('<iframe src="http://www.youtube.com/embed/' + isYoutube(_youtubeurl) + '?autoplay=0&controls=1&showinfo=0"></iframe>');
-	}
-
-
-}
-
 

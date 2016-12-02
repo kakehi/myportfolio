@@ -1,0 +1,32 @@
+iframe(ng-src="{{trustSrc(youtubeUrl.src)}}")
+div.outercontainer
+	div.innercontainer1
+		h3 Projects
+		div
+			ul
+				li(ng-repeat="project in myProjects" id="_footerProject{{$index}}" data-numb="{{$index}}" ng-click="loadProjectPage(project.title)")
+					section
+						a.animatedunderline {{project.title}}
+	div.innercontainer2
+	div.innercontainer3
+		h3 Sitemap 
+			div
+				ul
+					li
+						section
+							a.linktotop.animatedunderline#linktotop(ng-click="linkToHome()") Top
+					li.linktoproject#linktoproject
+						section
+							a.animatedunderline(ng-click="linkToHome()") Projects
+					li.footerprojectfilter
+						ul
+							li.footerProjectFilterList(ng-repeat="category in myFiltersCat" id="_footerProjectSort{{$index}}" data-numb="{{$index}}" ng-click="sortProject($event, category)")
+								section
+									a.animatedunderline {{category.name}}
+							li.footerProjectFilterList(ng-repeat="role in myFiltersRole" id="_footerProjectSort{{$index}}" data-numb="{{$index}}" ng-click="sortProject($event, role)")
+								section
+									a.animatedunderline {{role.name}}
+					li
+						section
+							a.animatedunderline(href="mailto:takuma.kakehi@gmail.com") Contact
+	div.clear

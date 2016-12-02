@@ -10,6 +10,7 @@ html(lang="en" ng-app="myApp")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.min.js")
 		//- jQuery
 		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
 		//- Variables per Page
@@ -26,7 +27,6 @@ html(lang="en" ng-app="myApp")
 		script(src="js/contact.min.js")
 		script(src="js/filter.min.js")
 		script(src="js/commonfunction.min.js")
-		script(src="js/projectPage.min.js")
 		body(ng-controller="myProjects")
 			header
 				nav.headerClosed
@@ -37,7 +37,7 @@ html(lang="en" ng-app="myApp")
 									img(width="16" style="margin-top:12px;" src="img/backbutton.png")
 							li.linktoproject#_footerProject
 								section
-									a.animatedunderline Projects
+									a.animatedunderline(ng-click="linkToHome()") Projects
 							li
 								section
 									a.animatedunderline(href="mailto:takuma.kakehi@gmail.com") Contact
@@ -55,15 +55,15 @@ html(lang="en" ng-app="myApp")
 					div.detailInformationContainer
 						div#informationList
 							div.informationList
-								div.informationListTitle Client:
+								div.informationListTitle Client / Workplace:
 								div.projectClient.angularFade.sec3 {{myProject.client}}
 							div.informationList
-								div.informationListTitle Year:
+								div.informationListTitle Year :
 								div.projectYear.angularFade.sec3 {{myProject.year}}
 							div.informationList
-								div.informationListTitle Project Status:
+								div.informationListTitle Project Status :
 								div.projectStatus.angularFade.sec3 {{myProject.status}}
-						div.informationDescription.angularFade.sec4(ng-bind-html-unsafe="myProject.desc")  {{myProject.desc}}
+						div.informationDescription.angularFade.sec4(ng-bind-html="myProject.desc")
 						div(style="clear: both;")
 
 				//- Images
@@ -74,40 +74,9 @@ html(lang="en" ng-app="myApp")
 					div._specialContent
 			
 			//- FOOTER
+			
+			footer.closed#videocontainer(ng-include="'footer.html'" style="visibility: hidden;")
 
-			footer.closed#videocontainer(style="visibility: hidden;")
-				iframe(ng-src="{{trustSrc(youtubeUrl.src)}}")
-				div.outercontainer
-					div.innercontainer1
-						h3 Projects
-						div
-							ul
-								li(ng-repeat="project in myProjects" id="_footerProject{{$index}}" data-numb="{{$index}}" ng-click="loadProjectPage(project.title)")
-									section
-										a.animatedunderline {{project.title}}
-					div.innercontainer2
-					div.innercontainer3
-						h3 Sitemap 
-							div
-								ul
-									li
-										section
-											a.linktotop.animatedunderline#linktotop(ng-click="linkToHome()") Top
-									li.linktoproject#linktoproject
-										section
-											a.animatedunderline Projects
-									li.footerprojectfilter
-										ul
-											li.footerProjectFilterList(ng-repeat="category in myFiltersCat" id="_footerProjectSort{{$index}}" data-numb="{{$index}}" ng-click="sortProject($event, category)")
-												section
-													a.animatedunderline {{category.name}}
-											li.footerProjectFilterList(ng-repeat="role in myFiltersRole" id="_footerProjectSort{{$index}}" data-numb="{{$index}}" ng-click="sortProject($event, role)")
-												section
-													a.animatedunderline {{role.name}}
-									li
-										section
-											a.animatedunderline(href="mailto:takuma.kakehi@gmail.com") Contact
-					div.clear
 		//-- Per Pages
-		script(src="js/singleproject.min.js")
+		script(src="js/projectPage.min.js")
 		script(src="js/app.min.js")

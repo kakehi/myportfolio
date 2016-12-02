@@ -318,6 +318,7 @@ function openProject(d) {
 			'transition-delay':   rand + 'S'
 
 		});
+		
 		/*.stop().animate({
 			'top': projectPos[i].top + containerBasePos,
 			'left': projectPos[i].left
