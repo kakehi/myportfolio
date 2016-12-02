@@ -1,16 +1,22 @@
 doctype html
-html(lang="en")
+html(lang="en" ng-app="myApp")
 	head
 		link(rel="stylesheet" type="text/css" href="css/style.min.css")
 		link(rel="stylesheet" type="text/css" href="css/single.min.css")
 		link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css')
 		meta(charset="UTF-8")
 		meta(name="robots" content="noindex")
+		//- Angular
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js")
 		//- jQuery
 		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
 		//- Variables per Page
 		script(type='text/javascript').
 			var projectPage = true;
+			// -- Page Categorization
+			var _$currentPageType = "project";
 		//- Common Variables for All Pages
 		script(src="js/common.min.js")
 		//- Library
@@ -19,11 +25,9 @@ html(lang="en")
 		script(src="js/jquery.cookie.js")
 		script(src="js/contact.min.js")
 		script(src="js/filter.min.js")
-		script(src="js/footer.min.js")
 		script(src="js/commonfunction.min.js")
-		script(src="js/loadProject.min.js")
 		script(src="js/projectPage.min.js")
-		body
+		body(ng-controller="myProjects")
 			header
 				nav.headerClosed
 					div
@@ -40,25 +44,70 @@ html(lang="en")
 							li.linkImage
 								section
 									a.animatedunderline#linkImage
+			//- Project
+
 			div.singleProjectBody
 				div.singleProjectInfoContainer
-					h1._projectTitle
-					h2._projectSubttle
+					h1._projectTitle.angularFade.sec1 {{myProject.title}}
+					h2._projectSubttle.angularFade.sec2 {{myProject.subtitle}}
 					div.projectCategory
 						ul
 					div.detailInformationContainer
 						div#informationList
 							div.informationList
 								div.informationListTitle Client:
-								div.projectClient
+								div.projectClient.angularFade.sec3 {{myProject.client}}
 							div.informationList
 								div.informationListTitle Year:
-								div.projectYear
+								div.projectYear.angularFade.sec3 {{myProject.year}}
 							div.informationList
 								div.informationListTitle Project Status:
-								div.projectStatus
-						div.informationDescription
+								div.projectStatus.angularFade.sec3 {{myProject.status}}
+						div.informationDescription.angularFade.sec4(ng-bind-html-unsafe="myProject.desc")  {{myProject.desc}}
 						div(style="clear: both;")
+
+				//- Images
+
 				div.singleProjectImageContainer.sizeDefault
+					div.projectImage(ng-repeat="image in myProject.img" id="projectImage{{$index}}" )
+						img(src="img/{{image}}")
+					div._specialContent
+			
+			//- FOOTER
+
+			footer.closed#videocontainer(style="visibility: hidden;")
+				iframe(ng-src="{{trustSrc(youtubeUrl.src)}}")
+				div.outercontainer
+					div.innercontainer1
+						h3 Projects
+						div
+							ul
+								li(ng-repeat="project in myProjects" id="_footerProject{{$index}}" data-numb="{{$index}}" ng-click="loadProjectPage(project.title)")
+									section
+										a.animatedunderline {{project.title}}
+					div.innercontainer2
+					div.innercontainer3
+						h3 Sitemap 
+							div
+								ul
+									li
+										section
+											a.linktotop.animatedunderline#linktotop(ng-click="linkToHome()") Top
+									li.linktoproject#linktoproject
+										section
+											a.animatedunderline Projects
+									li.footerprojectfilter
+										ul
+											li.footerProjectFilterList(ng-repeat="category in myFiltersCat" id="_footerProjectSort{{$index}}" data-numb="{{$index}}" ng-click="sortProject($event, category)")
+												section
+													a.animatedunderline {{category.name}}
+											li.footerProjectFilterList(ng-repeat="role in myFiltersRole" id="_footerProjectSort{{$index}}" data-numb="{{$index}}" ng-click="sortProject($event, role)")
+												section
+													a.animatedunderline {{role.name}}
+									li
+										section
+											a.animatedunderline(href="mailto:takuma.kakehi@gmail.com") Contact
+					div.clear
 		//-- Per Pages
 		script(src="js/singleproject.min.js")
+		script(src="js/app.min.js")

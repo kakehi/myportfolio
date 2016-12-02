@@ -1,118 +1,106 @@
 
-var _currentSort = null;
-var _currentSortType = null; // 'cat' or 'proj'
+/*
+// -- Array of filter elements
+	name : name of the filter
+	id : id in number from entire filters
+	nameid : name that is optimized for the filter;
+*/
+// -- Array for All Filter Elements
+var _$filterObjects;
+// -- Array for Actie Filter Elements
+var _$activeFilterObjects = [];
+// -- Array for Category, Role and Software
+var _$catArray, _$roleArray, _$softArray;
 
-var _sotrtedProject = [];
 
-function _createSortButton(){
+// -- Current Sort Type could be 'cat', 'role', 'soft' or 'proj'
+var _$currentSortType = null;
 
-	for(var i=0; i<_myProjectSort.length; i++){
-		var tempDiv;
-		if(i < _myProjectCategories.length){ 
-			tempDiv = $('#_headerCategoryMenu');
-			tempDiv.append('<span id="_myProjectSort'+String(i)+'" data-numb="'+String(i)+'"><a class="animatedunderline black">'+_myProjectSort[i]+'</a></li>');
-		}else if(i < (_myProjectCategories.length+_myProjectRoles.length)){
-			tempDiv = $('#_headerRoleMenu');			
-			tempDiv.append('<span id="_myProjectSort'+String(i)+'" data-numb="'+String(i)+'"><a class="animatedunderline black">'+_myProjectSort[i]+'</a></li>');
-		}else{
-			//tempDiv = $('#_headerSoftMenu');
-			//tempDiv.append('<span id="_myProjectSort'+String(i)+'" data-numb="'+String(i)+'">'+_myProjectSort[i]+'</li>');
-		}
-			
-			
-		$('#_myProjectSort'+ String(i)).click(function(evt){
-			_currentSortType = 'cat';
-			evt.preventDefault();
-			location.hash = _myProjectSort[parseInt($(this).attr('data-numb'))];
-			_sortProject(parseInt($(this).attr('data-numb')));
-		});
-	}
+
+
+// -- Receive datas from App controller's HTTP request
+function _CreateFilterDB(CatDB, RoleDB, SoftDB){
+
+
+	_$catArray = CreateObjectArray(_convertStringToArray(CatDB.gsx$content.$t, false),"cat", 0);
+    _$roleArray = CreateObjectArray(_convertStringToArray(RoleDB.gsx$content.$t, false), "role", _$catArray.length);
+    _$softArray = CreateObjectArray(_convertStringToArray(SoftDB.gsx$content.$t, false), "soft", _$roleArray.length);
+
+    // -- Concatinating arrays
+    _$filterObjects = _$catArray.concat(_$roleArray).concat(_$softArray)
+
+
+    // -- Simply Creating Arrays
+    function CreateObjectArray(Arr, Type, CountOfLastArray){
+
+    	var _Array = [];
+    	// -- Creating the Filter Objects
+
+    	 for(var i=0; i<Arr.length; i++){
+
+	    	var Obj = {
+	    		type: Type,
+	    		name: Arr[i],
+	    		id: (i + CountOfLastArray),
+	    		nameid:_convertStringToID(Arr[i])
+	    	}
+
+	    	_Array.push(Obj);
+
+	    }
+
+	    return _Array;
+    }
+
 }
 
 
-/* --- Filter Open and Close --- */
-var filterOpen = false;
+// -- Sort Project By Filter
 
-function openFilter(){
-	filterOpen = true;
+function _SortProjectByFilter(Filter){
 
-	// turn on the filter tag
-	//$('#projectFilter').css({'width':'100%', 'height':'100%'});
-	$('.filterOverlay').removeClass('filterClosed').addClass('filterOpened');
-	$('.filterTexts, #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu').removeClass('filterClosed').addClass('filterOpened');
-
-}
-function closeFilter(){
-	filterOpen = false;
-	
-	// turn on the filter tag
-	if(_currentSort){
-		$('#filterButton').html('Filter : ' + _myProjectSort[_currentSort]);
-	}else{	
-		// turn off the filter tag
-		$('#filterButton').html('Filter');
-	}
-	
-	var tempWidth =  $('#filterButton').width() + 200;
-	//$('#projectFilter').css({'width':tempWidth, 'height':'200px'});
-	$('.filterOverlay').removeClass('filterOpened').addClass('filterClosed');
-	$('.filterTexts, #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu').removeClass('filterOpened').addClass('filterClosed');
-}
-
-
-
-
-
-function _sortProject(id){
-
-	_sotrtedProject = [];
-	_sortedProjectDiv = [];
-
-	
+	_$sortedProjects = [];
 
 	// id = category id for category // id = project id for project
-	if(_currentSort === id || id === false){
+	if(_currentSort === Filter.nameid || Filter == null){
 		_currentSort = null;
-		_currentSortType = null;
+		_$currentSortType = null;
 			
-		_sortedProjectDiv = _projectDiv;
+		_$sortedProjects = _$projects;
 
-		for(var j=0; j<_myProjects.length; j++){
+		for(var j=0; j<_$projects.length; j++){
 			$('#project'+j).css({'display':'inherit'});
 		}
 		
 		location.hash = "";
 
+		/*
+			Adjust Button 1
+		*/
+		// -- Activate All Buttons
+		$('.sortButton').removeClass('unselected').addClass('selected');
+		
+
 	}else{
-		_currentSort = parseInt(id);
-	
-		for(var j=0; j<_myProjects.length; j++){
+		location.hash = _currentSort = Filter.nameid;
+		_$currentSortType = Filter.type;
+
+		for(var j=0; j<_$projects.length; j++){
 				
 			var amICategorized = false;
 				
-			// Mark: if category tab was clicked search through each projects' categories. if prject tab was clicked understand which project you are in.
-			if(_currentSortType == 'cat'){
+			// Mark: if category tab was clicked search through each projects' categories. if project tab was clicked understand which project you are in.
+			if(_$currentSortType == 'cat' || _$currentSortType == 'role' ){
 				var k = 0;
-				while(k<_myProjects[j].cat.length){
-					if(_myProjectSort[_currentSort] == _myProjects[j].cat[k]){
+				while(k<_$projects[j].cat.length){
+					if(Filter.nameid == _convertStringToID(_$projects[j].cat[k])){
 						amICategorized = true;
-						_sotrtedProject.push(_myProjects[j]);
-						_sortedProjectDiv.push(_projectDiv[j]);
-						k = _myProjects[j].cat.length;
+						_$sortedProjects.push(_$projects[j]);
+						k = _$projects[j].cat.length;
 					}else{
 						k++;
 					}
 				}
-				/*for(var k=0; k<_myProjects[j].cat.length; k++){
-					if(amICategorized == false){
-						if(_myProjectSort[_currentSort] == _myProjects[j].cat[k]){
-							amICategorized = true;
-							_sotrtedProject.push(_myProjects[j]);
-						}
-					}
-				}*/
-			}else if(j+1000 == id){
-				amICategorized = true;
 			}
 
 			// -- animate to thumbnails
@@ -122,28 +110,132 @@ function _sortProject(id){
 				$('#project'+j).css({'display':'inherit'});
 			}
 		}
+
+
+		/*
+			Adjust Button 2
+		*/
+		// -- Deactivate All Buttons
+		$('.sortButton').removeClass('selected').addClass('unselected');
+		// -- Activate Selected Button
+		$('#_myProjectSort'+ Filter.nameid).removeClass('unselected').addClass('selected');
+
+		/* TODO Scroll Top Especially for Footer. Otherwise, reload the page */
+		// -- Scroll of Window to Top, Wait for all thumbnails to fit in page
 	
 	}
-	// -- turn off other buttons
-	for(var j=0; j<_myProjectSort.length; j++){
-		if(_currentSort != j && _currentSort != null){
-			$('#_myProjectSort'+ String(j)).stop().animate({'opacity':'.25'});
-		}else{
-			$('#_myProjectSort'+ String(j)).stop().animate({'opacity':'1'});
+	
+
+	/*
+		Toggle Opened / Closed Class for All Projects
+	*/
+	for(var i=0; i<_$projects.length; i++) {
+
+		var j=0; 
+		while(j<_$sortedProjects.length){
+
+			if(_$projects[i] == _$sortedProjects[j]){
+				$('#project' + _$projects[i].id).css({
+					'-webkit-transform': 'scale(1,1)',
+					'-moz-transform': 'scale(1,1)',
+					'-ms-transform': 'scale(1,1)',
+					'-o-transform': 'scale(1,1)',
+					'transform': 'scale(1,1)'
+				});
+				//$('#project' + _$projects[i].id).removeClass('closed').addClass('opened');
+				j = _$sortedProjects.length;
+			}
+			if(j == _$sortedProjects.length - 1){
+				$('#project' + _$projects[i].id).css({
+					'-webkit-transform': 'scale(0,0)',
+					'-moz-transform': 'scale(0,0)',
+					'-ms-transform': 'scale(0,0)',
+					'-o-transform': 'scale(0,0)',
+					'transform': 'scale(0,0)'
+				});
+				//$('#project' + _$projects[i].id).removeClass('opened').addClass('closed');
+			}
+			j++;
 		}
 	}
 
 	upDateThumbnails();
 	
-	/*if(_currentSortType == 'proj'){
-		projectWasClicked((id-1000));
-	}*/
-	
 }
-
 
 
 function upDateThumbnails(){
-	adjustSize();
-	animateProject(0, 100);
+	
+	adjustSize_perPage();
+
+	setTimeout(animateProject(0, 100), 200);
+
 }
+
+
+
+/*
+// -- Check My current URL to sort
+*/
+
+function _CheckMySortFromURL(){
+
+	// -- Check from Filter Array
+	var i=0;
+	while(i<_$filterObjects.length){
+		if(window.location.hash.replace("#", "")===_$filterObjects[i].nameid){
+			_SortProjectByFilter( _$filterObjects[i] );
+			i = _$filterObjects.length;
+		} else {
+			i++;
+		}
+	}
+
+    if (projectPage) {
+        if (_$currentSortType === 'proj') {
+            displaySingleProject();
+        }
+    } else {
+        _movePageImmediately(1);
+    }
+
+    clearInterval(refreshIntervalId);
+}
+
+
+
+/*
+// -- Filter Control
+*/
+
+var filterOpen = false;
+
+// -- Open Filter Overlay
+function openFilter(){
+	filterOpen = true;
+
+	// turn on the filter tag
+	$('.filterOverlay').removeClass('filterClosed').addClass('filterOpened');
+	$('.filterTexts, #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu').removeClass('filterClosedDisappear filterClosed').addClass('filterOpenedAppear filterOpened');
+
+}
+
+// -- Close Filter Overlay
+function closeFilter(){
+	filterOpen = false;
+
+	$('.filterOverlay').removeClass('filterOpened').addClass('filterClosed');
+	$('.filterTexts, #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu').removeClass('filterOpenedAppear filterOpened').addClass('filterClosed filterClosedDisappear');
+}
+
+///////////////////////////////////////
+
+
+
+
+var _currentSort = null;
+
+var _sotrtedProject = [];
+
+
+

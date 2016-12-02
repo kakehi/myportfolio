@@ -119,6 +119,8 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 			top: 40px
 		&:nth-child(4)
 			top: 30px
+	&rect
+		cursor: pointer
 
 .svg-wrapper, .shape
 	stroke-dasharray: 140 540
@@ -165,6 +167,13 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		top: 0px
 	&.filterClosed
 		top: -1200px
+
+.filterOpenedAppear
+	visibility: visible
+.filterClosedDisappear
+	visibility: hidden
+	-webkit-transition: visibility .2s
+    transition: visibility .2s
 
 #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu
 	color: rgba(0,0,0,1)
@@ -225,6 +234,16 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		opacity: 0;
 		@include transition(opacity, .2s, ease-out)
 
+
+.sortButton
+	opacity: 1;
+	&.selected
+		opacity: 1;
+		@include transition(opacity, .4s, ease-out)
+	&.unselected
+		opacity: 0.25;
+		@include transition(opacity, .4s, ease-out)
+
 /* * Filter * */
 
 
@@ -247,6 +266,14 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 	-webkit-transform: translate3d(0, 0, 0)
 	-moz-transform: translate3d(0, 0, 0)
 	cursor: pointer
+
+
+	&.opened
+		@include transform(scale(1,1))
+		@include transition(all, 0.4s, ease-out)
+	&.closed
+		@include transform(scale(0,0))
+		@include transition(all, 0.4s, ease-out)
 
 	// Black Overlay
 	.img-over

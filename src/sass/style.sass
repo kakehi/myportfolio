@@ -13,38 +13,46 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 // animation
 @mixin transition($property, $duration, $type)
 	-webkit-transition: $property $duration $type
-	-moz-transition: 	$property $duration $type
-	-ms-transition: 	$property $duration $type
-	-o-transition: 		$property $duration $type
-	transition: 		$property $duration $type
+	-moz-transition:    $property $duration $type
+	-ms-transition:     $property $duration $type
+	-o-transition:      $property $duration $type
+	transition:         $property $duration $type
+
+// transition delay
+@mixin transition-delay($duration)
+	-webkit-transition-delay: $duration
+	-moz-transition-delay:    $duration
+	-ms-transition-delay:     $duration
+	-o-transition-delay:      $duration
+	transition-delay:         $duration
 
 // transform
 @mixin transform($property)
-	-webkit-transform: 	$property
-	-moz-transform: 	$property
-	-ms-transform: 		$property
-	-o-transform: 		$property
-	transform: 			$property
+	-webkit-transform:  $property
+	-moz-transform:     $property
+	-ms-transform:      $property
+	-o-transform:       $property
+	transform:          $property
 
 // transform
 @mixin transform-transit($property, $duration, $type)
-	-webkit-transform: 	$property
-	-moz-transform: 	$property
-	-ms-transform:		$property
-	-o-transform: 		$property
-	transform: 			$property
+	-webkit-transform:  $property
+	-moz-transform:     $property
+	-ms-transform:      $property
+	-o-transform:       $property
+	transform:          $property
 	-webkit-transition: all $duration $type
-	-moz-transition: 	all $duration $type
-	-ms-transition: 	all $duration $type
-	-o-transition: 		all $duration $type
-	transition: 		all $duration $type
+	-moz-transition:    all $duration $type
+	-ms-transition:     all $duration $type
+	-o-transition:      all $duration $type
+	transition:         all $duration $type
 
 // border radius
 =border-radius($radius)
 	-webkit-border-radius: $radius
 	-moz-border-radius:    $radius
 	-ms-border-radius:     $radius
-	-o-border-radius: 	   $radius
+	-o-border-radius:      $radius
 	border-radius:         $radius
 
 // Column Count
@@ -80,14 +88,16 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		border-left: $left $style $colour
 
 
+///////////////////// DEFAULT ///////////////////////
+
 
 html
 	font-family: $font-default
 	//-webkit-font-smoothing: antialiased
-	//-moz-font-smoothing: 	antialiased
-	//-ms-font-smoothing: 	antialiased
-	//-o-font-smoothing: 		antialiased
-	//font-smoothing: 		antialiased
+	//-moz-font-smoothing:  antialiased
+	//-ms-font-smoothing:   antialiased
+	//-o-font-smoothing:        antialiased
+	//font-smoothing:       antialiased
 
 body
 	margin: 0
@@ -189,6 +199,37 @@ section
 			background-color: #000
 		&:hover
 			color: #000
+
+
+// --- Angluar Components
+
+// Fades in as angular is injected
+.angularFade
+	opacity: 0
+	@include transform(translateY(50px))
+
+	&.ng-binding
+		opacity: 1
+		@include transform(translateY(0px))
+		@include transition(all, 0.5s, ease-out)
+
+		&.sec1
+			@include transition-delay(0.2s)
+		&.sec2
+			@include transition-delay(0.4s)
+		&.sec3
+			@include transition-delay(0.6s)
+		&.sec4
+			@include transition-delay(0.8s)
+		&.sec5
+			@include transition-delay(1.0s)
+
+
+///////////////////// DEFAULT ///////////////////////
+
+
+
+
 
 
 #introPage1, /*#introPage2,*/ #introPage3, #introPage4, #introPage5
@@ -375,6 +416,13 @@ footer
 	font-family: $font-roboto
 	font-weight: thin
 
+	&.closed
+		opacity: 0
+	&.opened
+		opacity: 1
+		@include transition(opacity, 1.0s, ease-out)
+		@include transition-delay(0.5s)
+	
 	.outercontainer
 		width: 100%
 		max-width: 1280px
@@ -401,6 +449,7 @@ footer
 
 	.footerprojectfilter ul
 		padding-left: 20px
+
 
 /* * FOOTER * */
 

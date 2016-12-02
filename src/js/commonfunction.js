@@ -1,5 +1,109 @@
 
 
+/*
+	Get Current Project From project nameid
+*/
+function _GetProjectFromNameID (Nameid){
+	
+	// -- If there is no match, returm false
+	var Project = false;
+
+	var i=0;
+	while(i<_$projects.length){
+		if(Nameid === _$projects[i].id){
+			Project = _$projects[i];
+			i = _$projects.length;
+		}else{
+			i++;
+		}
+	}
+	return Project;
+}
+
+/*
+	Return Filter Object By Passing NameID
+*/
+function _ReturnFilterObject(Nameid){
+	
+	// -- If there is no match, returm false
+	var Obj = false;
+
+	var i=0;
+	while(i<_$filterObjects.length){
+		if(Nameid === _$filterObjects[i].nameid){
+			Obj = _$filterObjects[i];
+			i = _$filterObjects.length;
+		}else{
+			i++;
+		}
+	}
+	return Obj;
+}
+
+
+/*
+	Check if element has a class
+*/
+function _HasClass(element, cls) {
+    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+}
+
+//////////////////////////////
+
+//////////////////////////////
+
+//////////////////////////////
+
+
+
+function $_GET(param) {
+
+    var query_string = {};
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+
+        // If first entry with this name
+        if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = decodeURIComponent(pair[1]);
+            // If second entry with this name
+        } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+            query_string[pair[0]] = arr;
+            // If third or later entry with this name
+        } else {
+            query_string[pair[0]].push(decodeURIComponent(pair[1]));
+        }
+    }
+    if (!query_string[param]) {
+        return false;
+    } else {
+        return query_string[param];
+    }
+}
+
+
+var refreshIntervalId;
+
+
+
+// -- for mobile and if it was sheen before
+function _movePageImmediately(n) {
+    projNumb += n;
+    initialPos = -0.5;
+    scrollon = true;
+    movePage();
+    /*for(var i=0; i<_projectDiv.length; i++){
+    	_projectDiv[i].css({transform:'scale(1,1)'});
+    }*/
+}
+
+
+
+
+
 // check youtube is avaialble and return ID if exists. Otherwise, return false
 function isYoutube(url){
 

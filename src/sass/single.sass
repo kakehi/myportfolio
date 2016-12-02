@@ -18,6 +18,14 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 	-o-transition: 		$property $duration $type
 	transition: 		$property $duration $type
 
+// transition delay
+@mixin transition-delay($duration)
+	-webkit-transition-delay: $duration
+	-moz-transition-delay:    $duration
+	-ms-transition-delay:     $duration
+	-o-transition-delay:      $duration
+	transition-delay:   
+
 // transform
 @mixin transform($property)
 	-webkit-transform: 	$property
@@ -199,9 +207,22 @@ header
 		max-width: 1920px
 		@include transition(max-width, .5s, ease-out)
 
-._imageViewers img
-	width: 100%
-	margin: 20px auto
+.projectImage
+	opacity: 0
+
+	// Default state after it became visible once.
+	&.inViewPortAlready
+		opacity: 1
+		&.inViewPort
+			opacity: 1
+			@include transition(opacity, .5s, ease-out)
+			@include transition-delay(0.1s)
+
+
+.projectImage img
+		width: 100%
+		margin: 20px auto
+	
 
 /* * PROJECT * */
 

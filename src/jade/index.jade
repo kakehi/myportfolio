@@ -1,5 +1,5 @@
 doctype html
-html(lang="en")
+html(lang="en" ng-app="myApp")
 	head
 		link(rel="stylesheet" type="text/css" href="css/style.min.css")
 		link(rel="stylesheet" type="text/css" href="css/frontPage.min.css")
@@ -12,11 +12,17 @@ html(lang="en")
 				font-family: Helvetica, sans-serif;
 				font-weight: lighter;
 			}
+		//- Angular
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js")
 		//- jQuery
 		script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
 		//- Variables per Page
 		script(type='text/javascript').
 			var projectPage = false;
+			// -- Page Categorization
+			var _$currentPageType = "top";
 		//- Common Variables for All Pages
 		script(src="js/common.min.js")
 		//- Library
@@ -25,19 +31,21 @@ html(lang="en")
 		script(src="js/jquery.cookie.js")
 		script(src="js/contact.min.js")
 		script(src="js/filter.min.js")
-		script(src="js/footer.min.js")
 		script(src="js/commonfunction.min.js")
-		script(src="js/loadProject.min.js")
 		//-- Per Pages
 		script(src="js/frontPage.min.js")
-		body
+		body(ng-controller="myProjects")
 			div#projectFilter
 				div.filterOverlay#filterL.filterClosed
 				div.filterOverlay#filterR.filterClosed
-				div.filterTexts
-					div#_headerCategoryMenu.filterClosed
-					div#_headerRoleMenu.filterClosed
-					div#_headerSoftMenu.filterClosed
+				div.filterTexts.filterClosed.filterClosedDisappear
+					div#_headerCategoryMenu.filterClosed.filterClosedDisappear
+						span.sortButton.selected(ng-repeat="category in myFiltersCat" id="_myProjectSort{{category.nameid}}" data-numb="{{$index}}" ng-click="sortProject($event, category)")
+							a.animatedunderline.black {{category.name}}
+					div#_headerRoleMenu.filterClosed.filterClosedDisappear
+						span.sortButton.selected(ng-repeat="role in myFiltersRole" id="_myProjectSort{{role.nameid}}" data-numb="{{$index}}" ng-click="sortProject($event, role)")
+							a.animatedunderline.black {{role.name}}
+					div#_headerSoftMenu.filterClosed.filterClosedDisappear
 				//-div#filterButton Filter
 			div.svg-wrapper
 				span
@@ -46,6 +54,53 @@ html(lang="en")
 				svg(height="60" width="60" xmlns="http://www.w3.org/2000/svg")
 					rect.shape(height="60" width="60")
 			div#projectContainer
+				
+				//- PROJECTS
+
+				//-div#projectContainer(ng-controller="myProjects")
+				div.project(ng-repeat="n in myProjects" id="project{{n.id}}" data-nameid = "{{n.id}}" style="'opacity':'0',  '-webkit-transform': 'scale(0,0)', '-moz-transform': 'scale(0,0)', '-ms-transform': 'scale(0,0)','-o-transform':'scale(0,0)','transform': 'scale(0,0)'")
+					img.img-container.closed(ng-src="img/{{n.thumb}}")
+					div.img-over.closed
+					div.img-over-caption.closed
+						h1 {{n.title}}
+						h3
+							span {{n.subtitle}}
+
+				//- FOOTER
+
+				footer.closed#videocontainer(style="visibility: hidden;")
+					iframe(ng-src="{{trustSrc(youtubeUrl.src)}}")
+					div.outercontainer
+						div.innercontainer1
+							h3 Projects
+							div
+								ul
+									li(ng-repeat="project in myProjects" id="_footerProject{{$index}}" data-numb="{{$index}}" ng-click="loadProjectPage(project.title)")
+										section
+											a.animatedunderline {{project.title}}
+						div.innercontainer2
+						div.innercontainer3
+							h3 Sitemap 
+								div
+									ul
+										li
+											section
+												a.linktotop.animatedunderline#linktotop(ng-click="linkToHome()") Top
+										li.linktoproject#linktoproject
+											section
+												a.animatedunderline Projects
+										li.footerprojectfilter
+											ul
+												li.footerProjectFilterList(ng-repeat="category in myFiltersCat" id="_footerProjectSort{{$index}}" data-numb="{{$index}}" ng-click="sortProject($event, category)")
+													section
+														a.animatedunderline {{category.name}}
+												li.footerProjectFilterList(ng-repeat="role in myFiltersRole" id="_footerProjectSort{{$index}}" data-numb="{{$index}}" ng-click="sortProject($event, role)")
+													section
+														a.animatedunderline {{role.name}}
+										li
+											section
+												a.animatedunderline(href="mailto:takuma.kakehi@gmail.com") Contact
+						div.clear
 			form#contactForm(action="mail.php" method="POST")
 				div#introPage5
 					a.close(href="#")
@@ -60,7 +115,6 @@ html(lang="en")
 							li
 								input(type="text" placeholder="your email" name="email")
 						button.commentButton#emailSend(type="submit") Send Message
-						
-
+		script(src="js/app.min.js")
 
 						
