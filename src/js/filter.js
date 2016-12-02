@@ -191,38 +191,16 @@ function _CheckMySortFromURL(){
 		}
 	}
 
-    if (!projectPage) {
+	// -- If the page is at top level, start loading the images
+    if (_$currentPageType == "top") {
         _movePageImmediately(1);
     }
 
-    clearInterval(refreshIntervalId);
 }
 
 
 
-/*
-// -- Filter Control
-*/
 
-var filterOpen = false;
-
-// -- Open Filter Overlay
-function openFilter(){
-	filterOpen = true;
-
-	// turn on the filter tag
-	$('.filterOverlay').removeClass('filterClosed').addClass('filterOpened');
-	$('.filterTexts, #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu').removeClass('filterClosedDisappear filterClosed').addClass('filterOpenedAppear filterOpened');
-
-}
-
-// -- Close Filter Overlay
-function closeFilter(){
-	filterOpen = false;
-
-	$('.filterOverlay').removeClass('filterOpened').addClass('filterClosed');
-	$('.filterTexts, #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu').removeClass('filterOpenedAppear filterOpened').addClass('filterClosed filterClosedDisappear');
-}
 
 ///////////////////////////////////////
 
@@ -231,7 +209,6 @@ function closeFilter(){
 
 var _currentSort = null;
 
-var _sotrtedProject = [];
 
 
 

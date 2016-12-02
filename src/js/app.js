@@ -48,9 +48,11 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 			
 			var j=0;
 			while(j<_$singleProjectData.cat.length){
+				var a = j;
 				j = CheckFilter(_$catArray, MyCategories, j);
 				j = CheckFilter(_$roleArray, MyRoles, j);
 				j = CheckFilter(_$softArray, MySoftwares, j);
+				if(a==j)j++; // SAFETY -- this is to check if none of categories match, ignore the category
 			}
 
 			function CheckFilter(Arr, TrgArr, j){
@@ -172,7 +174,7 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 	*/
 	$scope.linkToHome = function(){
 
-		_linkFromFooter(false, true, (_$currentPageType == "home"));
+		_linkFromFooter(false, true, (_$currentPageType == "top"));
 
 	}
 
@@ -198,7 +200,7 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 
 			/* -- Project Page -- */
 
-			_linkFromFooter($Filter.nameid, true, (_$currentPageType == "home"));
+			_linkFromFooter($Filter.nameid, true, (_$currentPageType != "top"));
 		
 		}
 
@@ -403,6 +405,7 @@ var _$clientlist;
 
 function _CreateDataFromSpreadSheet($data){
 
+	console.log("KAODSDKOSADKOSAKDOS");
 	// Extract YRL Parameter
 	var PageType = $_GET('type');
 

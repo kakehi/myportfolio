@@ -1,11 +1,14 @@
 
 var _$projectIsOpened = false;
-
+// -- Check filter status
+var _$filterIsOpened = false;
 
 /*
 	Runs after the data is loaded and after angular is ran
 */
 function _PerPageJustLoaded(){
+
+
 
 	/*
 		Animating Projects to align sizes and locations
@@ -18,16 +21,37 @@ function _PerPageJustLoaded(){
 
 	// -- Filter Button
 	$('.svg-wrapper').click(function(event) {
-		if (filterOpen === false) {
-			openFilter();
+		if (!_$filterIsOpened) {
+			_OpenFilter();
 		} else {
-			closeFilter();
+			_CloseFilter();
 		}
 		$(this).toggleClass('open');
 	});
 }
 
 
+/*
+	Filter Control
+*/
+
+// -- Open Filter Overlay
+function _OpenFilter(){
+	_$filterIsOpened = true;
+
+	// turn on the filter tag
+	$('.filterOverlay').removeClass('filterClosed').addClass('filterOpened');
+	$('.filterTexts, #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu').removeClass('filterClosedDisappear filterClosed').addClass('filterOpenedAppear filterOpened');
+
+}
+
+// -- Close Filter Overlay
+function _CloseFilter(){
+	_$filterIsOpened = false;
+
+	$('.filterOverlay').removeClass('filterOpened').addClass('filterClosed');
+	$('.filterTexts, #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu').removeClass('filterOpenedAppear filterOpened').addClass('filterClosed filterClosedDisappear');
+}
 
 //////////////////////////
 

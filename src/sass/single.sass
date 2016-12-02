@@ -157,8 +157,8 @@ header
 //	Categories
 .projectCategory
 	font-family: $font-roboto
-	font-weight: 600
-	padding: 2.0rem 0rem
+	font-weight: 300
+	padding: 0.8rem 0rem 2.0rem 0rem
 
 	ul
 		margin: 0px 0px
@@ -167,6 +167,7 @@ header
 		li
 			display: inline
 			color: #000
+			line-height: 3.2rem;
 			@include border-radius(0px);
 			padding: 10px 20px
 			margin: 10px 5px
@@ -201,6 +202,12 @@ header
 #informationList
 	width: 30%
 	float: left
+
+	.line
+		visibility: hidden
+		margin: 0
+		padding: 0
+
 .informationListTitle
 	font-family: $font-roboto
 	font-weight: 900
@@ -281,11 +288,24 @@ header
 		font-size: 2.4rem
 		margin-bottom: 15px
 		padding-bottom: 50px
+	
 	#informationList
 		width: 100%
 		padding-bottom: 2rem
-		@include border(0 0 1px 0, #000, solid)
 		float:none
+		
+		// top amd bottom divider lines
+		.line
+			visibility: visible
+			width: 0px
+			margin-top: 1.2rem
+			@include transition(width, .3s, ease-out)
+			&.opened
+				width: 100%
+			&.sec2
+				@include border(0 0 1px 0, #000, solid)
+				@include transition-delay(1.8s)
+
 	.informationList
 		font-size: 1.8rem
 		line-height: 2.6rem
@@ -295,8 +315,6 @@ header
 		width: 100%
 		float: none
 		clear: both
-		padding-top: 2rem
-
 
 
 @media screen and (max-width: 760px)

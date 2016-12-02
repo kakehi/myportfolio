@@ -17,6 +17,8 @@ function _PerPageJustLoaded(){
 	*/
 	$('.angularFade').addClass('opened');
 	$('.detailInformationContainer .line').addClass('opened');
+	// -- Line dividing meta detais and descriptions. Only visible in small resolution
+	$('#informationList .line').addClass('opened');
 
 	/* 
 		Navigation Links
