@@ -64,7 +64,7 @@ $(document).ready(function() {
 	$.cookie('visited', 'yes', { expires: 1, path: '/' });
 
 
-	if (isMobile === true) {
+	if (_$isMobile) {
 		var lastScrollTop = 0;
 		window.addEventListener('scroll', function() {
 			var st = $(this).scrollTop();
@@ -194,7 +194,7 @@ function _CreateAnimationAndEventsToProjects() {
 		/*
 			Hover Event
 		*/
-		if (!isMobile) {
+		if (!_$isMobile) {
 
 			$('#project' + _$projects[i].id).mouseenter(function(event) {
 				$(this).find('.img-container').removeClass('closed').addClass('opened');
@@ -318,7 +318,7 @@ function openProject(d) {
 			'transition-delay':   rand + 'S'
 
 		});
-		
+
 		/*.stop().animate({
 			'top': projectPos[i].top + containerBasePos,
 			'left': projectPos[i].left

@@ -101,7 +101,7 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 				clearTimeout(_$resizetimeout);
 
 			_$resizetimeout = setTimeout(function() {
-				WindowResized();
+				_WindowResized();
 			}, 300);
 		});
 
@@ -192,9 +192,20 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 /////////////////
 
 /* Window Sizes*/
-var _$windowWidth, _$windowHeight, _$windowTopPos, _$windowBottomPos;
-/* Scroll Animation Related */
-var _$scrollYOld = 0;
+var _$windowWidth, _$windowHeight, 
+_$windowTopPos, _$windowTopPosOld = 0, _$windowBottomPos;
+
+
+var isFirstTime = false;
+/* Device Detections */
+var _$isMobile = false;
+
+// --- Check Device
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))
+	_$isMobile = true;
+
+
+
 
 /*
 	Runs after the data is loaded and after angular is ran
@@ -202,7 +213,10 @@ var _$scrollYOld = 0;
 function _JustLoaded(){
 
 	// -- Run once to get all size values
-	WindowResized();
+	_WindowResized();
+
+	// -- Run in case if project image is within view port. 
+	_ScrollFunction();
 
 	$('footer').css({'visibility':'visible'}).removeClass('closed').addClass('opened');
 
@@ -221,9 +235,6 @@ function _JustLoaded(){
 	Scroll Animation
 */
 function _ScrollFunction(){
-	
-	// -- Updating the current scroll pos	
-	var CurrentYPos = $(this).scrollTop();
 
 	// -- Updating Windows' Positions
 	_$windowTopPos = $(window).scrollTop();
@@ -232,8 +243,8 @@ function _ScrollFunction(){
 
 	if(_$currentPageType == "project"){
 		
-		if(!isMobile){
-			if (CurrentYPos > _$scrollYOld){
+		if(!_$isMobile){
+			if (_$windowTopPos >_$windowTopPosOld){
 				// downscroll code
 				$('header nav').removeClass('headerOpened').addClass('headerClosed');
 				$('.singleProjectBody').removeClass('headerOpened').addClass('headerClosed');
@@ -272,7 +283,7 @@ function _ScrollFunction(){
 
 
 	// -- Updating Old Scroll
-	 _$scrollYOld = CurrentYPos;
+	_$windowTopPosOld = _$windowTopPos;
 
 }
 
@@ -281,7 +292,7 @@ function _ScrollFunction(){
 	Window Resize
 */
 var _$resizetimeout = false;
-function WindowResized(){
+function _WindowResized(){
 
 	// -- Update Window Sizes
 	_$windowHeight = $(window).height();

@@ -18,12 +18,11 @@ html(lang="en" ng-app="myApp")
 			var projectPage = true;
 			// -- Page Categorization
 			var _$currentPageType = "project";
-		//- Common Variables for All Pages
-		script(src="js/common.min.js")
 		//- Library
 		script(src="js/jquery.transform2d.js")
 		script(src="js/jquery.mousewheel.min.js")
 		script(src="js/jquery.cookie.js")
+		//- Project JS files
 		script(src="js/contact.min.js")
 		script(src="js/filter.min.js")
 		script(src="js/commonfunction.min.js")
@@ -53,18 +52,20 @@ html(lang="en" ng-app="myApp")
 					div.projectCategory
 						ul
 					div.detailInformationContainer
+						div.line.sec1
 						div#informationList
-							div.informationList
+							div.informationList.angularFade.sec3
 								div.informationListTitle Client / Workplace:
-								div.projectClient.angularFade.sec3 {{myProject.client}}
-							div.informationList
+								div.projectClient {{myProject.client}}
+							div.informationList.angularFade.sec3
 								div.informationListTitle Year :
-								div.projectYear.angularFade.sec3 {{myProject.year}}
-							div.informationList
+								div.projectYear {{myProject.year}}
+							div.informationList.angularFade.sec3
 								div.informationListTitle Project Status :
-								div.projectStatus.angularFade.sec3 {{myProject.status}}
+								div.projectStatus {{myProject.status}}
 						div.informationDescription.angularFade.sec4(ng-bind-html="myProject.desc")
 						div(style="clear: both;")
+						div.line.sec2
 
 				//- Images
 

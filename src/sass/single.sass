@@ -111,14 +111,14 @@ header
 					color: #000
 				&:after
 					background-color: #000
+		
+		@include transition(height, .4s, ease-out)
 
 		&.headerOpened
 			height: 76px
-			@include transition(height, .2s, ease-out)
 
 		&.headerClosed
 			height: 0px
-			@include transition(height, .2s, ease-out)
 
 /* * Predefined Elements * */
 
@@ -132,12 +132,12 @@ header
 	margin-bottom: 120px
 	background: rgba(#FFF,255.5)
 
-	@include transition(padding-top, .2s, ease-out)
+	@include transition(padding-top, .4s, ease-out)
 
 	&.headerClosed
 		padding-top: 20px;
 	&.headerOpened
-		padding-top: 60px;
+		padding-top: 70px;
 
 // Caption
 .singleProjectInfoContainer
@@ -181,9 +181,23 @@ header
 
 // Other Information
 .detailInformationContainer
+	display: inline-block
 	width: 100%
-	@include border(1px 0 1px 0, #000, solid);
-	padding: 1.4rem 0px
+	
+	// top amd bottom divider lines
+	.line
+		width: 0px
+		padding: 1.4rem 0px
+		@include transition(width, .3s, ease-out)
+		&.opened
+			width: 100%
+		&.sec1
+			@include border(1px 0 0 0, #000, solid)
+			@include transition-delay(1.0s)
+		&.sec2
+			@include border(0 0 1px 0, #000, solid)
+			@include transition-delay(1.2s)
+
 #informationList
 	width: 30%
 	float: left
@@ -202,6 +216,15 @@ header
 	font-size: 1.2rem
 	line-height: 1.8rem
 
+	a
+		text-decoration: underline
+		color: #000
+			
+		&:visited
+
+			color: #000
+
+
 /* Image Container */
 .singleProjectImageContainer
 	width: 100%
@@ -216,13 +239,15 @@ header
 
 .projectImage
 	opacity: 0
-
+	@include transform(scale(0.95, 0.95))
 	// Default state after it became visible once.
 	&.inViewPortAlready
 		opacity: 1
+		@include transform(scale(1.0, 1.0))
 		&.inViewPort
 			opacity: 1
-			@include transition(opacity, .5s, ease-out)
+			@include transform(scale(1.0, 1.0))
+			@include transition(all, .3s, ease-out)
 			@include transition-delay(0.1s)
 
 
@@ -230,6 +255,8 @@ header
 		width: 100%
 		margin: 20px auto
 	
+._specialContent img
+	max-width: 100%
 
 /* * PROJECT * */
 

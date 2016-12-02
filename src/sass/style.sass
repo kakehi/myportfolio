@@ -142,6 +142,9 @@ body
 .clear
 	clear: both
 
+a
+	text-decoration: none
+
 @keyframes example
 	0%
 		background-color: #60C4F0
@@ -206,11 +209,13 @@ section
 // Fades in as angular is injected
 .angularFade
 	opacity: 0
-	@include transform(translateY(50px))
+	@include transform(translateY(15px))
+	//@include transform(scale(1.05, 1.05))
 
-	&.ng-binding
+	&.opened
 		opacity: 1
 		@include transform(translateY(0px))
+		//@include transform(scale(1.0, 1.0))
 		@include transition(all, 0.5s, ease-out)
 
 		&.sec1

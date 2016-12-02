@@ -12,6 +12,11 @@ var _$singleProjectData;
 */
 function _PerPageJustLoaded(){
 	
+	/*
+		Initial Animation
+	*/
+	$('.angularFade').addClass('opened');
+	$('.detailInformationContainer .line').addClass('opened');
 
 	/* 
 		Navigation Links
