@@ -1,8 +1,15 @@
 /*
 	Angular
 */
+// Make sure the GET only happens once
+var _$LoadOnceSafety = false;
 
 var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
+.filter('trustAsResourceUrl', ['$sce', function($sce) {
+    return function(val) {
+        return $sce.trustAsResourceUrl(val);
+    };
+}])
 .controller("myProjects", ['$scope', '$http', '$sce', function($scope, $http, $sce) {
 	
 	// External Link
@@ -10,131 +17,162 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 		return $sce.trustAsResourceUrl(src);
 	}
 
-
 	$http({
 		method: 'GET',
 		url: 'https://spreadsheets.google.com/feeds/list/1LjdZTcQD3IiaL55n-W1PN2naSrYEN0THl5KKe7HlTiI/od6/public/values?alt=json'
 	})
 	.success(function($data){
 
-		// -- Pass Filter Elements From Data To Create Local Filter DB
-		_CreateFilterDB($data.feed.entry[1], $data.feed.entry[2], $data.feed.entry[3]);
+		if(!_$LoadOnceSafety){
+			_$LoadOnceSafety = true;
+			// -- Pass Filter Elements From Data To Create Local Filter DB
+			_CreateFilterDB($data.feed.entry[1], $data.feed.entry[2], $data.feed.entry[3]);
 
-		// -- To Create Local Project DB
-		_CreateDataFromSpreadSheet($data);
-
-		/*
-			-- Populate Projects
-		*/
-		// -- All Projects Injection
-		$scope.myProjects = _$sortedProjects;
-		if(_$currentPageType == "top"){
+			// -- To Create Local Project DB
+			_CreateDataFromSpreadSheet($data);
 			
-			// -- TOP PAGE
 
-			// -- Wait for Angular Injections
-			setTimeout(_CreateAnimationAndEventsToProjects, 200);
-		
-		}else{
-
-			// -- PROJECT PAGE
-			_$singleProjectData = _GetProjectFromNameID (window.location.hash.substr(2));
-
-			// -- Project Injections
-			$scope.myProject = _$singleProjectData;
-
-			// -- Filters
-			var MyCategories = [], MyRoles = [], MySoftwares = [];
+			/*
+				-- Populate Projects
+			*/
+			// -- All Projects Injection
+			$scope.myProjects = _$sortedProjects;
 			
-			var j=0;
-			while(j<_$singleProjectData.cat.length){
-				var a = j;
-				j = CheckFilter(_$catArray, MyCategories, j);
-				j = CheckFilter(_$roleArray, MyRoles, j);
-				j = CheckFilter(_$softArray, MySoftwares, j);
-				if(a==j)j++; // SAFETY -- this is to check if none of categories match, ignore the category
-			}
-
-			function CheckFilter(Arr, TrgArr, j){
-				var k=0;
-				while(k<Arr.length){
-					if(Arr[k].nameid == _convertStringToID(_$singleProjectData.cat[j]) ){
-						TrgArr.push(Arr[k]);
-						j++;
-						return j;
-					}else{
-						k++;
-					}
-				}
-				return j;
-			}
-
-			// - Injecting Filters
-			$scope.myCategories = MyCategories;
-			$scope.myRoles = MyRoles;
-			$scope.mySoftwares = MySoftwares;
-
-
-			// -- Special Contents
-			if(_$singleProjectData.special !== "")
-				$('._specialContent').append(_$singleProjectData.special);
-
-		}
-
-		// -- Populate Filter
-		$scope.myFiltersCat = _$catArray;
-		$scope.myFiltersRole = _$roleArray;
-		
-		// -- Populate YouTube Video
-		if(isYoutube(_$youtubeUrl) != false)
-			$scope.youtubeUrl = {src: "http://www.youtube.com/embed/" + isYoutube(_$youtubeUrl) + "?autoplay=0&controls=1&showinfo=0"};
-
-
-		// -- Start Loading
-		if (window.location.hash.replace("#", "") !== "" || isFirstTime === false) {
-			
-			// -- Wait for Angular Injections
-			setTimeout(_CheckMySortFromURL, 200);
-
-		} else {
-
-			var counter = 0;
-			var startAnimation = setInterval(function() {
-			   
-				_movePageImmediately(1);
+			if(_$currentPageType == "top"){
 				
-				if (counter < 1)
-					counter++;
-				else
-					clearInterval(startAnimation);
+				// -- TOP PAGE
+
+				// -- Wait for Angular Injections
+				setTimeout(_CreateAnimationAndEventsToProjects, 200);
 			
-			}, 2000);
+			}else{
 
+				// -- PROJECT PAGE
+				_$singleProjectData = _GetProjectFromNameID (window.location.hash.substr(2));
+
+				// -- Project Injections
+				$scope.myProject = _$singleProjectData;
+
+				// -- Filters
+				var MyCategories = [], MyRoles = [], MySoftwares = [];
+				
+				var j=0;
+				while(j<_$singleProjectData.cat.length){
+					var a = j;
+					j = CheckFilter(_$catArray, MyCategories, j);
+					j = CheckFilter(_$roleArray, MyRoles, j);
+					j = CheckFilter(_$softArray, MySoftwares, j);
+					if(a==j)j++; // SAFETY -- this is to check if none of categories match, ignore the category
+				}
+
+				function CheckFilter(Arr, TrgArr, j){
+					var k=0;
+					while(k<Arr.length){
+						if(Arr[k].nameid == _convertStringToID(_$singleProjectData.cat[j]) ){
+							TrgArr.push(Arr[k]);
+							j++;
+							return j;
+						}else{
+							k++;
+						}
+					}
+					return j;
+				}
+
+				// - Injecting Filters
+				$scope.myCategories = MyCategories;
+				$scope.myRoles = MyRoles;
+				$scope.mySoftwares = MySoftwares;
+
+				// -- Image Contents
+				// remove image if no image was selected
+				if(_$singleProjectData.img.length == 0)
+					$('.projectImage').remove();
+
+
+				// -- Video Contents
+				if(_$singleProjectData.vid.resources.length == 0)
+					$('.projectVideo').remove();
+				
+
+				// -- Special Contents
+				if(_$singleProjectData.special !== "")
+					$('.projectSpecialContent').append(_$singleProjectData.special);
+				else
+					$('.projectSpecialContent').remove();
+
+			}
+
+			/*
+				-- Populate Page Title
+			*/
+			if(_$currentPageType == "top"){
+				$scope.myPageTitle = "OPTMYST";
+			}else{
+				$scope.myPageTitle = _$singleProjectData.title;
+			}
+
+			/*
+				-- Populate Filter
+			*/
+			$scope.myFiltersCat = _$catArray;
+			$scope.myFiltersRole = _$roleArray;
+			
+
+
+			// -- Populate Footer (Youtube Video)
+			if(_$currentPageType == "top" && isYoutube(_$youtubeUrl) != false)
+				$scope.youtubeUrl = {src: "http://www.youtube.com/embed/" + isYoutube(_$youtubeUrl) + "?autoplay=0&controls=1&showinfo=0"};
+			else
+				$('#videocontainer').remove();
+
+
+			// -- Start Loading
+			if (window.location.hash.replace("#", "") !== "" || isFirstTime === false) {
+				
+				// -- Wait for Angular Injections
+				setTimeout(_CheckMySortFromURL, 200);
+
+			} else {
+
+				var counter = 0;
+				var startAnimation = setInterval(function() {
+				   
+					_movePageImmediately(1);
+					
+					if (counter < 1)
+						counter++;
+					else
+						clearInterval(startAnimation);
+				
+				}, 2000);
+
+			}
+
+
+			/*
+				Angular Ending
+			*/
+
+			// -- Run This
+			_JustLoaded();
+
+			// -- Run This For Individual Page
+			_PerPageJustLoaded();
+
+			// -- Begin Scroll Function
+			$(window).scroll(function() { _ScrollFunction(); });
+
+			// -- Begin Resize Function
+			$(window).resize(function() {
+				if (_$resizetimeout != null)
+					clearTimeout(_$resizetimeout);
+
+				_$resizetimeout = setTimeout(function() {
+					_WindowResized();
+				}, 300);
+			});
 		}
-
-
-		/*
-			Angular Ending
-		*/
-
-		// -- Run This
-		_JustLoaded();
-
-		// -- Run This For Individual Page
-		_PerPageJustLoaded();
-
-		// -- Begin Scroll Function
-		$(window).scroll(function() { _ScrollFunction(); });
-
-		// -- Begin Resize Function
-		$(window).resize(function() {
-			if (_$resizetimeout != null)
-				clearTimeout(_$resizetimeout);
-
-			_$resizetimeout = setTimeout(function() {
-				_WindowResized();
-			}, 300);
-		});
 
 	});
 
@@ -200,7 +238,7 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 
 			/* -- Project Page -- */
 
-			_linkFromFooter($Filter.nameid, true, (_$currentPageType != "top"));
+			_linkFromFooter($Filter.nameid, true, (_$currentPageType == "top"));
 		
 		}
 
@@ -290,10 +328,15 @@ function _ScrollFunction(){
 
 
 		// Check if Project Images are in View Port
-		
-		$.each($('.projectImage'), function() {
-			_CheckIfElementIsInView($(this), true)
-		});
+		if(_$singleProjectData.img.length > 0)
+			$.each($('.projectImage'), function() {
+				_CheckIfElementIsInView($(this), true)
+			});
+
+		if(_$singleProjectData.vid.resources.length > 0)
+			$.each($('.projectVideo'), function() {
+				_CheckIfElementIsInView($(this), true)
+			});
 	}
 
 	/*
@@ -306,8 +349,8 @@ function _ScrollFunction(){
 		var ElementBottomPos = (ElementTopPos + ElementHeight);
 
 		// Check if this is in the viewport
-		if ((ElementBottomPos >= _$windowTopPos + 200) &&
-			(ElementTopPos <= _$windowBottomPos - 200)){
+		if ((ElementBottomPos >= _$windowTopPos - 200) &&
+			(ElementTopPos <= _$windowBottomPos + 50)){
 			Element.addClass('inViewPort inViewPortAlready');
 		}else{
 			Element.removeClass('inViewPort');
@@ -405,7 +448,6 @@ var _$clientlist;
 
 function _CreateDataFromSpreadSheet($data){
 
-	console.log("KAODSDKOSADKOSAKDOS");
 	// Extract YRL Parameter
 	var PageType = $_GET('type');
 
@@ -415,8 +457,8 @@ function _CreateDataFromSpreadSheet($data){
 
 	var _projectCount = parseInt($data.feed.entry[5].gsx$content.$t);
 	var _projectCounter = 0;
-	
-	for (var i = 6; i < 6 + 12 * _projectCount; i += 12) {
+
+	for (var i = 6; i < 6 + 13 * _projectCount; i += 13) {
 
 		// -- Extract only if which projects are ok and not.
 		var _pageTypeQuery = "y";
@@ -451,7 +493,7 @@ function _CreateDataFromSpreadSheet($data){
 			/* 
 				-- Category --
 			*/
-			project.cat = _convertStringToArray($data.feed.entry[8 + i].gsx$content.$t, false);
+			project.cat = _ConvertStringToArray($data.feed.entry[8 + i].gsx$content.$t, false);
 				
 			// check which categories there are per project and accumulates all types
 			for(var j=0; j<project.cat.length; j++){
@@ -485,12 +527,22 @@ function _CreateDataFromSpreadSheet($data){
 			/* 
 				-- Image --
 			*/
-			project.img = _convertStringToArray($data.feed.entry[10 + i].gsx$content.$t, true);
+			project.img = _ConvertStringToArray($data.feed.entry[10 + i].gsx$content.$t, true);
+
+			/* 
+				-- Video Contents --
+			*/
+			//project.vid = _ConvertStringToArray($data.feed.entry[11 + i].gsx$content.$t);
+			//console.log(i + " + " + $data.feed.entry[11 + i].gsx$content.$t);
+			if($data.feed.entry[11 + i].gsx$content.$t != "")
+				project.vid = JSON.parse($data.feed.entry[11 + i].gsx$content.$t);
+			else
+				project.vid = {resources:[]};
 
 			/* 
 				-- Special Contents --
 			*/
-			project.special = $data.feed.entry[11 + i].gsx$content.$t;
+			project.special = $data.feed.entry[12 + i].gsx$content.$t;
 
 			_$projects.push(project);
 
@@ -499,7 +551,7 @@ function _CreateDataFromSpreadSheet($data){
 		_projectCounter++;
 
 	}
-
+	
 	/* -- Eliminate Categories that Do Not Exist --*/
 
 	var tempArr = [];

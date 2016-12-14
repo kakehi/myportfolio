@@ -259,11 +259,32 @@ header
 
 
 .projectImage img
-		width: 100%
-		margin: 20px auto
-	
-._specialContent img
+	width: 100%
+	margin: 20px auto
+
+.projectVideo
+	width: 100%
+	max-width: 1920px
+	margin: 20px auto
+	opacity: 0
+	// Default state after it became visible once.
+	&.inViewPortAlready
+		opacity: 1
+		&.inViewPort
+			opacity: 1
+			@include transition(all, .3s, ease-out)
+
+.projectSpecialContent img, .projectVideo video
 	max-width: 100%
+
+.youtubeLink
+	font-family: $font-roboto
+	font-weight: 300
+	text-align: right
+
+	a
+		text-decoration: underline
+
 
 /* * PROJECT * */
 

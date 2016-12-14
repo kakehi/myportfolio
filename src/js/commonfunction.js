@@ -48,6 +48,28 @@ function _HasClass(element, cls) {
     return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
 
+
+/*
+	Split Strings Divided by Comma into Array
+*/
+function _ConvertStringToArray(str, RemoveAllSpaces){
+	var arr = [];
+	str = str.replace(/(\r\n|\n|\r)/g,"");
+	
+	// For file names, to avoid mistakes, remove all spaces unconditionally.
+	if(RemoveAllSpaces)
+		str = replaceAll(str, ' ', '');
+	else
+		str = replaceAll(str, ', ', ',');
+	
+	arr =  str.split(',');
+	
+	// Check if it was empty string. In that case, the result of array should be [""] (arr.length == 1) instead of [] (arr.length == 0)
+	if(arr.length == 1 && arr[0] == "")
+		return (arr = []);
+	else
+		return arr;
+}
 //////////////////////////////
 
 //////////////////////////////
@@ -134,15 +156,7 @@ function isYoutube(url){
 		str = replaceAll(str, ' ', '');
 		return str.toLowerCase();
 	}
-	function _convertStringToArray(str, RemoveAllSpaces){
-		str = str.replace(/(\r\n|\n|\r)/g,"");
-		// For file names, to avoid mistakes, remove all spaces unconditionally.
-		if(RemoveAllSpaces)
-			str = replaceAll(str, ' ', '');
-		else
-			str = replaceAll(str, ', ', ',');
-		return str.split(',');
-	}
+
 	function replaceAll(str, find, replace1) {
 		 return str.replace(new RegExp(find, 'g'), replace1);
 	}

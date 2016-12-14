@@ -1,6 +1,7 @@
 doctype html
-html(lang="en" ng-app="myApp")
+html(lang="en" ng-app="myApp" ng-controller="myProjects")
 	head
+		title(ng-cloak) OPTMYST : Portfolio
 		link(rel="stylesheet" type="text/css" href="css/style.min.css")
 		link(rel="stylesheet" type="text/css" href="css/frontPage.min.css")
 		link(href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css')
@@ -34,7 +35,7 @@ html(lang="en" ng-app="myApp")
 		script(src="js/commonfunction.min.js")
 		//-- Per Pages
 		script(src="js/frontPage.min.js")
-		body(ng-controller="myProjects")
+		body
 			div#projectFilter
 				div.filterOverlay#filterL.filterClosed
 				div.filterOverlay#filterR.filterClosed
@@ -59,7 +60,7 @@ html(lang="en" ng-app="myApp")
 
 				//-div#projectContainer(ng-controller="myProjects")
 				div.project(ng-repeat="n in myProjects" id="project{{n.id}}" data-nameid = "{{n.id}}" style="'opacity':'0',  '-webkit-transform': 'scale(0,0)', '-moz-transform': 'scale(0,0)', '-ms-transform': 'scale(0,0)','-o-transform':'scale(0,0)','transform': 'scale(0,0)'")
-					img.img-container.closed(ng-src="img/{{n.thumb}}")
+					img.img-container.closed(ng-src="img/thumb/{{n.thumb}}")
 					div.img-over.closed
 					div.img-over-caption.closed
 						h1 {{n.title}}
@@ -68,7 +69,7 @@ html(lang="en" ng-app="myApp")
 
 				//- FOOTER
 
-				footer.closed#videocontainer(ng-include="'footer.html'" style="visibility: hidden;")
+				footer.closed(ng-include="'footer.html'" style="visibility: hidden;")
 
 			form#contactForm(action="mail.php" method="POST")
 				div#introPage5

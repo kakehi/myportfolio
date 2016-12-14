@@ -22,9 +22,9 @@ var _$currentSortType = null;
 function _CreateFilterDB(CatDB, RoleDB, SoftDB){
 
 
-	_$catArray = CreateObjectArray(_convertStringToArray(CatDB.gsx$content.$t, false),"cat", 0);
-    _$roleArray = CreateObjectArray(_convertStringToArray(RoleDB.gsx$content.$t, false), "role", _$catArray.length);
-    _$softArray = CreateObjectArray(_convertStringToArray(SoftDB.gsx$content.$t, false), "soft", _$roleArray.length);
+	_$catArray = CreateObjectArray(_ConvertStringToArray(CatDB.gsx$content.$t, false),"cat", 0);
+    _$roleArray = CreateObjectArray(_ConvertStringToArray(RoleDB.gsx$content.$t, false), "role", _$catArray.length);
+    _$softArray = CreateObjectArray(_ConvertStringToArray(SoftDB.gsx$content.$t, false), "soft", _$roleArray.length);
 
     // -- Concatinating arrays
     _$filterObjects = _$catArray.concat(_$roleArray).concat(_$softArray)

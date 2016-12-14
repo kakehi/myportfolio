@@ -3,6 +3,9 @@ var _$projectIsOpened = false;
 // -- Check filter status
 var _$filterIsOpened = false;
 
+// -- Image Sizes
+var _$maximumThumbSize = 600;
+
 /*
 	Runs after the data is loaded and after angular is ran
 */
@@ -381,7 +384,7 @@ function animateProject(d, speed) {
 
 	}
 
-	$('#projectContainer').find('#videocontainer').stop().animate({ 'top': (projectContainerHeight) }, speed * 5);
+	$('footer').stop().animate({ 'top': (projectContainerHeight) }, speed * 5);
 
 }
 
@@ -390,7 +393,7 @@ function adjustSize_perPage(){
 
 	var xcounter = 1;
 	projectSize = $(window).width();
-	while (projectSize > 600) {
+	while (projectSize > _$maximumThumbSize) {
 		projectSize = Math.floor($(window).width() / xcounter);
 		xcounter++;
 	}
@@ -420,7 +423,6 @@ function adjustSize_perPage(){
 
 	projectContainerHeight = Math.ceil(_$sortedProjects.length / xcounter) * projectSize;
 
-	console.log(_$projectIsOpened);
 	if(_$projectIsOpened)
 		animateProject(0, 100);
 }

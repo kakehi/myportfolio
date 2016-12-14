@@ -69,7 +69,8 @@ function animateProject(d, speed){
 
 function adjustSize_perPage(){
 
-
+	// Make Sure Video Is Within Page Size
+	$('.projectVideo').css({'max-width':_$windowWidth});
 
 }
 
