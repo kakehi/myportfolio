@@ -224,42 +224,14 @@ function _CreateAnimationAndEventsToProjects() {
 		if (!_$isMobile) {
 
 			$('#project' + _$projects[i].id).mouseenter(function(event) {
-				$(this).find('.img-container').removeClass('closed').addClass('opened');
-				$(this).find('.img-over-caption').removeClass('closed').addClass('opened');
 
-				// -- Check Where mouse entered from
-				var tempX = event.pageX - $(this).offset().left;
-				var tempY = event.pageY - $(this).offset().top;
-				var halfSize = $(this).width() / 2;
-				if (halfSize > tempX) {
-					if (halfSize > tempY) {
-						if (tempX > tempY)
-							HoverInFromTop($(this));
-						else
-							HoverInFromLeft($(this));
-					} else {
-						if (tempX > $(this).width() - tempY)
-							HoverInFromBottom($(this));
-						else
-							HoverInFromLeft($(this));
-					}
-				} else {
-					if (halfSize > tempY) {
-						if ($(this).width() - tempX > tempY)
-							HoverInFromTop($(this));
-						else
-							HoverInFromRight($(this));
-					} else {
-						if ($(this).width() - tempX > $(this).width() - tempY)
-							HoverInFromBottom($(this));
-						else
-							HoverInFromRight($(this));
-					}
+				_OpenProjectTitleHover($(this), event);
+				
+			}).mouseover(function(event) {
+                
+                _OpenProjectTitleHover($(this), event);
 
-				}
-				// -- Check Where mouse entered from
-
-			}).mouseleave(function(event) {
+            }).mouseleave(function(event) {
 				$(this).find('.img-container').removeClass('opened').addClass('closed');
 				$(this).find('.img-over-caption').removeClass('opened').addClass('closed');
 
@@ -279,6 +251,45 @@ function _CreateAnimationAndEventsToProjects() {
 				// -- Check Where mouse exited from
 
 			});
+
+
+			function _OpenProjectTitleHover(Elm, Evnt){
+
+				Elm.find('.img-container').removeClass('closed').addClass('opened');
+				Elm.find('.img-over-caption').removeClass('closed').addClass('opened');
+
+				// -- Check Where mouse entered from
+				var tempX = Evnt.pageX - Elm.offset().left;
+				var tempY = Evnt.pageY - Elm.offset().top;
+				var halfSize = Elm.width() / 2;
+				if (halfSize > tempX) {
+					if (halfSize > tempY) {
+						if (tempX > tempY)
+							HoverInFromTop(Elm);
+						else
+							HoverInFromLeft(Elm);
+					} else {
+						if (tempX > Elm.width() - tempY)
+							HoverInFromBottom(Elm);
+						else
+							HoverInFromLeft(Elm);
+					}
+				} else {
+					if (halfSize > tempY) {
+						if (Elm.width() - tempX > tempY)
+							HoverInFromTop(Elm);
+						else
+							HoverInFromRight(Elm);
+					} else {
+						if (Elm.width() - tempX > Elm.width() - tempY)
+							HoverInFromBottom(Elm);
+						else
+							HoverInFromRight(Elm);
+					}
+
+				}
+				// -- Check Where mouse entered from
+			}
 		}
 		
 		/*

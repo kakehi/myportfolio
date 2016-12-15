@@ -84,14 +84,9 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 				$scope.myRoles = MyRoles;
 				$scope.mySoftwares = MySoftwares;
 
-				// -- Image Contents
-				// remove image if no image was selected
-				if(_$singleProjectData.img.length == 0)
-					$('.projectImage').remove();
 
-
-				// -- Video Contents
-				if(_$singleProjectData.vid.resources.length == 0)
+				// -- Visual Contents
+				if(_$singleProjectData.visuals.resources.length == 0)
 					$('.projectVideo').remove();
 				
 
@@ -327,14 +322,8 @@ function _ScrollFunction(){
 		}
 
 
-		// Check if Project Images are in View Port
-		if(_$singleProjectData.img.length > 0)
-			$.each($('.projectImage'), function() {
-				_CheckIfElementIsInView($(this), true)
-			});
-
-		if(_$singleProjectData.vid.resources.length > 0)
-			$.each($('.projectVideo'), function() {
+		if(_$singleProjectData.visuals.resources.length > 0)
+			$.each($('.projectVisuals'), function() {
 				_CheckIfElementIsInView($(this), true)
 			});
 	}
@@ -458,8 +447,8 @@ function _CreateDataFromSpreadSheet($data){
 	var _projectCount = parseInt($data.feed.entry[5].gsx$content.$t);
 	var _projectCounter = 0;
 
-	for (var i = 6; i < 6 + 13 * _projectCount; i += 13) {
-
+	for (var i = 6; i < 6 + 12 * _projectCount; i += 12) {
+		
 		// -- Extract only if which projects are ok and not.
 		var _pageTypeQuery = "y";
 
@@ -524,25 +513,19 @@ function _CreateDataFromSpreadSheet($data){
 			*/
 			project.thumb = $data.feed.entry[9 + i].gsx$content.$t;
 
-			/* 
-				-- Image --
-			*/
-			project.img = _ConvertStringToArray($data.feed.entry[10 + i].gsx$content.$t, true);
 
 			/* 
-				-- Video Contents --
+				-- Visual Contents --
 			*/
-			//project.vid = _ConvertStringToArray($data.feed.entry[11 + i].gsx$content.$t);
-			//console.log(i + " + " + $data.feed.entry[11 + i].gsx$content.$t);
-			if($data.feed.entry[11 + i].gsx$content.$t != "")
-				project.vid = JSON.parse($data.feed.entry[11 + i].gsx$content.$t);
+			if($data.feed.entry[10 + i].gsx$content.$t != "")
+				project.visuals = JSON.parse($data.feed.entry[10 + i].gsx$content.$t);
 			else
-				project.vid = {resources:[]};
+				project.visuals = {resources:[]};
 
 			/* 
 				-- Special Contents --
 			*/
-			project.special = $data.feed.entry[12 + i].gsx$content.$t;
+			project.special = $data.feed.entry[11 + i].gsx$content.$t;
 
 			_$projects.push(project);
 

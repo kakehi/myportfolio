@@ -75,10 +75,11 @@ html(lang="en" ng-app="myApp" ng-controller="myProjects")
 				//- Images
 
 				div.singleProjectImageContainer.sizeDefault
-					div.projectImage(ng-repeat="image in myProject.img" id="projectImage{{$index}}" )
-						img(ng-src="img/{{image}}")
 
-					div.projectVideo(ng-repeat="resource in myProject.vid.resources" id="projectVideo{{$index}}")
+					div.projectVisuals(ng-repeat="resource in myProject.visuals.resources" id="projectVideo{{$index}}")
+						
+						img(ng-if="resource.type == 'img'" ng-src="{{'img/' + resource.src | trustAsResourceUrl}}")
+						
 						video(ng-if="resource.type == 'vid'" ng-src="{{'vid/' + resource.src | trustAsResourceUrl}}" controls loop  muted  autoplay vg-poster="img/"+"resource.poster") Sorry, Your browser doesn't support HTML5 video tag.
 						div.youtubeLink(ng-if="resource.type == 'vid' && resource.youtube != ''" ) View this video in &nbsp;
 							a(ng-href="{{resource.youtube}}") Youtube
