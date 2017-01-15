@@ -150,7 +150,7 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 			*/
 
 			// -- Run This
-			_JustLoaded();
+			setTimeout(_JustLoaded, 200);
 
 			// -- Run This For Individual Page
 			_PerPageJustLoaded();

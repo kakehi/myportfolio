@@ -1,14 +1,10 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed)
 
 /* * Predefined Elements * */
 
 // fonts
-$font-default: Helvetica Arial sans-serif
-$font-didot: Didot, Helvetica, sans-serif
-$font-railway: Raleway, Helvetica, sans-serif
-$font-roboto: Roboto Condensed, Helvetica, sans-serif
-$font-didot: Didot, Helvetica, sans-serif
-$font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
+$font-avenirLight: _avenirLight, Helvetica, sans-serif
+$font-avenirHeavy: _avenirHeavy, Helvetica, sans-serif
+$font-didot: _didot, Helvetica, sans-serif
 
 // animation
 @mixin transition($property, $duration, $type)
@@ -81,7 +77,6 @@ header
 
 	h1
 		font-size: 1rem
-		font-family: $font-roboto
 
 	h2
 		font-size: 1.6rem
@@ -100,7 +95,6 @@ header
 		li, li ul li
 			padding: 0px 2rem
 			display: inline-block
-			font-family: $font-roboto
 
 		a
 			font-size: 1rem
@@ -125,78 +119,94 @@ header
 /* * PROJECT * */
 
 .singleProjectBody
-	padding-top: 20px
 	text-align: left
 	color: #000
-	padding: 20px 15px
+	//padding: 20px 15px
 	margin-bottom: 120px
 	background: rgba(#FFF,255.5)
 
 	@include transition(padding-top, .4s, ease-out)
 
 	&.headerClosed
-		padding-top: 20px;
+		padding-top: 0px;
 	&.headerOpened
 		padding-top: 70px;
 
 // Caption
 .singleProjectInfoContainer
-	max-width: 900px
+	//max-width: 900px
 	margin: 0px auto
+	//background-color: #f3f3f3 //#e8ebef
+	padding: 3.6rem 0rem 2.4rem 0rem
+
 ._projectTitle, ._projectSubttle
 	text-align: left
-	font-family: $font-railway
 ._projectTitle
-	font-size: 4.6rem
-	margin: 2.4rem 0rem
+	font-family: $font-didot
+	font-size: 6.8rem
+	font-weight: 300
+	line-height: 8.6rem
+	margin: 1.8rem auto
+	color: #333
+	max-width: 900px
 ._projectSubttle
-	font: 2.2rem
+	font-size: 1.8rem
+	line-height: 3.6rem
 	font-style: italic
-	margin: 2.0rem 0rem 1.0rem 0rem
-
+	font-weight: 100
+	color: #333
+	margin: 2.0rem auto 2.0rem auto
+	max-width: 900px
 //	Categories
 .projectCategory
-	font-family: $font-roboto
 	font-weight: 300
+	margin: auto
 	padding: 0.8rem 0rem 2.0rem 0rem
+	max-width: 900px
 
+	
 	ul
 		margin: 0px 0px
 		padding: 0px 0px
 
 		li
 			display: inline
-			color: #000
-			line-height: 3.2rem;
+			line-height: 4.8rem;
 			@include border-radius(0px);
-			padding: 10px 20px
+			padding: 16px 20px
 			margin: 10px 5px
 
 			&.projectCat
-				background-color: #4990E2
+				color: #FFF
+				background-color: #333
 			&.projectRole
-				background-color: #50E3C2
+				color: #FFF
+				//background-color: #a9eaff
+				background-color: #968c8c
 			&.projectSoft
+				color: #000
 				background-color: #ffff01
 
 
 // Other Information
 .detailInformationContainer
-	display: inline-block
+	display: block
+	margin: 0 auto
+	max-width: 900px
 	width: 100%
 	
 	// top amd bottom divider lines
 	.line
 		width: 0px
-		padding: 1.4rem 0px
+		padding: 1.6rem 0px
 		@include transition(width, .3s, ease-out)
 		&.opened
 			width: 100%
 		&.sec1
-			@include border(1px 0 0 0, #000, solid)
+			@include border(1px 0 0 0, #999, solid)
 			@include transition-delay(1.5s)
 		&.sec2
-			@include border(0 0 1px 0, #000, solid)
+			@include border(0 0 1px 0, #999, solid)
 			@include transition-delay(1.8s)
 
 #informationList
@@ -209,8 +219,8 @@ header
 		padding: 0
 
 .informationListTitle
-	font-family: $font-roboto
-	font-weight: 900
+	color: #AAA
+	line-height: 2.4rem
 .informationList, .informationDescription
 	text-rendering: optimizeLegibility
 .informationList
@@ -221,8 +231,9 @@ header
 	width: 65%
 	float: right
 	font-size: 1.2rem
-	line-height: 1.8rem
-
+	line-height: 2.6rem
+	color: #222
+	
 	a
 		text-decoration: underline
 		color: #000
@@ -268,7 +279,6 @@ header
 	max-width: 100%
 
 .youtubeLink
-	font-family: $font-roboto
 	font-weight: 300
 	text-align: right
 
@@ -281,7 +291,7 @@ header
 
 
 
-@media screen and (max-width: 1024px)
+@media screen and (max-width: 1032px)
 
 	/* HEADER */
 	header nav
@@ -289,17 +299,18 @@ header
 		height: 100px
 		
 		a
-			line-height: 4rem
-			font-size: 2rem
-	
+			line-height: 3rem
+			font-size: 1.2rem
+		
+		ul
+			padding: 0rem
+
 	/*	PROJECT */
-	._projectTitle
-		font-size: 3.6rem
+	///._projectTitle
+	//	font-size: 3.6rem
 	._projectSubttle
 		font-size: 2.4rem
-		margin-bottom: 15px
-		padding-bottom: 50px
-	
+		margin-bottom: 1.2rem
 	#informationList
 		width: 100%
 		padding-bottom: 2rem
@@ -314,25 +325,36 @@ header
 			&.opened
 				width: 100%
 			&.sec2
-				@include border(0 0 1px 0, #000, solid)
+				@include border(0 0 1px 0, #999, solid)
 				@include transition-delay(1.8s)
 
 	.informationList
-		font-size: 1.8rem
-		line-height: 2.6rem
-	.informationDescription
-		font-size: 1.8rem
+		font-size: 1.6rem
 		line-height: 3.2rem
+	.informationDescription
+		font-size: 1.6rem
+		line-height: 3.2rem
+		padding: 1.2rem 0
 		width: 100%
 		float: none
 		clear: both
 
 
 @media screen and (max-width: 760px)
-	
+
+	/* HEADER */
+	header nav
+		
+		a
+			line-height: 3rem
+			font-size: 1.0rem
+
+		li
+			padding: 0 1rem
+
 	/* PROJECT */
-	._projectTitle
-		font-size: 3.2rem
+	//._projectTitle
+	//	font-size: 3.2rem
 	._projectSubttle
 		font-size: 1.8rem
 		margin-bottom: 1.2rem
@@ -342,7 +364,7 @@ header
 		line-height: 2.4rem
 	.informationDescription
 		font-size: 1.4rem
-		line-height: 2.8rem
+		line-height: 2.4rem
 
 
 

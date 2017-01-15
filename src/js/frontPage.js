@@ -293,17 +293,17 @@ function _CreateAnimationAndEventsToProjects() {
 		}
 		
 		/*
-			Click Event
+			Clicking a project
 		*/
 		$('#project' + _$projects[i].id).click(function(event) {
 			
-			if ($_GET('type') !== false) {
-				window.location.href = 'project.html?type=' + $_GET('type') + '#' + $(this).data('nameid');
-			} else {
-				
-				window.location.href = 'project.html#' + $(this).data('nameid');
-			}
+			// -- Call a function to animate before location is called;
+			_OpenProjectPage($(this).data('nameid'));
 
+			// -- Removing the hover animation
+			$(this).find('.img-container').removeClass('opened').addClass('closed');
+			$(this).find('.img-over-caption').removeClass('opened').addClass('closed');
+			RemoveAllClassForHover($(this));
 		});
 
 
@@ -440,8 +440,49 @@ function adjustSize_perPage(){
 
 
 
+/*
+	Fades out projects before loading a project page
+*/
 
+function _OpenProjectPage(urlExtention){
+	
+	/*
+		Fading out animation
+	*/
+	var AnimationVariable = 'all .5s ease-out';
 
+	for (var i = 0; i < _$sortedProjects.length; i++) {
+
+		var rand = Math.random() * .3;
+
+		$('#project' + _$sortedProjects[i].id)
+		.css({
+			'width': 0,
+			'height': 0,
+			'top': projectPos[i].top + projectSize/2,
+			'left': projectPos[i].left + projectSize/2,
+			'-webkit-transition': AnimationVariable,
+			'-moz-transition': 	  AnimationVariable,
+			'-ms-transition': 	  AnimationVariable,
+			'-o-transition': 	  AnimationVariable,
+			'transition': 		  AnimationVariable,
+			'-webkit-transition': rand + 'S',
+			'transition-delay':   rand + 'S'
+
+		});
+
+	}
+
+	setTimeout(loadNewPage, 800);
+
+	function loadNewPage(){
+		if ($_GET('type') !== false)
+			window.location.href = 'project.html?type=' + $_GET('type') + '#' + urlExtention;
+		else
+			window.location.href = 'project.html#' + urlExtention;
+	}
+
+}
 
 
 /*

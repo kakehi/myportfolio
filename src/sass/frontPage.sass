@@ -1,14 +1,9 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed)
 
 /* * Predefined Elements * */
-
-// fonts
-$font-default: Helvetica Arial sans-serif
-$font-didot: Didot, Helvetica, sans-serif
-$font-railway: Raleway, Helvetica, sans-serif
-$font-roboto: Roboto Condensed, Helvetica, sans-serif
-$font-didot: Didot, Helvetica, sans-serif
-$font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
+$font-avenirLight: _avenirLight, Helvetica, sans-serif
+$font-avenirMedium: _avenirMedium, Helvetica, sans-serif
+$font-didot: _didot, Helvetica, sans-serif
+$font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 
 // animation
 @mixin transition($property, $duration, $type)
@@ -173,7 +168,7 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 .filterClosedDisappear
 	visibility: hidden
 	-webkit-transition: visibility .2s
-    transition: visibility .2s
+	transition: visibility .2s
 
 #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu
 	color: rgba(0,0,0,1)
@@ -194,7 +189,6 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 #_headerCategoryMenu
 	span
 		font-weight: bold
-		font-family: $font-railway
 		font-size: 3rem
 		margin: 1rem 3rem
 	&.filterOpened
@@ -223,7 +217,6 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 	span
 		font-style: italic
 		font-weight: bold
-		font-family: $font-railway
 		font-size: 2rem
 		margin: 1rem 3rem
 	&.filterOpened
@@ -373,17 +366,31 @@ $font-gotham: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif
 		&.closed
 			opacity: 0
 			@include transform(scale(1.2,1.2))
-			@include transition(all, 0.4s, ease-in-out)
+			@include transition(all, 0.2s, ease-in-out)
 
 		h1
-			padding-top: 20%
-			font-size: 3.2rem!important
+			padding-top: 10%
+			font-family: $font-gothamXLight
+			font-size: 3.2rem
+			letter-spacing: 0.1rem
 
 		h3
-			font-size: 1.2rem
+			font-size: 1.6rem
 			font-weight: 100
-			line-height: 1.8rem!important
-			font-family: $font-gotham
+			line-height: 2.4rem!important
+
+		// -- Version 2
+		h1
+			padding-top: 0%
+			margin-top: 4%
+		//	font-family: $font-avenirLight
+		//	font-weight: 100
+		//	text-transform: uppercase
+			//font-size: 2.4rem!important
+			letter-spacing: 0.4rem
+		h1, h3
+			padding-left: 2%
+			text-align: left
 
 			span
 				display: inline-block
