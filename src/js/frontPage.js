@@ -5,12 +5,23 @@ var _$filterIsOpened = false;
 
 // -- Image Sizes
 var _$maximumThumbSize = 600;
+var _$imageGapPercentage = 0.04;
 
+
+/*
+	Document is loaded
+*/
+$( document ).ready(function() {
+    if(document.referrer.split('/')[2] != location.href.split('/')[2]){
+		// -- Make the preloading slide visible
+		$('#preloadingContainer').removeClass('closed').addClass('opened');
+	}
+});
+	
 /*
 	Runs after the data is loaded and after angular is ran
 */
 function _PerPageJustLoaded(){
-
 
 
 	/*
@@ -54,6 +65,36 @@ function _CloseFilter(){
 
 	$('.filterOverlay').removeClass('filterOpened').addClass('filterClosed');
 	$('.filterTexts, #_headerCategoryMenu, #_headerRoleMenu, #_headerSoftMenu').removeClass('filterOpenedAppear filterOpened').addClass('filterClosed filterClosedDisappear');
+}
+
+
+/*
+	Preloading Control
+*/
+
+
+function _CreatePreloadingSlide(){
+	var w = 0;
+
+	// -- Slowly animate slider
+	function animateSlide(){
+	
+		if(w < $(window).width()){
+			w += Math.random()* 600 + 20;
+			$('#preloadingSlide').animate(
+				{left:w}, 
+				Math.random()*800+200, 
+				function(){ animateSlide(); }
+			);
+			
+		}else{
+			$('#preloadingContainer').css({'display':'none'});
+			openProject(1);
+		}
+
+	}
+
+	animateSlide();
 }
 
 //////////////////////////
@@ -133,7 +174,20 @@ function movePage(event) {
 		goalPosY1 = goalPosY2 = goalPosY3 = goalPosY4 = -1.5 * $(window).height();
 
 		if (projecton === false) {
-			openProject(1);
+			
+			// -- load page
+			if(document.referrer.split('/')[2] != location.href.split('/')[2]){
+		
+				// -- Make the preloading slide visible
+				$('#preloadingContainer').removeClass('closed').addClass('opened');
+
+				setTimeout(function() {
+					_CreatePreloadingSlide();
+				}, 2400);
+			}else{
+				openProject(1);
+			}
+			
 			projecton = true;
 			scrollInterval = 100;
 		}
@@ -313,16 +367,6 @@ function _CreateAnimationAndEventsToProjects() {
 
 }
 
-function closeProject() {
-
-	for (var i = 0; i < _$sortedProjects.length; i++) {
-
-		$('#project' + _$sortedProjects[i].id).delay(Math.round(Math.random() * 500 + 500)).animate({
-			transform: 'scale(0,0)'
-		});
-	}
-
-}
 
 function openProject(d) {
 
@@ -337,10 +381,10 @@ function openProject(d) {
 		//.delay(Math.round(Math.random() * 800 + 200) * d)
 		//.removeClass('closed').addClass('opened')
 		.css({
-			'width': projectSize,
-			'height': projectSize,
-			'top': projectPos[i].top + containerBasePos,
-			'left': projectPos[i].left,
+			'width': projectSize * (1.0 - _$imageGapPercentage * 2),
+			'height': projectSize * (1.0 - _$imageGapPercentage * 2),
+			'top': projectPos[i].top + containerBasePos + projectSize * _$imageGapPercentage,
+			'left': projectPos[i].left + projectSize * _$imageGapPercentage,
 			'opacity' : 1,
 			'-webkit-transform': 	'scale(1,1)',
 			'-moz-transform': 		'scale(1,1)',
@@ -379,10 +423,10 @@ function animateProject(d, speed) {
 
 		$('#project' + _$sortedProjects[i].id)
 		.css({
-			'width': projectSize,
-			'height': projectSize,
-			'top': projectPos[i].top + containerBasePos,
-			'left': projectPos[i].left,
+			'width': projectSize * (1.0 - _$imageGapPercentage * 2),
+			'height': projectSize * (1.0 - _$imageGapPercentage * 2),
+			'top': projectPos[i].top + containerBasePos + projectSize * _$imageGapPercentage,
+			'left': projectPos[i].left + projectSize * _$imageGapPercentage,
 			'-webkit-transition': AnimationVariable,
 			'-moz-transition': 	  AnimationVariable,
 			'-ms-transition': 	  AnimationVariable,
@@ -436,6 +480,7 @@ function adjustSize_perPage(){
 
 	if(_$projectIsOpened)
 		animateProject(0, 100);
+	
 }
 
 
