@@ -126,7 +126,8 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 			if (window.location.hash.replace("#", "") !== "" || isFirstTime === false) {
 				
 				// -- Wait for Angular Injections
-				setTimeout(_CheckMySortFromURL, 200);
+				// -- Not needing to wait for loading images
+				setTimeout(_CheckMySortFromURL, 2000);
 
 			} else {
 
@@ -309,17 +310,17 @@ function _ScrollFunction(){
 
 	if(_$currentPageType == "project"){
 		
-		if(!_$isMobile){
-			if (_$windowTopPos >_$windowTopPosOld){
-				// downscroll code
-				$('header nav').removeClass('headerOpened').addClass('headerClosed');
-				$('.singleProjectBody').removeClass('headerOpened').addClass('headerClosed');
-			} else {
-				  // upscroll code
-				$('header nav').removeClass('headerClosed').addClass('headerOpened');
-				$('.singleProjectBody').removeClass('headerClosed').addClass('headerOpened');
-			}
-		}
+		// if(!_$isMobile){
+		// 	if (_$windowTopPos >_$windowTopPosOld){
+		// 		// downscroll code
+		// 		$('header nav').removeClass('headerOpened').addClass('headerClosed');
+		// 		$('.singleProjectBody').removeClass('headerOpened').addClass('headerClosed');
+		// 	} else {
+		// 		  // upscroll code
+		// 		$('header nav').removeClass('headerClosed').addClass('headerOpened');
+		// 		$('.singleProjectBody').removeClass('headerClosed').addClass('headerOpened');
+		// 	}
+		// }
 
 
 		if(_$singleProjectData.visuals.resources.length > 0)

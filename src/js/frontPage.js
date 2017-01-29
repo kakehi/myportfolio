@@ -12,7 +12,9 @@ var _$imageGapPercentage = 0.04;
 	Document is loaded
 */
 $( document ).ready(function() {
-    if(document.referrer.split('/')[2] != location.href.split('/')[2]){
+
+	// If previous domain includes same domain
+    if(document.referrer.split('/')[2] != location.href.split('/')[2] && window.history == ""){
 		// -- Make the preloading slide visible
 		$('#preloadingContainer').removeClass('closed').addClass('opened');
 	}
@@ -137,7 +139,7 @@ $(document).ready(function() {
 		window.addEventListener('scroll', function() {
 			var st = $(this).scrollTop();
 			if (st > lastScrollTop) {
-
+				
 				scrollon = true;
 				movePage(false);
 
@@ -153,7 +155,7 @@ $(document).ready(function() {
 });
 
 function movePage(event) {
-
+console.log("ZZZ");
 	if (initialPos < -2 && projNumb < 4 && scrollon === false) {
 		projNumb += 1;
 		scrollon = true;
@@ -176,7 +178,7 @@ function movePage(event) {
 		if (projecton === false) {
 			
 			// -- load page
-			if(document.referrer.split('/')[2] != location.href.split('/')[2]){
+			if(document.referrer.split('/')[2] != location.href.split('/')[2] && window.history == ""){
 		
 				// -- Make the preloading slide visible
 				$('#preloadingContainer').removeClass('closed').addClass('opened');

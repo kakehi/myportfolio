@@ -38,8 +38,32 @@ function _PerPageJustLoaded(){
 		}
 	});
 
+	$('.backButton').click(function(){
+		_CloseSinglePage();
+	});
+
+	$('.expandIcon').click(function(){
+		if(!imageExpanded){
+			$('.singleProjectImageContainer').removeClass('sizeDefault').addClass('sizeExpanded');
+			imageExpanded = true;
+			$('.expandIcon span').addClass('expanded');
+		}else{
+			$('.singleProjectImageContainer').removeClass('sizeExpanded').addClass('sizeDefault');
+			imageExpanded = false;
+			$('.expandIcon span').removeClass('expanded');
+		}
+	});
 }	
 
+
+function _CloseSinglePage(){
+	$('body').animate({
+		'opacity': 0
+	}, 200, function() {
+		window.history.back();
+	});
+	
+}
 
 ////////////////////////////////////
 
@@ -72,6 +96,7 @@ function adjustSize_perPage(){
 	$('.projectVideo').css({'max-width':_$windowWidth});
 
 }
+
 
 
 
