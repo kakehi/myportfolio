@@ -292,6 +292,13 @@ function _JustLoaded(){
 		window.history.back();
 	});
 
+	/*
+		-- Single Page
+	*/
+	if(_$isMobile && _$currentPageType == "project")
+
+
+
 	$(window).scrollTop();
 
 }
@@ -324,9 +331,8 @@ function _ScrollFunction(){
 
 
 		if(_$singleProjectData.visuals.resources.length > 0)
-			$.each($('.projectVisuals'), function() {
-				_CheckIfElementIsInView($(this), true)
-			});
+			$('.projectVisuals').addClass('inViewPort inViewPortAlready');
+
 	}
 
 	/*
@@ -453,14 +459,22 @@ function _CreateDataFromSpreadSheet($data){
 		// -- Extract only if which projects are ok and not.
 		var _pageTypeQuery = "y";
 
+		// This is the default page
 		if (PageType === 'mkkpn' || PageType === false)
 		   _pageTypeQuery = $data.feed.entry[i].gsx$mkkpn.$t;
+		// This is ALL project
+		else if (PageType === 'pgwyqzbbop') 
+			_pageTypeQuery = $data.feed.entry[i].gsx$pgwyqzbbop.$t;
+		// This is latest most selected projects
+		else if (PageType === 'buhacthlh') 
+			_pageTypeQuery = $data.feed.entry[i].gsx$buhacthlh.$t;
 		else if (PageType === 'ylagyf') 
 			_pageTypeQuery = $data.feed.entry[i].gsx$ylagyf.$t;
 		else if (PageType === 'epanz')
 			_pageTypeQuery = $data.feed.entry[i].gsx$epanz.$t;
 		else if (PageType === 'gacdpe')
 			_pageTypeQuery = $data.feed.entry[i].gsx$gacdpe.$t;
+
 
 		// -- Include if it is not excluded
 		if (_pageTypeQuery !== "") {

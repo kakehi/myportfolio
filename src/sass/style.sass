@@ -484,6 +484,25 @@ footer
 
 	/* FOOTER */
 
+
+/* iPad */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape)
+	
+	footer 
+		.innercontainer1, .innercontainer3
+			font-size: 1.0rem
+			margin: 0 2.5%
+		.innercontainer1
+			width: 55%
+		.innercontainer3
+			width: 25%
+
+		.innercontainer1 div
+			@include column-count(2)
+
+		a
+			font-size: 1.0rem
+
 @media screen and (max-width: 760px)
 	/* NONE */
 

@@ -63,7 +63,7 @@ html(lang="en" ng-app="myApp" ng-controller="myProjects")
 				div.project(ng-repeat="n in myProjects" id="project{{n.id}}" data-nameid = "{{n.id}}" style="'opacity':'0',  '-webkit-transform': 'scale(0,0)', '-moz-transform': 'scale(0,0)', '-ms-transform': 'scale(0,0)','-o-transform':'scale(0,0)','transform': 'scale(0,0)'")
 					img.img-container.closed(ng-src="img/thumb/{{n.thumb}}")
 					div.img-over.closed
-					div.img-over-caption.closed
+					div.img-over-caption.mobile.closed
 						h1 {{n.title}}
 						h3
 							span {{n.subtitle}}

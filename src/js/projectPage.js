@@ -20,6 +20,7 @@ function _PerPageJustLoaded(){
 	// -- Line dividing meta detais and descriptions. Only visible in small resolution
 	$('#informationList .line').addClass('opened');
 
+	
 	/* 
 		Navigation Links
 	*/
