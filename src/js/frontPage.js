@@ -8,6 +8,8 @@ var _$maximumThumbSize = 600;
 var _$imageGapPercentage = 0.04;
 
 
+
+
 /*
 	Document is loaded
 */
@@ -18,6 +20,12 @@ $( document ).ready(function() {
 		// -- Make the preloading slide visible
 		$('#preloadingContainer').removeClass('closed').addClass('opened');
 	}
+
+	if(_$isMobile){
+		_$maximumThumbSize = 450;
+		_$imageGapPercentage = 0.04;
+	}
+
 });
 	
 /*
@@ -155,7 +163,7 @@ $(document).ready(function() {
 });
 
 function movePage(event) {
-console.log("ZZZ");
+
 	if (initialPos < -2 && projNumb < 4 && scrollon === false) {
 		projNumb += 1;
 		scrollon = true;
@@ -246,7 +254,9 @@ var projectcandispatchUp = true;
 var containerBasePos = 0;
 
 // height and width of the project
-var projectSize = 0;
+var _$projectWidth = 0;
+var _$projectHeight = 0;
+
 var projectPos = [];
 
 var projectContainerHeight;
@@ -263,8 +273,8 @@ function _CreateAnimationAndEventsToProjects() {
 			Applying the initial positioning when 
 		*/
 		$('#project' + _$projects[i].id).css({
-			'width': projectSize,
-			'height': projectSize,
+			'width': _$projectWidth,
+			'height': _$projectHeight,
 			'top': projectPos[i].top,
 			'left': projectPos[i].left,
 			'-webkit-transform': 	'scale(0,0)',
@@ -383,10 +393,10 @@ function openProject(d) {
 		//.delay(Math.round(Math.random() * 800 + 200) * d)
 		//.removeClass('closed').addClass('opened')
 		.css({
-			'width': projectSize * (1.0 - _$imageGapPercentage * 2),
-			'height': projectSize * (1.0 - _$imageGapPercentage * 2),
-			'top': projectPos[i].top + containerBasePos + projectSize * _$imageGapPercentage,
-			'left': projectPos[i].left + projectSize * _$imageGapPercentage,
+			'width': _$projectWidth * (1.0 - _$imageGapPercentage * 2),
+			'height': _$projectHeight * (1.0 - _$imageGapPercentage * 2),
+			'top': projectPos[i].top + containerBasePos + _$projectHeight * _$imageGapPercentage,
+			'left': projectPos[i].left + _$projectWidth * _$imageGapPercentage,
 			'opacity' : 1,
 			'-webkit-transform': 	'scale(1,1)',
 			'-moz-transform': 		'scale(1,1)',
@@ -425,10 +435,10 @@ function animateProject(d, speed) {
 
 		$('#project' + _$sortedProjects[i].id)
 		.css({
-			'width': projectSize * (1.0 - _$imageGapPercentage * 2),
-			'height': projectSize * (1.0 - _$imageGapPercentage * 2),
-			'top': projectPos[i].top + containerBasePos + projectSize * _$imageGapPercentage,
-			'left': projectPos[i].left + projectSize * _$imageGapPercentage,
+			'width': _$projectWidth * (1.0 - _$imageGapPercentage * 2),
+			'height': _$projectHeight * (1.0 - _$imageGapPercentage * 2),
+			'top': projectPos[i].top + containerBasePos + _$projectHeight * _$imageGapPercentage,
+			'left': projectPos[i].left + _$projectWidth * _$imageGapPercentage,
 			'-webkit-transition': AnimationVariable,
 			'-moz-transition': 	  AnimationVariable,
 			'-ms-transition': 	  AnimationVariable,
@@ -449,16 +459,37 @@ function animateProject(d, speed) {
 function adjustSize_perPage(){
 
 	var xcounter = 1;
-	projectSize = $(window).width();
-	while (projectSize > _$maximumThumbSize) {
-		projectSize = Math.floor($(window).width() / xcounter);
+
+	// Determine the width of the project depending on the window width
+	_$projectWidth = $(window).width();
+	while (_$projectWidth > _$maximumThumbSize) {
+		_$projectWidth = Math.floor($(window).width() / xcounter);
 		xcounter++;
 	}
 
-	xcounter = Math.floor($(window).width() / projectSize);
+	// Adjust the project height from the project width
+	if(_$isMobile)
+		_$projectHeight = _$projectWidth * 1.5;
+	else
+		_$projectHeight = _$projectWidth;
 
-	$('.img-over-caption h1').css({ 'font-size': Math.round(projectSize / 0.9) / 10 });
+	// Adjust the project CSS values (Image is always square)
+	$('.img-container').css({'width':_$projectWidth, 'height':_$projectWidth});
 
+	
+	if(_$isMobile){
+		$('.img-container').addClass('mobile');
+		$('.img-over-caption').addClass('mobile');
+		$('.img-over').addClass('mobile');
+	}
+
+	xcounter = Math.floor($(window).width() / _$projectWidth);
+
+	// Adjust the H1 sizes accordingly!
+	if(!_$isMobile)
+		$('.img-over-caption h1').css({ 'font-size': Math.round(_$projectWidth / 0.9) / 10 });
+	else
+		$('.img-over-caption h1').css({ 'font-size': Math.round(_$projectWidth / 2.4) / 10 });
 
 	projectPos = [];
 
@@ -467,8 +498,8 @@ function adjustSize_perPage(){
 	for (var i = 0; i < _$sortedProjects.length; i++) {
 
 		projectPos[i] = {
-			top: projectSize * k,
-			left: projectSize * j
+			top: _$projectHeight * k,
+			left: _$projectWidth * j
 		}
 		if (j < xcounter - 1)
 			j++;
@@ -478,7 +509,7 @@ function adjustSize_perPage(){
 		}
 	}
 
-	projectContainerHeight = Math.ceil(_$sortedProjects.length / xcounter) * projectSize;
+	projectContainerHeight = Math.ceil(_$sortedProjects.length / xcounter) * _$projectHeight;
 
 	if(_$projectIsOpened)
 		animateProject(0, 100);
@@ -496,31 +527,36 @@ function _OpenProjectPage(urlExtention){
 	/*
 		Fading out animation
 	*/
-	var AnimationVariable = 'all .5s ease-out';
+	
+	if(!_$isMobile){
+		var AnimationVariable = 'all .5s ease-out';
 
-	for (var i = 0; i < _$sortedProjects.length; i++) {
+		for (var i = 0; i < _$sortedProjects.length; i++) {
 
-		var rand = Math.random() * .3;
+			var rand = Math.random() * .3;
 
-		$('#project' + _$sortedProjects[i].id)
-		.css({
-			'width': 0,
-			'height': 0,
-			'top': projectPos[i].top + projectSize/2,
-			'left': projectPos[i].left + projectSize/2,
-			'-webkit-transition': AnimationVariable,
-			'-moz-transition': 	  AnimationVariable,
-			'-ms-transition': 	  AnimationVariable,
-			'-o-transition': 	  AnimationVariable,
-			'transition': 		  AnimationVariable,
-			'-webkit-transition': rand + 'S',
-			'transition-delay':   rand + 'S'
+			$('#project' + _$sortedProjects[i].id)
+			.css({
+				'width': 0,
+				'height': 0,
+				'top': projectPos[i].top + _$projectWidth/2,
+				'left': projectPos[i].left + _$projectHeight/2,
+				'-webkit-transition': AnimationVariable,
+				'-moz-transition': 	  AnimationVariable,
+				'-ms-transition': 	  AnimationVariable,
+				'-o-transition': 	  AnimationVariable,
+				'transition': 		  AnimationVariable,
+				'-webkit-transition': rand + 'S',
+				'transition-delay':   rand + 'S'
 
-		});
+			});
 
+		}
+
+		setTimeout(loadNewPage, 800);
+	}else{
+		loadNewPage();
 	}
-
-	setTimeout(loadNewPage, 800);
 
 	function loadNewPage(){
 		if ($_GET('type') !== false)

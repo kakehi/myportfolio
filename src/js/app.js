@@ -266,7 +266,7 @@ var isFirstTime = false;
 var _$isMobile = false;
 
 // --- Check Device
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))
+if (/Android|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))
 	_$isMobile = true;
 
 
@@ -493,6 +493,12 @@ function _CreateDataFromSpreadSheet($data){
 			project.header = String($data.feed.entry[6 + i].gsx$content.$t); // HeeaderImage
 			project.desc = String($data.feed.entry[7 + i].gsx$content.$t); // Description
 			/* -- information --*/
+
+			/* -- if client, year and status information is not available, hide all information panel -- */ 
+			if(project.client == "" && project.year == "" && project.status == ""){
+				$('#informationList').hide();
+				$('.informationDescription').css({'width':'100%'});
+			}
 
 			/* 
 				-- Category --
