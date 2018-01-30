@@ -184,7 +184,7 @@ function _CheckMySortFromURL(){
 	var i=0;
 	var filterNumb=0;
 	while(i<_$filterObjects.length){
-		if(window.location.hash.replace("#/", "")===_$filterObjects[i].nameid){
+		if(window.location.hash.replace("#/", "") === _$filterObjects[i].nameid){
 			_SortProjectByFilter( _$filterObjects[i] );
 			filterNumb ++;
 			i = _$filterObjects.length;
@@ -193,9 +193,24 @@ function _CheckMySortFromURL(){
 		}
 	}
 	
-	// -- If the page is at top level, and filter is applied
-    if (_$currentPageType == "top" && filterNumb > 0) {
-        _showGridImmediately();
+	// -- If the page is at top level
+    if (_$currentPageType == "top") {
+    	// -- If filter is applied, skip
+    	if(filterNumb > 0 || window.location.hash.replace("#/", "") === "all"){
+        	_showGridImmediately();
+    	}else{
+        	// Check if it is number and if so to slide
+        	var m = 0;
+        	while(m <= _$heroCount){
+        		if (parseInt(window.location.hash.replace("#/", "")) === m) {
+        			_$heroCounter = m - 1;
+					_adjustHeroProject();
+        			m = _$heroCount;
+        		}
+        		m++;
+        	}
+
+        }
     }
 
 }

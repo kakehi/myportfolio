@@ -137,7 +137,6 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 				var counter = 0;
 				var startAnimation = setInterval(function() {
 				   
-					//_movePageImmediately(1);
 					
 					if (counter < 1)
 						counter++;
@@ -157,16 +156,24 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 			setTimeout(_JustLoaded, 200);
 
 
-			// -- Hero Project
-			_ConstructHero();
 
 			// -- Run This For Individual Page
 			_PerPageJustLoaded();
 
 			// -- Begin Scroll Function
 			$(window).bind('mousewheel', function(event) {
+				event.preventDefault();
+				
 				_$scrollDirection = event.originalEvent.wheelDelta;
+				
+				if(_$bAnimation) return;
+
+				if(Math.abs(_$scrollDirection) > _$scrollInterval)
+					_$bAnimation = true;
+
 				_ScrollFunction(); 
+
+				
 			});
 
 			// -- Begin Resize Function
@@ -272,7 +279,8 @@ _$windowTopPos, _$windowTopPosOld = -1, _$windowBottomPos;
 
 
 var _$scrollDirection=0;
-
+var _$bAnimation = false;
+var _$scrollInterval =  80;
 
 var isFirstTime = false;
 /* Device Detections */
@@ -284,13 +292,6 @@ if (/Android|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))
 
 
 
-
-
-function _ConstructHero(){
-	$('#heroProject2').css({'top':'0'});
-	$('#heroProject2').css({'top':'_$windowHeight'});
-	$('#heroProject2').css({'top':'_$windowHeight * 2'});
-}
 
 /*
 	Runs after the data is loaded and after angular is ran

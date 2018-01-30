@@ -151,7 +151,7 @@ $(document).ready(function() {
 
 
 
-function  _showGridImmediately(){
+function _showGridImmediately(){
 	_$heroCounter = _$heroCount+1;
 	adjustSize_perPage();
 	openProject(1);
@@ -166,18 +166,47 @@ function movePage() {
 
 	// If the speed is slowing down, ignore. The scrollpad has elastic.
 	// Scroll Up
-	if (_$scrollDirection < -600 && _$heroCounter < _$heroCount+1 && scrollon === false) {
+	if (_$scrollDirection < (-1 * _$scrollInterval) && _$heroCounter < (_$heroCount+1) && _$bAnimation == true) {
 		_$heroCounter += 1;
-		scrollon = true;
-	}
+		
+		if(_$heroCounter < _$heroCount){
+			location.hash = _$heroCounter+1;
+		}else{
+			if (_currentSort == null)
+				location.hash = 'all';
+			else
+				location.hash = _currentSort;
+		}
 
-	// Scroll Down
-	if (_$scrollDirection > 600 && _$heroCounter > 0 && scrollon === false) {
+		// Turn off the scroll off
+			setTimeout(function() {
+				_$bAnimation = false;
+			}, 1000);
+
+	}else if (_$scrollDirection > _$scrollInterval && _$heroCounter > 0 && _$bAnimation == true) {
 		_$heroCounter -= 1;
-		scrollon = true;
+		
+		if(_$heroCounter < _$heroCount){
+			location.hash = _$heroCounter+1;
+		}else{
+
+		}
+
+		// Turn off the scroll off
+			setTimeout(function() {
+				_$bAnimation = false;
+			}, 1000);
+	}else{
+		if(_$bAnimation === true){
+			// Turn off the scroll off
+			setTimeout(function() {
+				_$bAnimation = false;
+			}, 1000);
+		}
 	}
 
-	
+
+
 	// Project reaches max
 	if (_$heroCounter > _$heroCount-1) {
 
@@ -202,25 +231,19 @@ function movePage() {
 
 		}
 
-		// Add all hash when project is loaded.
-		location.hash = 'all';
-	}else{
-		// Remove all hash when slider is opened.
-		location.hash = '';
+
 	}
 
 
+	// ------- HERO ------- //
 	// Try Animate the Hero Projects
 	_adjustHeroProject();
+	$('.goToAllProject').click(function(event) {
+		_$heroCounter = _$heroCount+1;
+		adjustSize_perPage();
+	});
 
-
-
-	// Turn off the scroll off
-	if (scrollon === true) {
-		setTimeout(function() {
-			scrollon = false;
-		}, 1500);
-	}
+	
 
 
 }
@@ -356,9 +379,9 @@ function _CreateAnimationAndEventsToProjects() {
 	$('footer').css({ 'top': (projectContainerHeight) });
 
 
-	// Skip if all is selected
-	if (window.location.hash.replace("#", "") === "/all"){
-		_showGridImmediately();
+	// Skip if URL has is not empty
+	if (window.location.hash.replace("#", "") != "" || _$isMobile){
+		_CheckMySortFromURL();
 	}
 
 
@@ -509,12 +532,39 @@ function adjustSize_perPage(){
 
 
 
-// Animate Page
+// Animate Preloading Image Page
 function _adjustHeroProject(){
+	
+	// Slider
+	$('.preloadingContentSlider').css({
+		'top':_$windowHeight/_$heroCount * _$heroCounter,
+		'height':_$windowHeight/_$heroCount
+	});
+
+	// Toggle Black and White Texts
+	if(_$heroCounter == 1){
+		$('.goToAllProject').css({
+			'border-color':'#000',
+			'color': '#000'
+		});
+	}else{
+		$('.goToAllProject').css({
+			'border-color':'#FFF',
+			'color': '#FFF'
+		});
+	}
+
 	$('.heroProject').css({'height':_$windowHeight});
 	$('#heroProject1').css({'top':_$windowHeight * (-1 * _$heroCounter)});
 	$('#heroProject2').css({'top':_$windowHeight * (-1 * _$heroCounter + 1)});
 	$('#heroProject3').css({'top':_$windowHeight * (-1 * _$heroCounter + 2)});
+
+	// When outside of image
+	if(_$heroCounter > _$heroCount-1){
+		$('.goToAllProject').css({'display':'none'});
+	}else{
+		$('.goToAllProject').css({'display':'block'});
+	}
 }
 
 
