@@ -182,18 +182,20 @@ function _CheckMySortFromURL(){
 
 	// -- Check from Filter Array
 	var i=0;
+	var filterNumb=0;
 	while(i<_$filterObjects.length){
-		if(window.location.hash.replace("#", "")===_$filterObjects[i].nameid){
+		if(window.location.hash.replace("#/", "")===_$filterObjects[i].nameid){
 			_SortProjectByFilter( _$filterObjects[i] );
+			filterNumb ++;
 			i = _$filterObjects.length;
 		} else {
 			i++;
 		}
 	}
-
-	// -- If the page is at top level, start loading the images
-    if (_$currentPageType == "top") {
-        _movePageImmediately(1);
+	
+	// -- If the page is at top level, and filter is applied
+    if (_$currentPageType == "top" && filterNumb > 0) {
+        _showGridImmediately();
     }
 
 }

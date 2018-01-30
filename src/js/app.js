@@ -125,16 +125,19 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 			// -- Start Loading
 			if (window.location.hash.replace("#", "") !== "" || isFirstTime === false) {
 				
+				
+
 				// -- Wait for Angular Injections
 				// -- Not needing to wait for loading images
-				setTimeout(_CheckMySortFromURL, 2000);
+				//_CheckMySortFromURL();
+				//setTimeout(_CheckMySortFromURL, 2000);
 
 			} else {
 
 				var counter = 0;
 				var startAnimation = setInterval(function() {
 				   
-					_movePageImmediately(1);
+					//_movePageImmediately(1);
 					
 					if (counter < 1)
 						counter++;
@@ -153,11 +156,18 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 			// -- Run This
 			setTimeout(_JustLoaded, 200);
 
+
+			// -- Hero Project
+			_ConstructHero();
+
 			// -- Run This For Individual Page
 			_PerPageJustLoaded();
 
 			// -- Begin Scroll Function
-			$(window).scroll(function() { _ScrollFunction(); });
+			$(window).bind('mousewheel', function(event) {
+				_$scrollDirection = event.originalEvent.wheelDelta;
+				_ScrollFunction(); 
+			});
 
 			// -- Begin Resize Function
 			$(window).resize(function() {
@@ -261,6 +271,9 @@ var _$windowWidth, _$windowHeight,
 _$windowTopPos, _$windowTopPosOld = -1, _$windowBottomPos;
 
 
+var _$scrollDirection=0;
+
+
 var isFirstTime = false;
 /* Device Detections */
 var _$isMobile = false;
@@ -271,6 +284,13 @@ if (/Android|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))
 
 
 
+
+
+function _ConstructHero(){
+	$('#heroProject2').css({'top':'0'});
+	$('#heroProject2').css({'top':'_$windowHeight'});
+	$('#heroProject2').css({'top':'_$windowHeight * 2'});
+}
 
 /*
 	Runs after the data is loaded and after angular is ran
@@ -315,6 +335,16 @@ function _ScrollFunction(){
 	_$windowBottomPos = (_$windowTopPos + _$windowHeight);
 
 
+	// Scroll the frontpage
+	if(_$currentPageType == "top"){
+		if (Math.abs(_$scrollDirection) > 0) {
+			movePage();
+		}
+
+		// Adding animation property to heroimages
+		$('.heroProject').addClass('animate');
+	}
+
 	if(_$currentPageType == "project"){
 		
 		// if(!_$isMobile){
@@ -352,6 +382,7 @@ function _ScrollFunction(){
 			Element.removeClass('inViewPort');
 		}
 	}
+
 
 
 	// -- Updating Old Scroll

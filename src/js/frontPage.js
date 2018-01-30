@@ -1,4 +1,9 @@
 
+var _$heroCounter = 0,
+	_$pastHeroCounter = 0;
+var _$heroCount = 3;
+
+
 var _$projectIsOpened = false;
 // -- Check filter status
 var _$filterIsOpened = false;
@@ -115,8 +120,6 @@ var scrollon = false;
 
 var initialPos = 0;
 var animateSetTimeOut;
-var projNumb = 0,
-	pastprojNumb = 0;
 
 var goalPosY1 = 0,
 	goalPosY2 = 0,
@@ -127,7 +130,7 @@ var scrollInterval = 5;
 
 // --  Measure if scroll is stuck at bottom
 
-var lasctScrollTop = 0;
+var _$lasctScrollDelta = 0;
 
 $(document).ready(function() {
 
@@ -142,46 +145,41 @@ $(document).ready(function() {
 	$.cookie('visited', 'yes', { expires: 1, path: '/' });
 
 
-	if (_$isMobile) {
-		var lastScrollTop = 0;
-		window.addEventListener('scroll', function() {
-			var st = $(this).scrollTop();
-			if (st > lastScrollTop) {
-				
-				scrollon = true;
-				movePage(false);
-
-			}
-
-			lastScrollTop = st;
-
-		});
-
-	}
 
 	
 });
 
-function movePage(event) {
 
-	if (initialPos < -2 && projNumb < 4 && scrollon === false) {
-		projNumb += 1;
+
+function  _showGridImmediately(){
+	_$heroCounter = _$heroCount+1;
+	adjustSize_perPage();
+	openProject(1);
+
+}
+
+
+function movePage() {
+
+	//console.log(_$lasctScrollDelta);
+	//console.log(_$scrollDirection);
+
+	// If the speed is slowing down, ignore. The scrollpad has elastic.
+	// Scroll Up
+	if (_$scrollDirection < -600 && _$heroCounter < _$heroCount+1 && scrollon === false) {
+		_$heroCounter += 1;
 		scrollon = true;
 	}
 
-	if (initialPos > 2 && projNumb > 0 && scrollon === false && projectcandispatchUp === true) {
-		projNumb -= 1;
+	// Scroll Down
+	if (_$scrollDirection > 600 && _$heroCounter > 0 && scrollon === false) {
+		_$heroCounter -= 1;
 		scrollon = true;
 	}
 
-	if (projNumb === 0) {
-		goalPosY1 = goalPosY2 = goalPosY3 = goalPosY4 = 0;
-	}
-
-
-	if (projNumb === 1) {
-
-		goalPosY1 = goalPosY2 = goalPosY3 = goalPosY4 = -1.5 * $(window).height();
+	
+	// Project reaches max
+	if (_$heroCounter > _$heroCount-1) {
 
 		if (projecton === false) {
 			
@@ -200,49 +198,29 @@ function movePage(event) {
 			
 			projecton = true;
 			scrollInterval = 100;
+
+
 		}
+
+		// Add all hash when project is loaded.
+		location.hash = 'all';
+	}else{
+		// Remove all hash when slider is opened.
+		location.hash = '';
 	}
 
 
-	if ($('#projectContainer').scrollTop() === 0) {
-		containerBasePos = 0;
+	// Try Animate the Hero Projects
+	_adjustHeroProject();
+
+
+
+	// Turn off the scroll off
+	if (scrollon === true) {
 		setTimeout(function() {
-			projectcandispatchUp = true;
-
-		}, 600);
-		//animateProject(0, 100);
+			scrollon = false;
+		}, 1500);
 	}
-
-
-	if ($('#projectContainer').scrollTop() > 0) {
-
-		projectcandispatchUp = false;
-	}
-
-	if (initialPos != 0 && scrollon === true) {
-		var speed = Math.round(Math.abs(1000 - Math.abs((initialPos + 100) * 2)) / 1.2);
-		if (speed > 1000) { speed = 1000; }
-		if (speed < 600) { speed = 600; }
-		var delay = 0;
-		$('#introPage1').stop().animate({ 'top': goalPosY1 }, speed);
-		$('#introPage2').stop().animate({ 'top': goalPosY2 }, speed);
-		$('#introPage3').stop().animate({ 'top': goalPosY3 }, speed);
-		$('#introPage4').stop().animate({ 'top': goalPosY4 }, speed, function() {
-			var t = 0;
-			if (projNumb === 4 && $('#projectContainer').scrollTop() < 150) {
-				t = 3500;
-			} else {
-				t = 600;
-			}
-			setTimeout(function() {
-				scrollon = false;
-			}, t);
-
-		});
-		initialPos = 0;
-	}
-
-	lasctScrollTop = $('#projectContainer').scrollTop();
 
 
 }
@@ -377,6 +355,14 @@ function _CreateAnimationAndEventsToProjects() {
 
 	$('footer').css({ 'top': (projectContainerHeight) });
 
+
+	// Skip if all is selected
+	if (window.location.hash.replace("#", "") === "/all"){
+		_showGridImmediately();
+	}
+
+
+	
 }
 
 
@@ -514,8 +500,22 @@ function adjustSize_perPage(){
 	if(_$projectIsOpened)
 		animateProject(0, 100);
 	
+
+
+	// Hero Image
+	_adjustHeroProject();
+	
 }
 
+
+
+// Animate Page
+function _adjustHeroProject(){
+	$('.heroProject').css({'height':_$windowHeight});
+	$('#heroProject1').css({'top':_$windowHeight * (-1 * _$heroCounter)});
+	$('#heroProject2').css({'top':_$windowHeight * (-1 * _$heroCounter + 1)});
+	$('#heroProject3').css({'top':_$windowHeight * (-1 * _$heroCounter + 2)});
+}
 
 
 /*

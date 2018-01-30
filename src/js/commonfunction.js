@@ -113,7 +113,7 @@ var refreshIntervalId;
 
 // -- for mobile and if it was sheen before
 function _movePageImmediately(n) {
-    projNumb += n;
+    _$heroCounter += n;
     initialPos = -0.5;
     scrollon = true;
     movePage();
