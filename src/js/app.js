@@ -162,11 +162,20 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 
 			// -- Begin Scroll Function
 			$(window).bind('mousewheel', function(event) {
-				event.preventDefault();
+				
 				
 				_$scrollDirection = event.originalEvent.wheelDelta;
 				
-				if(_$bAnimation) return;
+				if(_$bAnimation && _$heroCounter < _$heroCount){
+					event.preventDefault();
+					return;
+				}
+
+				// return if it's showing grid and stuck to the top
+				if(_$heroCounter > _$heroCount-1 && $('#projectContainer').scrollTop() > 10){
+					
+					return;
+				}
 
 				if(Math.abs(_$scrollDirection) > _$scrollInterval)
 					_$bAnimation = true;

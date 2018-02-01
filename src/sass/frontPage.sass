@@ -2,6 +2,7 @@
 /* * Predefined Elements * */
 $font-avenirLight: _avenirLight, Helvetica, sans-serif
 $font-avenirMedium: _avenirMedium, Helvetica, sans-serif
+$font-avenirHeavy: _avenirHeavy, Helvetica, sans-serif
 $font-didot: _didot, Helvetica, sans-serif
 $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 
@@ -104,6 +105,13 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 	&.animate
 		@include transition(all, 0.5s, ease-in-out)
 
+	img
+		position: absolute
+
+	.bg
+		position: absolute
+		width: 100%
+		height: 100%
 
 #textWrapper
 	margin: auto
@@ -116,13 +124,20 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 		margin-left: 2rem
 		color: white
 		left: 0
+
+		a
+			text-decoration: none
+			color: #000
 			
 	h1
 		font-family: $font-gothamXLight
 		font-size: 6.4rem
 		font-weight: 100
-		line-height: 2.8rem
+		line-height: 7.2rem
 		letter-spacing: 1.8rem
+		margin-top: 1.2rem
+		margin-bottom: 1.2rem
+		max-width: 75%
 	h2
 		font-size: 1.8rem
 		font-weight: 900
@@ -143,28 +158,92 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 	background: linear-gradient(134deg, #2A3541, #000000)
 
 	img
-		position: absolute
 		top: 10%
 		right: 10%
 		width: 40%
 		opacity: 0.2
 
 #heroProject2
-	background: linear-gradient(134deg, #FDFF28, #5FFDAB)
+	background: linear-gradient(134deg, #4377ED, #8C4CEB)
 
-	h1, h2
-		color: black
+	img
+		top: 10%
+		right: 10%
+		height: 100%
 
-	.underline
-		@include border(0 0 1px 0, #000, solid)
+	.shadow
+		height: 110%
 
 #heroProject3
 	background: linear-gradient(134deg, #BB56D3, #FF3A90)
 
 	img
-		position: absolute
 		width: 110%
 		opacity: 0.2
+
+#heroProject4
+	background: linear-gradient(134deg, #FDFF28, #5FFDAB)
+	
+	h1, h2
+		color: black
+
+	img
+		height: 82%
+		right: 5%
+		top: 5%
+
+	.underline
+		@include border(0 0 1px 0, #000, solid)
+
+	#bg1, #bg2, #bg3
+		height: 50%
+
+	#bg1
+		top: 0
+		background: linear-gradient(134deg, #FDFF28, #5FFDAB)
+
+	#bg2
+		top: 50%
+		background: linear-gradient(-62deg, #70FDFD, #FDFF28)
+	
+	
+	.mainHeroCTA
+		position: absolute
+		top: 45%
+		width: 16rem
+		margin: auto
+		left: 10%
+		//width: 36rem
+		//font-family: $font-gothamXLight
+		text-align: center
+		text-transform: uppercase
+		z-index: 5012
+		padding: 1.8rem 3.6rem 1.4rem
+		border-radius: 4.2rem
+		letter-spacing: 0.8rem
+		font-weight: 900
+		font-size: 1.4rem
+		background-color: rgba(255,255,255, 1)
+		box-shadow: 5px 10px 50px rgba(0, 0, 0, 0.4)
+		cursor: pointer
+		//@include border(8px 8px 8px 8px, #FFF, solid)
+
+		a
+			color: #6CC652!important
+
+#heroProject5
+	
+	background: linear-gradient(134deg, #000000, #000000)
+
+	#textWrapper
+		bottom: 0%
+
+	img
+		top: 0
+		width: 115%
+		opacity: 0.5
+	
+
 
 #preloadingSlide
 	position: absolute

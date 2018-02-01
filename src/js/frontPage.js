@@ -1,7 +1,7 @@
 
 var _$heroCounter = 0,
 	_$pastHeroCounter = 0;
-var _$heroCount = 3;
+var _$heroCount = 5;
 
 
 var _$projectIsOpened = false;
@@ -542,7 +542,7 @@ function _adjustHeroProject(){
 	});
 
 	// Toggle Black and White Texts
-	if(_$heroCounter == 1){
+	if(_$heroCounter == 3){
 		$('.goToAllProject').css({
 			'border-color':'#000',
 			'color': '#000'
@@ -558,10 +558,15 @@ function _adjustHeroProject(){
 	$('#heroProject1').css({'top':_$windowHeight * (-1 * _$heroCounter)});
 	$('#heroProject2').css({'top':_$windowHeight * (-1 * _$heroCounter + 1)});
 	$('#heroProject3').css({'top':_$windowHeight * (-1 * _$heroCounter + 2)});
+	$('#heroProject4').css({'top':_$windowHeight * (-1 * _$heroCounter + 3)});
+	$('#heroProject5').css({'top':_$windowHeight * (-1 * _$heroCounter + 4)});
 
-	// When outside of image
+
+	// When outside of hero image
 	if(_$heroCounter > _$heroCount-1){
 		$('.goToAllProject').css({'display':'none'});
+		// Set scroll position of grid container to top
+		$('#projectContainer').scrollTo = 0;
 	}else{
 		$('.goToAllProject').css({'display':'block'});
 	}
