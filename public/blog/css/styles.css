@@ -217,15 +217,19 @@ body article.page .content {
 }
 /* line 123, ../scss/styles.scss */
 body article.page .content h3 {
-  color: #999;
+  color: #000;
   font-family: _avenirLight, Helvetica, sans-serif;
   font-weight: 400;
   margin-top: 3em;
   padding-top: 0em;
   padding-bottom: 0em;
   margin-bottom: 0.375em;
-  font-size: 0.8em;
+  font-size: 1.2em;
   line-height: 1.5em;
+  font-style: italic;
+}
+body article.page .content h4 {
+  font-size: 1.0em;
 }
 /* line 131, ../scss/styles.scss */
 body article.page .content h1 {
@@ -248,7 +252,9 @@ body article.page .content p:last-child {
 
 
 
-
+h4{
+  font-size: 1.0rem!important;
+}
 
 .goto-next{
   font-size: 1.4rem!important;
@@ -273,11 +279,18 @@ img {
   box-shadow: 5px 5px 30px #eee;
 }
 
+ul{
+  margin: 0 0 3.2rem 0;
+}
+
 .caption{
   color: #aaa;
   font-size: 1rem;
   line-height: 1.2rem;
   text-align: center;
+}
+.caption li{
+  list-style: none;
 }
 .improve{
       color: #c27ba0;

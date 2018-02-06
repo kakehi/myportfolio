@@ -109,6 +109,7 @@ function _CreatePreloadingSlide(){
 
 	}
 
+
 	animateSlide();
 }
 
@@ -145,6 +146,18 @@ $(document).ready(function() {
 	$.cookie('visited', 'yes', { expires: 1, path: '/' });
 
 
+	// General Hover Animation
+	if(!_$isMobile) {
+		$('.hover').hover(
+			function(){
+				$(this).addClass('hovered');
+			},
+			function(){
+				$(this).removeClass('hovered');
+			}
+
+	    );
+	}
 
 	
 });
@@ -161,8 +174,6 @@ function _showGridImmediately(){
 
 function movePage() {
 
-	//console.log(_$lasctScrollDelta);
-	//console.log(_$scrollDirection);
 
 	// If the speed is slowing down, ignore. The scrollpad has elastic.
 	// Scroll Up
@@ -208,7 +219,7 @@ function movePage() {
 
 
 	// Project reaches max
-	if (_$heroCounter > _$heroCount-1) {
+	if (_$heroCounter > _$heroCount) {
 
 		if (projecton === false) {
 			
@@ -242,8 +253,6 @@ function movePage() {
 		_$heroCounter = _$heroCount+1;
 		adjustSize_perPage();
 	});
-
-	
 
 
 }
@@ -299,7 +308,7 @@ function _CreateAnimationAndEventsToProjects() {
                 _OpenProjectTitleHover($(this), event);
 
             }).mouseleave(function(event) {
-				$(this).find('.img-container').removeClass('opened').addClass('closed');
+				$(this).find('.img-container img').removeClass('opened').addClass('closed');
 				$(this).find('.img-over-caption').removeClass('opened').addClass('closed');
 
 
@@ -322,7 +331,7 @@ function _CreateAnimationAndEventsToProjects() {
 
 			function _OpenProjectTitleHover(Elm, Evnt){
 
-				Elm.find('.img-container').removeClass('closed').addClass('opened');
+				Elm.find('.img-container img').removeClass('closed').addClass('opened');
 				Elm.find('.img-over-caption').removeClass('closed').addClass('opened');
 
 				// -- Check Where mouse entered from
@@ -440,7 +449,7 @@ function animateProject(d, speed) {
 
 	for (var i = 0; i < _$sortedProjects.length; i++) {
 
-		var rand = Math.random() * .5;
+		var rand = Math.random() * .3;
 
 		$('#project' + _$sortedProjects[i].id)
 		.css({
@@ -480,17 +489,17 @@ function adjustSize_perPage(){
 	if(_$isMobile)
 		_$projectHeight = _$projectWidth * 1.5;
 	else
-		_$projectHeight = _$projectWidth;
+		_$projectHeight = _$projectWidth * 1.5;
 
 	// Adjust the project CSS values (Image is always square)
 	$('.img-container').css({'width':_$projectWidth, 'height':_$projectWidth});
 
 	
-	if(_$isMobile){
+	//if(_$isMobile){
 		$('.img-container').addClass('mobile');
 		$('.img-over-caption').addClass('mobile');
 		$('.img-over').addClass('mobile');
-	}
+	//}
 
 	xcounter = Math.floor($(window).width() / _$projectWidth);
 
@@ -534,7 +543,8 @@ function adjustSize_perPage(){
 
 // Animate Preloading Image Page
 function _adjustHeroProject(){
-	
+
+
 	// Slider
 	$('.preloadingContentSlider').css({
 		'top':_$windowHeight/_$heroCount * _$heroCounter,
@@ -570,6 +580,7 @@ function _adjustHeroProject(){
 	}else{
 		$('.goToAllProject').css({'display':'block'});
 	}
+
 }
 
 
@@ -584,7 +595,7 @@ function _OpenProjectPage(urlExtention){
 	*/
 	
 	if(!_$isMobile){
-		var AnimationVariable = 'all .5s ease-out';
+		var AnimationVariable = 'all .4s ease-out';
 
 		for (var i = 0; i < _$sortedProjects.length; i++) {
 
@@ -621,6 +632,15 @@ function _OpenProjectPage(urlExtention){
 	}
 
 }
+
+
+
+
+/*
+	Hero Interaction
+*/
+
+
 
 
 /*

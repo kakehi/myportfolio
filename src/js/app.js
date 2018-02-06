@@ -166,15 +166,17 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 				
 				_$scrollDirection = event.originalEvent.wheelDelta;
 				
-				if(_$bAnimation && _$heroCounter < _$heroCount){
-					event.preventDefault();
-					return;
-				}
+				if(_$currentPageType == "top"){
+					if(_$bAnimation && _$heroCounter < _$heroCount){
+						event.preventDefault();
+						return;
+					}
 
-				// return if it's showing grid and stuck to the top
-				if(_$heroCounter > _$heroCount-1 && $('#projectContainer').scrollTop() > 10){
-					
-					return;
+					// return if it's showing grid and stuck to the top
+					if(_$heroCounter > _$heroCount && $('#projectContainer').scrollTop() > 10){
+						
+						return;
+					}
 				}
 
 				if(Math.abs(_$scrollDirection) > _$scrollInterval)
@@ -330,7 +332,13 @@ function _JustLoaded(){
 
 
 	$(window).scrollTop();
-
+	
+	// TODO: Create Mobile Friendly Version as well.
+	//Load Immediately 
+	if(_$isMobile){
+		_$heroCounter = _$heroCount+1;
+		movePage();
+	}
 }
 
 
@@ -573,8 +581,10 @@ function _CreateDataFromSpreadSheet($data){
 			/* 
 				-- Thumbnail --
 			*/
-			project.thumb = $data.feed.entry[9 + i].gsx$content.$t;
-
+			var thumbArray = _ConvertStringToArray($data.feed.entry[9 + i].gsx$content.$t);
+			project.thumb1 = project.thumb2 = thumbArray[0];
+			if(thumbArray.length > 1)
+				project.thumb2 = thumbArray[1];
 
 			/* 
 				-- Visual Contents --

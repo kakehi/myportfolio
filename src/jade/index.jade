@@ -34,14 +34,14 @@ html(lang="en" ng-app="myApp" ng-controller="myProjects")
 		body
 			div#preloadingContainer
 				div.preloadingContentSlider
-				div.goToAllProject ↓ ALL PROJECTS
+				div.goToAllProject.hover ↓ ALL PROJECTS
 				div.heroProject#heroProject1
 					div#textWrapper
 						h2 UX and Interactive Design
 						h2.myTitle Product desgin for the insightful revolutional news experience. News picked by experts you trust.
 						div.underline
 						h1 NewsPicks
-					img(src="img/NewsPicks-Hero.png")
+					img(src="img/NewsPicks-Hero.gif")
 					div#preloadingSlide
 				div.heroProject#heroProject2
 					div#textWrapper
@@ -69,7 +69,7 @@ html(lang="en" ng-app="myApp" ng-controller="myProjects")
 						div.underline
 						h1 Loving to learn
 					img(src="img/ux-research-hero.png")
-					div.mainHeroCTA
+					div.mainHeroCTA.hover
 						a(href="/blog" target="_blank") View Blog
 					div#preloadingSlide
 				div.heroProject#heroProject5
@@ -77,9 +77,8 @@ html(lang="en" ng-app="myApp" ng-controller="myProjects")
 						h2 Experimental Designs
 						h2.myTitle Sometimes, it may not appear to be practical...
 						div.underline
-						h1 Havin'Fun in Design
+						h1 Havin' Fun in Design
 					img(src="img/AR-2.gif")
-					platform.instagram.com/en_US/embeds.js')
 					div#preloadingSlide
 			div#projectFilter
 				div.filterOverlay#filterL.filterClosed
@@ -105,8 +104,10 @@ html(lang="en" ng-app="myApp" ng-controller="myProjects")
 
 				//-div#projectContainer(ng-controller="myProjects")
 				div.project(ng-repeat="n in myProjects" id="project{{n.id}}" data-nameid = "{{n.id}}" style="'opacity':'0',  '-webkit-transform': 'scale(0,0)', '-moz-transform': 'scale(0,0)', '-ms-transform': 'scale(0,0)','-o-transform':'scale(0,0)','transform': 'scale(0,0)'")
-					img.img-container.closed(ng-src="img/thumb/{{n.thumb}}")
-					div.img-over.closed
+					div.img-container
+						img.secondary.closed(ng-src="img/thumb/{{n.thumb2}}")
+						img.primary(ng-src="img/thumb/{{n.thumb1}}")
+						//- div.img-over.closed
 					div.img-over-caption.closed
 						h1 {{n.title}}
 						h3

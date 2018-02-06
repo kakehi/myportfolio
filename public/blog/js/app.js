@@ -13,7 +13,7 @@ var ArticleAnimator = ArticleAnimator || {
   canScroll:          true,
   initialLoad:        true,
   animationDuration:  500,
-  postCount:          5,
+  postCount:          7,
   currentPostIndex:   1,
   postCache:          {},
   pageTemplate:       null,
