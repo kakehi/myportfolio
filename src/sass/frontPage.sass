@@ -239,17 +239,17 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 		opacity: 0.3
 
 	#bg1, #bg2, #bg3
-		height: 33.5%
+		height: 34%
 
 	#bg1
 		background: linear-gradient(134deg, #E7AD2A, #FF3A90)
 
 	#bg2
-		top: 33%
+		top: 34%
 		background: linear-gradient(-29deg, #BB56D3, #FF3A90)
 
 	#bg3
-		top: 66%
+		top: 68%
 		background: linear-gradient(38deg, #BB56D3, #FF3A90)
 
 #heroProject4
@@ -428,7 +428,7 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 	left: 0px
 	display: inherit
 	&.filterOpened
-		height: 3000px
+		height: 100%
 		@include transition(height, .4s, ease-out)
 	&.filterClosed
 		height: 0px;
@@ -437,7 +437,7 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 #filterR
 	left: 50%
 	&.filterOpened
-		height: 3000px
+		height: 100%
 		@include transition(height, .4s, ease-out)
 		transition-delay: 0.2s
 	&.filterClosed
@@ -448,6 +448,7 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 	position: absolute
 	z-index: 2002
 	width: 100%
+	height: 100%
 	&.filterOpened
 		top: 0px
 	&.filterClosed
@@ -470,51 +471,24 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 	
 	li
 		list-style: none
-		display: inline
 		cursor: pointer
 		vertical-align: middle
-	span
-		display: inline-block
 
 #_headerCategoryMenu
-	span
-		font-weight: bold
-		font-size: 3rem
-		margin: 1rem 3rem
+	li
+		font-style: $font-avenirHeavy
+		font-weight: 900
+		text-transform: uppercase
+		font-size: 2.6rem
+		line-height: 7.6rem
+		letter-spacing: 1rem
+		
 	&.filterOpened
 		opacity: 0.8
 		@include transition(opacity, .8s, ease-out)
 		transition-delay: 0.8s
 	&.filterClosed
 		opacity: 0
-		@include transition(opacity, .2s, ease-out)
-
-#_headerRoleMenu
-	span
-		font-style: italic
-		font-family: $font-didot
-		font-size: 4.2rem
-		margin: 1rem 3rem
-	&.filterOpened
-		opacity: 0.8
-		@include transition(opacity, .8s, ease-out)
-		transition-delay: 1.0s
-	&.filterClosed
-		opacity: 0
-		@include transition(opacity, .2s, ease-out)
-
-#_headerSoftMenu
-	span
-		font-style: italic
-		font-weight: bold
-		font-size: 2rem
-		margin: 1rem 3rem
-	&.filterOpened
-		opacity: 0.8
-		@include transition(opacity, .8s, ease-out)
-		transition-delay: 1.2s
-	&.filterClosed
-		opacity: 0;
 		@include transition(opacity, .2s, ease-out)
 
 
@@ -730,27 +704,14 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 
 /* * Media Heights * */
 
-@media screen and (max-height: 2000px)
-	#filterL
-		&.filterOpened
-			height: 2020px
-	#filterR
-		&.filterOpened
-			height: 2020px
-@media screen and (max-height: 1600px)
-	#filterL
-		&.filterOpened
-			height: 1620px
-	#filterR
-		&.filterOpened
-			height: 1620px
-@media screen and (max-height: 1080px)
-	#filterL
-		&.filterOpened
-			height: 1100px
-	#filterR
-		&.filterOpened
-			height: 1100px
+//@media screen and (max-height: 2000px)
+	
+
+//@media screen and (max-height: 1600px)
+	
+
+//@media screen and (max-height: 1080px)
+	
 
 /* * Media Heights * */
 
@@ -760,12 +721,9 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 	
 	/* Filter */
 
-	#_headerCategoryMenu span
+	#_headerCategoryMenu li
 		font-size: 3.2rem
-	#_headerRoleMenu span
-		font-size: 3.2rem
-	#_headerSoftMenu span
-		font-size: 1.6rem
+		line-height: 7.2rem
 	
 	/* Filter */
 
@@ -833,17 +791,12 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 
 	/* Filter */
 
-	#_headerCategoryMenu, #_headerRoleMenu
-		display: table
-		margin: 4rem 0rem
-
-		span
-			display: table-row
+	#_headerCategoryMenu
+		
+		li
 			font-size: 2.4rem
-			line-height: 5.2rem
+			line-height: 7.2rem
 
-	#_headerSoftMenu
-		display: none
 	
 	/* Filter */
 
@@ -852,11 +805,12 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 
 	/* Filter */
 
-	#_headerCategoryMenu, #_headerRoleMenu
-		margin: 4rem 0rem
-		span
-			font-size: 2.4rem
-			line-height: 3.6rem
+	#_headerCategoryMenu
+		
+		li
+			font-size: 1.8rem
+			line-height: 9.6rem
+			letter-spacing: 0.7rem
 
 	/* Filter */
 
@@ -866,13 +820,13 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 	
 	#filterL
 		width: 100%
+		height: 100%
 	#filterR
 		display: none
 	
-	#_headerCategoryMenu, #_headerRoleMenu
-		margin: 2.4rem 0rem
-		span
-			font-size: 2rem
-			line-height: 3.2rem
+	#_headerCategoryMenu
+		li
+			font-size: 1.2rem
+			line-height: 4.2rem
 
 	/* Filter */

@@ -170,15 +170,68 @@ $(document).ready(function() {
 });
 
 
+
+function perPageUpSwipe(){
+
+	_HERO_MoveNext();
+	_$bAnimation =  false;
+
+}
+function perPageDownSwipe(){
+
+	_HERO_MovePrev();
+	_$bAnimation =  false;
+
+}
+
 var TO_scroll;
 
 function movePage() {
 
 	// If the speed is slowing down, ignore. The scrollpad has elastic.
 	// Scroll Up
-	if (_$scrollDirection < (-1 * _$scrollInterval) && _$heroCounter < (_$heroCount+1) && _$bAnimation == true) {
-		_$heroCounter += 1;
+	if (_$scrollDirection < (-1 * _$scrollInterval)) {
 		
+		_HERO_MoveNext();
+
+	}else if (_$scrollDirection > _$scrollInterval) {
+
+		_HERO_MovePrev();
+	
+	}else{
+		if(_$bAnimation === true){
+			_ScrollTimeOut(0);
+		}
+	}
+
+	_HERO_ApplyScroll();
+
+}
+
+/*
+	Pause the scrolling
+*/
+function _ScrollTimeOut(n){
+
+	var delayTime = 1000;
+	if(n!=0)
+		delayTime = n;
+
+	clearTimeout( TO_scroll );
+	TO_scroll = setTimeout(function() {
+		_$bAnimation = false;
+	}, delayTime);
+}
+
+
+/*
+	HERO Moves to NEXT
+*/
+function _HERO_MoveNext(){
+
+	if(_$heroCounter < (_$heroCount+1) && _$bAnimation == true){
+		_$heroCounter += 1;
+			
 		if(_$heroCounter < _$heroCount){
 			location.hash = _$heroCounter+1;
 		}else{
@@ -190,9 +243,19 @@ function movePage() {
 
 		_ScrollTimeOut(0);
 
-	}else if (_$scrollDirection > _$scrollInterval && _$heroCounter > 0 && _$bAnimation == true) {
+		_HERO_ApplyScroll();
+	}
+}
+
+
+/*
+	HERO Moves to PREVIOUS
+*/
+function _HERO_MovePrev(){
+	
+	if(_$heroCounter > 0 && _$bAnimation == true){
 		_$heroCounter -= 1;
-		
+			
 		if(_$heroCounter < _$heroCount){
 			location.hash = _$heroCounter+1;
 		}else{
@@ -201,11 +264,14 @@ function movePage() {
 
 		_ScrollTimeOut(0);
 
-	}else{
-		if(_$bAnimation === true){
-			_ScrollTimeOut(0);
-		}
+		_HERO_ApplyScroll();
 	}
+}
+
+/*
+	HERO Apply Changed Herocounter to the page
+*/
+function _HERO_ApplyScroll(){
 
 	/* LOAD GRID */
 	if (_$heroCounter > _$heroCount-1) {
@@ -228,22 +294,6 @@ function movePage() {
 	_HERO_AdjustProject();
 
 }
-
-/*
-	Pause the scrolling
-*/
-function _ScrollTimeOut(n){
-
-	var delayTime = 1000;
-	if(n!=0)
-		delayTime = n;
-
-	clearTimeout( TO_scroll );
-	TO_scroll = setTimeout(function() {
-		_$bAnimation = false;
-	}, delayTime);
-}
-
 
 
 var projecton = false;

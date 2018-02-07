@@ -63,7 +63,7 @@ html(lang="en" ng-app="myApp" ng-controller="myProjects")
 						h2.myTitle Immersive shopping experience
 						div.underline
 						h1 D.Inf wALL
-					img(src="img/diw-hero-2.gif")
+					img(src="img/diw-hero-3.gif")
 					div#preloadingSlide
 				div.heroProject#heroProject4
 					div.bg#bg1
@@ -90,12 +90,9 @@ html(lang="en" ng-app="myApp" ng-controller="myProjects")
 				div.filterOverlay#filterR.filterClosed
 				div.filterTexts.filterClosed.filterClosedDisappear
 					div#_headerCategoryMenu.filterClosed.filterClosedDisappear
-						span.sortButton.selected(ng-repeat="category in myFiltersCat" id="_myProjectSort{{category.nameid}}" data-numb="{{$index}}" ng-click="sortProject($event, category)")
-							a.animatedunderline.black {{category.name}}
-					div#_headerRoleMenu.filterClosed.filterClosedDisappear
-						span.sortButton.selected(ng-repeat="role in myFiltersRole" id="_myProjectSort{{role.nameid}}" data-numb="{{$index}}" ng-click="sortProject($event, role)")
-							a.animatedunderline.black {{role.name}}
-					div#_headerSoftMenu.filterClosed.filterClosedDisappear
+						ul
+							li.sortButton.selected(ng-repeat="category in myFiltersCat" id="_myProjectSort{{category.nameid}}" data-numb="{{$index}}" ng-click="sortProject($event, category)")
+								a.animatedunderline.black {{category.name}}
 				//-div#filterButton Filter
 			div.svg-wrapper
 				span

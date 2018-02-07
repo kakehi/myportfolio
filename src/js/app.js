@@ -160,46 +160,61 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 			// -- Run This For Individual Page
 			_PerPageJustLoaded();
 
-			// -- Begin Scroll Function
-			$(window).bind('mousewheel', function(event) {
-				
-				
-				_$scrollDirection = event.originalEvent.wheelDelta;
-				
-				if(_$currentPageType == "top"){
+			// -- Non-MOBILE Begin Scroll Function
+			if(!_$isMobile){
+				$(window).bind('mousewheel', function(event) {
+
+					_$scrollDirection = event.originalEvent.wheelDelta;
 					
-					// If it's at Hero, to prevent quickly load hero, return if _$Animation is still on true
-					if(_$bAnimation && _$heroCounter < _$heroCount){
-						event.preventDefault();
-						return;
-					}
-
-					// If it's at All, to prevent quickly load hero, return if _$Animation is still on true
-					if(_$bAnimation && _$heroCounter == _$heroCount){
-						event.preventDefault();
-						return;
-					}
-
-					// return if it's showing grid and stuck to the top
-					if(_$heroCounter > _$heroCount && $('#projectContainer').scrollTop() > 0){
+					if(_$currentPageType == "top"){
 						
-						// Make sure it does not scroll to hero, if user just reached the top of grid project container.
-						if($('#projectContainer').scrollTop() > 0){
-							_$bAnimation = true;
-							_ScrollTimeOut(2500);
+
+						// If filter is opened, ignore the wheel action
+						if(_$filterIsOpened){
+							event.preventDefault();
+							return;
 						}
 
-						return;
+						// If it's at Hero, to prevent quickly load hero, return if _$Animation is still on true
+						if(_$bAnimation && _$heroCounter < _$heroCount){
+							event.preventDefault();
+							return;
+						}
+
+						// If it's at All, to prevent quickly load hero, return if _$Animation is still on true
+						if(_$bAnimation && _$heroCounter == _$heroCount){
+							event.preventDefault();
+							return;
+						}
+
+						// return if it's showing grid and stuck to the top
+						if(_$heroCounter > _$heroCount && $('#projectContainer').scrollTop() > 0){
+							
+							// Make sure it does not scroll to hero, if user just reached the top of grid project container.
+							if($('#projectContainer').scrollTop() > 0){
+								_$bAnimation = true;
+								_ScrollTimeOut(2500);
+							}
+
+							return;
+						}
 					}
-				}
 
-				if(Math.abs(_$scrollDirection) > _$scrollInterval)
-					_$bAnimation = true;
+					if(Math.abs(_$scrollDirection) > _$scrollInterval)
+						_$bAnimation = true;
 
-				_ScrollFunction(); 
+					_ScrollFunction(); 
 
-				
-			});
+					
+				});
+			}
+
+			// -- MOBILE Touch
+			// -- See "commonfunction.js" TOUCH Functions
+			if(_$isMobile){
+				document.addEventListener('touchstart', handleTouchStart, false);        
+				document.addEventListener('touchmove', handleTouchMove, false);
+			}
 
 			// -- Begin Resize Function
 			$(window).resize(function() {
@@ -351,11 +366,11 @@ function _JustLoaded(){
 	// Allow slideshow with clicks
 	if(_$isMobile && _$currentPageType == "top"){
 		
-		$('.heroProject').click(function(){
+		/*$('.heroProject').click(function(){
 			_$scrollDirection = -200;
 			_$bAnimation = true;
 			movePage(); 
-		});
+		});*/
 
 	}
 }
