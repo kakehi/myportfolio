@@ -88,7 +88,7 @@ function _CloseFilter(){
 */
 
 
-function _CreatePreloadingSlide(){
+/*function _CreatePreloadingSlide(){
 	var w = 0;
 
 	// -- Slowly animate slider
@@ -104,14 +104,18 @@ function _CreatePreloadingSlide(){
 			
 		}else{
 			$('#preloadingContainer').css({'display':'none'});
-			openProject(1);
+			_GRID_OpenProjects(1);
 		}
 
 	}
 
+	setTimeout(function() {
+		$('.heroProject').addClass('opened');
+	}, 1500);
+	
 
 	animateSlide();
-}
+}*/
 
 //////////////////////////
 
@@ -163,17 +167,9 @@ $(document).ready(function() {
 });
 
 
-
-function _showGridImmediately(){
-	_$heroCounter = _$heroCount+1;
-	adjustSize_perPage();
-	openProject(1);
-
-}
-
+var TO_scroll;
 
 function movePage() {
-
 
 	// If the speed is slowing down, ignore. The scrollpad has elastic.
 	// Scroll Up
@@ -189,10 +185,7 @@ function movePage() {
 				location.hash = _currentSort;
 		}
 
-		// Turn off the scroll off
-			setTimeout(function() {
-				_$bAnimation = false;
-			}, 1000);
+		_ScrollTimeOut(0);
 
 	}else if (_$scrollDirection > _$scrollInterval && _$heroCounter > 0 && _$bAnimation == true) {
 		_$heroCounter -= 1;
@@ -203,52 +196,33 @@ function movePage() {
 
 		}
 
-		// Turn off the scroll off
-			setTimeout(function() {
-				_$bAnimation = false;
-			}, 1000);
+		_ScrollTimeOut(0);
+
 	}else{
 		if(_$bAnimation === true){
-			// Turn off the scroll off
-			setTimeout(function() {
-				_$bAnimation = false;
-			}, 1000);
+			_ScrollTimeOut(0);
 		}
 	}
 
-
-
-	// Project reaches max
-	if (_$heroCounter > _$heroCount) {
+	/* LOAD GRID */
+	if (_$heroCounter > _$heroCount-1) {
 
 		if (projecton === false) {
-			
-			// -- load page
-			if(document.referrer.split('/')[2] != location.href.split('/')[2] && window.history == ""){
-		
-				// -- Make the preloading slide visible
-				$('#preloadingContainer').removeClass('closed').addClass('opened');
-
-				setTimeout(function() {
-					_CreatePreloadingSlide();
-				}, 2400);
-			}else{
-				openProject(1);
-			}
 			
 			projecton = true;
 			scrollInterval = 100;
 
+			// Calling Grid Open Project Function
+			_GRID_OpenProjects(1);
 
 		}
-
 
 	}
 
 
 	// ------- HERO ------- //
 	// Try Animate the Hero Projects
-	_adjustHeroProject();
+	_HERO_AdjustProject();
 	$('.goToAllProject').click(function(event) {
 		_$heroCounter = _$heroCount+1;
 		adjustSize_perPage();
@@ -256,6 +230,23 @@ function movePage() {
 
 
 }
+
+/*
+	Pause the scrolling
+*/
+function _ScrollTimeOut(n){
+
+	var delayTime = 1000;
+	if(n!=0)
+		delayTime = n;
+
+	clearTimeout( TO_scroll );
+	TO_scroll = setTimeout(function() {
+		_$bAnimation = false;
+	}, delayTime);
+}
+
+
 
 var projecton = false;
 var projectscrollable = false;
@@ -398,7 +389,27 @@ function _CreateAnimationAndEventsToProjects() {
 }
 
 
-function openProject(d) {
+
+
+/*
+
+	Open GRID
+
+*/
+
+
+function _GRID_OpenImmediately(){
+	_$heroCounter = _$heroCount+1;
+	adjustSize_perPage();
+	_GRID_OpenProjects(1);
+
+}
+
+function _GRID_OpenProjects(d) {
+
+	$('.svg-wrapper').addClass('loaded');
+	$('#projectContainer').addClass('loaded');
+
 
 	_$projectIsOpened = true;
 
@@ -494,12 +505,6 @@ function adjustSize_perPage(){
 	// Adjust the project CSS values (Image is always square)
 	$('.img-container').css({'width':_$projectWidth, 'height':_$projectWidth});
 
-	
-	//if(_$isMobile){
-		$('.img-container').addClass('mobile');
-		$('.img-over-caption').addClass('mobile');
-		$('.img-over').addClass('mobile');
-	//}
 
 	xcounter = Math.floor($(window).width() / _$projectWidth);
 
@@ -535,24 +540,57 @@ function adjustSize_perPage(){
 
 
 	// Hero Image
-	_adjustHeroProject();
+	_HERO_AdjustProject();
 	
 }
 
 
 
 // Animate Preloading Image Page
-function _adjustHeroProject(){
+function _HERO_AdjustProject(){
 
 
-	// Slider
+	// Adjust slider size and position
 	$('.preloadingContentSlider').css({
 		'top':_$windowHeight/_$heroCount * _$heroCounter,
 		'height':_$windowHeight/_$heroCount
 	});
 
+	// Adjust page locations
+	$('.heroProject').css({'height':_$windowHeight});
+	$('#heroProject1').css({'top':_$windowHeight * (-1 * _$heroCounter)});
+	$('#heroProject2').css({'top':_$windowHeight * (-1 * _$heroCounter + 1)});
+	$('#heroProject3').css({'top':_$windowHeight * (-1 * _$heroCounter + 2)});
+	$('#heroProject4').css({'top':_$windowHeight * (-1 * _$heroCounter + 3)});
+	$('#heroProject5').css({'top':_$windowHeight * (-1 * _$heroCounter + 4)});
+
+
+	// Depending on current page status, change status for each element
+	_HERO_AdjustFocus();
+
+
+	// When outside of hero image
+	if(_$heroCounter > _$heroCount-1){
+		$('.goToAllProject').css({'display':'none'});
+		// Set scroll position of grid container to top
+		$('#projectContainer').scrollTop = 0;
+	}else{
+		$('.goToAllProject').css({'display':'block'});
+	}
+
+	
+}
+
+
+/*
+	HERO : Depending on current page status, change status for each element
+*/
+
+function _HERO_AdjustFocus(){
+
+
 	// Toggle Black and White Texts
-	if(_$heroCounter == 3){
+	if(_$heroCounter == 1 || _$heroCounter == 3){
 		$('.goToAllProject').css({
 			'border-color':'#000',
 			'color': '#000'
@@ -564,26 +602,26 @@ function _adjustHeroProject(){
 		});
 	}
 
-	$('.heroProject').css({'height':_$windowHeight});
-	$('#heroProject1').css({'top':_$windowHeight * (-1 * _$heroCounter)});
-	$('#heroProject2').css({'top':_$windowHeight * (-1 * _$heroCounter + 1)});
-	$('#heroProject3').css({'top':_$windowHeight * (-1 * _$heroCounter + 2)});
-	$('#heroProject4').css({'top':_$windowHeight * (-1 * _$heroCounter + 3)});
-	$('#heroProject5').css({'top':_$windowHeight * (-1 * _$heroCounter + 4)});
-
-
-	// When outside of hero image
-	if(_$heroCounter > _$heroCount-1){
-		$('.goToAllProject').css({'display':'none'});
-		// Set scroll position of grid container to top
-		$('#projectContainer').scrollTo = 0;
+	// Parallax Effect
+	if(_$heroCounter == 0){
+		$('.heroProject').removeClass('focused');
+		$('#heroProject1').addClass('focused');
+	}else if(_$heroCounter == 1){
+		$('.heroProject').removeClass('focused');
+		$('#heroProject2').addClass('focused');
+	}else if(_$heroCounter == 2){
+		$('.heroProject').removeClass('focused');
+		$('#heroProject3').addClass('focused');
+	}else if(_$heroCounter == 3){
+		$('.heroProject').removeClass('focused');
+		$('#heroProject4').addClass('focused');
+	}else if(_$heroCounter == 4){
+		$('.heroProject').removeClass('focused');
+		$('#heroProject5').addClass('focused');
 	}else{
-		$('.goToAllProject').css({'display':'block'});
+		$('.heroProject').removeClass('focused');
 	}
-
 }
-
-
 /*
 	Fades out projects before loading a project page
 */
@@ -646,28 +684,33 @@ function _OpenProjectPage(urlExtention){
 /*
 	Hover Interactions Over Projects
 */
+var TO_hoverAnimation;
 function HoverInFromLeft(trg) {
 	RemoveAllClassForHover(trg);
 	trg.find('.img-over').addClass('prepareOpenFromLeft');
-	setTimeout(function() { trg.find('.img-over').addClass('openedFromLeft'); }, 1);
+	clearTimeout(TO_hoverAnimation);
+	TO_hoverAnimation = setTimeout(function() { trg.find('.img-over').addClass('openedFromLeft'); }, 1);
 }
 
 function HoverInFromRight(trg) {
 	RemoveAllClassForHover(trg);
 	trg.find('.img-over').addClass('prepareOpenFromRight');
-	setTimeout(function() { trg.find('.img-over').addClass('openedFromRight'); }, 1);
+	clearTimeout(TO_hoverAnimation);
+	TO_hoverAnimation = setTimeout(function() { trg.find('.img-over').addClass('openedFromRight'); }, 1);
 }
 
 function HoverInFromTop(trg) {
 	RemoveAllClassForHover(trg);
 	trg.find('.img-over').addClass('prepareOpenFromTop');
-	setTimeout(function() { trg.find('.img-over').addClass('openedFromTop'); }, 1);
+	clearTimeout(TO_hoverAnimation);
+	TO_hoverAnimation = setTimeout(function() { trg.find('.img-over').addClass('openedFromTop'); }, 1);
 }
 
 function HoverInFromBottom(trg) {
 	RemoveAllClassForHover(trg);
 	trg.find('.img-over').addClass('prepareOpenFromBottom');
-	setTimeout(function() { trg.find('.img-over').addClass('openedFromBottom'); }, 1);
+	clearTimeout(TO_hoverAnimation);
+	TO_hoverAnimation = setTimeout(function() { trg.find('.img-over').addClass('openedFromBottom'); }, 1);
 }
 
 

@@ -167,14 +167,28 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 				_$scrollDirection = event.originalEvent.wheelDelta;
 				
 				if(_$currentPageType == "top"){
+					
+					// If it's at Hero, to prevent quickly load hero, return if _$Animation is still on true
 					if(_$bAnimation && _$heroCounter < _$heroCount){
 						event.preventDefault();
 						return;
 					}
 
+					// If it's at All, to prevent quickly load hero, return if _$Animation is still on true
+					if(_$bAnimation && _$heroCounter == _$heroCount){
+						event.preventDefault();
+						return;
+					}
+
 					// return if it's showing grid and stuck to the top
-					if(_$heroCounter > _$heroCount && $('#projectContainer').scrollTop() > 10){
+					if(_$heroCounter > _$heroCount && $('#projectContainer').scrollTop() > 0){
 						
+						// Make sure it does not scroll to hero, if user just reached the top of grid project container.
+						if($('#projectContainer').scrollTop() > 0){
+							_$bAnimation = true;
+							_ScrollTimeOut(2500);
+						}
+
 						return;
 					}
 				}
@@ -333,11 +347,16 @@ function _JustLoaded(){
 
 	$(window).scrollTop();
 	
-	// TODO: Create Mobile Friendly Version as well.
-	//Load Immediately 
-	if(_$isMobile){
-		_$heroCounter = _$heroCount+1;
-		movePage();
+
+	// Allow slideshow with clicks
+	if(_$isMobile && _$currentPageType == "top"){
+		
+		$('.heroProject').click(function(){
+			_$scrollDirection = -200;
+			_$bAnimation = true;
+			movePage(); 
+		});
+
 	}
 }
 
@@ -355,6 +374,8 @@ function _ScrollFunction(){
 
 	// Scroll the frontpage
 	if(_$currentPageType == "top"){
+
+		// If scroll is visible, call move function
 		if (Math.abs(_$scrollDirection) > 0) {
 			movePage();
 		}

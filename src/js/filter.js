@@ -197,14 +197,14 @@ function _CheckMySortFromURL(){
     if (_$currentPageType == "top") {
     	// -- If filter is applied, skip
     	if(filterNumb > 0 || window.location.hash.replace("#/", "") === "all"){
-        	_showGridImmediately();
+        	_GRID_OpenImmediately();
     	}else{
         	// Check if it is number and if so to slide
         	var m = 0;
         	while(m <= _$heroCount){
         		if (parseInt(window.location.hash.replace("#/", "")) === m) {
         			_$heroCounter = m - 1;
-					_adjustHeroProject();
+					_HERO_AdjustProject();
         			m = _$heroCount;
         		}
         		m++;
