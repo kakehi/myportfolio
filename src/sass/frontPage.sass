@@ -100,14 +100,16 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 	font-family: $font-avenirMedium
 	cursor: pointer
 	word-wrap: break-word
-	@include border(2px 2px 2px 2px, #FFF, solid)
+	@include border(1px 1px 1px 1px, #FFF, solid)
 	@include transition(all, .1s, ease-in-out)
 
 	&.hovered
-		font-size: 110%
-		@include border(4px 4px 4px 4px, #FFF, solid)
-		right: 3.6rem
-		bottom: 2.8rem
+		//font-size: 110%
+		background: #FFF
+		color: #000!important
+		@include border(0px 0px 0px 0px, #FFF, solid)
+		//right: 3.6rem
+		//bottom: 2.8rem
 
 
 
@@ -231,10 +233,24 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 			top: 10%
 
 #heroProject3
-	background: linear-gradient(134deg, #BB56D3, #FF3A90)
+	
 	img
 		width: 110%
-		opacity: 0.2
+		opacity: 0.3
+
+	#bg1, #bg2, #bg3
+		height: 33.5%
+
+	#bg1
+		background: linear-gradient(134deg, #E7AD2A, #FF3A90)
+
+	#bg2
+		top: 33%
+		background: linear-gradient(-29deg, #BB56D3, #FF3A90)
+
+	#bg3
+		top: 66%
+		background: linear-gradient(38deg, #BB56D3, #FF3A90)
 
 #heroProject4
 	background: linear-gradient(134deg, #FDFF28, #5FFDAB)
@@ -253,7 +269,7 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 
 
 	#bg1, #bg2, #bg3
-		height: 50%
+		height: 50.5%
 
 	#bg1
 		top: 0
@@ -269,7 +285,7 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 		position: absolute
 		top: 45%
 		width: 16rem
-		left: 10%
+		left: 36%
 		//width: 36rem
 		//font-family: $font-gothamXLight
 		text-align: center
@@ -280,7 +296,7 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 		letter-spacing: 0.8rem
 		font-weight: 900
 		font-size: 1.4rem
-		background-color: rgba(255,255,255, 0.2)
+		background-color: rgba(255,255,255, 0.6)
 		box-shadow: 5px 10px 50px rgba(0, 0, 0, 0.4)
 		cursor: pointer
 		//@include border(8px 8px 8px 8px, #FFF, solid)
@@ -290,11 +306,10 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 
 		&.hovered
 			top: 44.7%
-			left: 9%
-			width: 17rem
-			padding: 1.9rem 3.7rem 1.5rem
+			left: 35.5%
+			padding: 1.9rem 4.0rem 1.5rem
 			font-size: 1.5rem
-			background-color: rgba(255,255,255, 0.4)
+			background-color: rgba(255,255,255, 0.8)
 			box-shadow: 5px 10px 70px rgba(0, 0, 0, 0.3)
 		
 
@@ -801,13 +816,14 @@ $font-gothamXLight: _gothamXLight, Helvetica, sans-serif
 
 	#heroProject4
 		.mainHeroCTA
-			top: 6rem
+			top: 3rem
 			width: 12rem
-			left: 2rem
+			left: 20%
 			padding: 1.0rem 1.4rem 0.8rem
 			border-radius: 4.2rem
 			letter-spacing: 0.4rem
 			font-size: 1.0rem
+			background-color: rgba(255,255,255, 1)
 
 	#heroProject5
 		img

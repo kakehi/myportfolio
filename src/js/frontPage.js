@@ -163,6 +163,9 @@ $(document).ready(function() {
 	    );
 	}
 
+	$('.goToAllProject').click(function(event) {
+		_GRID_OpenImmediately();
+	});
 	
 });
 
@@ -223,11 +226,6 @@ function movePage() {
 	// ------- HERO ------- //
 	// Try Animate the Hero Projects
 	_HERO_AdjustProject();
-	$('.goToAllProject').click(function(event) {
-		_$heroCounter = _$heroCount+1;
-		adjustSize_perPage();
-	});
-
 
 }
 
@@ -400,6 +398,13 @@ function _CreateAnimationAndEventsToProjects() {
 
 function _GRID_OpenImmediately(){
 	_$heroCounter = _$heroCount+1;
+
+	// Update URL
+	if (_currentSort == null)
+		location.hash = 'all';
+	else
+		location.hash = _currentSort;
+
 	adjustSize_perPage();
 	_GRID_OpenProjects(1);
 
