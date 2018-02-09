@@ -164,6 +164,8 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ngSanitize'])
 			if(!_$isMobile){
 				$(window).bind('mousewheel', function(event) {
 
+					//console.log(_$bAnimation);
+
 					_$scrollDirection = event.originalEvent.wheelDelta;
 					
 					if(_$currentPageType == "top"){

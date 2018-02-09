@@ -432,29 +432,58 @@ footer
 		width: 100%
 		max-width: 1280px
 		margin: 0px auto
-	.innercontainer1, .innercontainer2, .innercontainer3
-		float: left
-		padding: 4rem 2%
-	.innercontainer1
-		width: 60%
-		div
-			@include column-count(2)
-			@include column-width(50%)
+		font-size: 0.1px
 
-	.innercontainer2
-		display: none
-	.innercontainer3
-		width: 30%
-	ul
-		-webkit-padding-start: 0px
-		li
-			padding: 10px 0px
-			font-family: 
-			section a
-				color: #CCC
+	.footerCopyrights
+		padding: 4.0rem 1.0rem 0.8rem
+		text-align: center
+		font-family: $font-avenirLight
+		font-size: 1.0rem
+		color: #999
 
-	.footerprojectfilter ul
-		padding-left: 20px
+	.footerIcons
+		text-align: justify
+  		border: 10px solid black
+  		font-size: 0.1px
+  		width: 100%
+		min-width: 480px
+		max-width: 720px
+		margin: auto
+
+	.footerIcon
+		width: 33.3%
+		text-align: center
+		display: inline-block
+		padding: 3.6rem 0
+		vertical-align: text-top
+		
+		.footerIconImage
+
+			&:hover
+				opacity: 0.8
+			img
+				width: 72px
+				padding: 1.2rem
+
+		.footerIconText
+
+			section
+				text-align: center
+
+				a
+					font-size: 1.0rem
+					line-height: 1.4rem
+					letter-spacing: 0.2rem
+					text-transform: uppercase
+					margin: auto
+					color: #CCC
+
+
+	.footerIcons:after
+  		content: ''
+  		width: 100%
+  		display: inline-block
+
 
 
 /* * FOOTER * */
@@ -471,16 +500,10 @@ footer
 	/* FOOTER */
 
 	footer 
-		.innercontainer1, .innercontainer3
-			font-size: 1.8rem
-			width: 40%
-			margin: 0 2.5%
 
-		.innercontainer1 div
-			@include column-count(1)
-
-		a
-			font-size: 1.6rem
+		.footerIconText
+			a
+				font-size: 1.0rem
 
 	/* FOOTER */
 
@@ -489,22 +512,42 @@ footer
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape)
 	
 	footer 
-		.innercontainer1, .innercontainer3
-			font-size: 1.0rem
-			margin: 0 2.5%
-		.innercontainer1
-			width: 55%
-		.innercontainer3
-			width: 25%
+		.footerIcons
+			min-width: 320px
+			max-width: 480px
 
-		.innercontainer1 div
-			@include column-count(2)
+			.footerIconImage
+				img
+					width: 48px
 
-		a
-			font-size: 1.0rem
+		.footerIconText
+			a
+				font-size: 0.8rem
 
 @media screen and (max-width: 760px)
 	/* NONE */
+	
+	footer 
+		.footerIcons
+			min-width: 320px
+			max-width: 480px
+
+			.footerIconImage
+				img
+					width: 48px
+		
+		.footerIcon
+			padding: 1.4rem 0
+
+		.footerCopyrights
+			font-size: 0.8rem
+
+		.footerIconText
+			section
+				a
+					font-size: 0.6rem!important
+					line-height: 1.0rem!important
+
 
 @media screen and (max-width: 640px)
 	/* NONE */

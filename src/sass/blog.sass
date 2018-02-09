@@ -1,0 +1,399 @@
+
+/* * Predefined Elements * */
+
+// fonts
+
+@font-face
+	font-family: _didot
+	src: url('../font/Didot/ufonts.com_didot.ttf')
+@font-face
+	font-family: _avenirLight
+	src: url('../font/avenir/AvenirLTStd-Light.otf')
+@font-face
+	font-family: _avenirMedium
+	src: url('../font/avenir/AvenirLTStd-Medium.otf')
+@font-face
+	font-family: _gothamXLight
+	src: url('../font/Gotham/Gotham-XLight.otf')
+
+$font-avenirLight: _avenirLight, Helvetica, sans-serif
+$font-avenirMedium: _avenirMedium, Helvetica, sans-serif
+$font-didot: _didot, Helvetica, sans-serif
+$font-gothamXLight: _gothamXLight, Helvetica, sans-serif
+
+// animation
+@mixin transition($property, $duration, $type)
+	-webkit-transition: $property $duration $type
+	-moz-transition:    $property $duration $type
+	-ms-transition:     $property $duration $type
+	-o-transition:      $property $duration $type
+	transition:         $property $duration $type
+
+// transition delay
+@mixin transition-delay($duration)
+	-webkit-transition-delay: $duration
+	-moz-transition-delay:    $duration
+	-ms-transition-delay:     $duration
+	-o-transition-delay:      $duration
+	transition-delay:         $duration
+
+// transform
+@mixin transform($property)
+	-webkit-transform:  $property
+	-moz-transform:     $property
+	-ms-transform:      $property
+	-o-transform:       $property
+	transform:          $property
+
+// transform
+@mixin transform-transit($property, $duration, $type)
+	-webkit-transform:  $property
+	-moz-transform:     $property
+	-ms-transform:      $property
+	-o-transform:       $property
+	transform:          $property
+	-webkit-transition: all $duration $type
+	-moz-transition:    all $duration $type
+	-ms-transition:     all $duration $type
+	-o-transition:      all $duration $type
+	transition:         all $duration $type
+
+// border radius
+=border-radius($radius)
+	-webkit-border-radius: $radius
+	-moz-border-radius:    $radius
+	-ms-border-radius:     $radius
+	-o-border-radius:      $radius
+	border-radius:         $radius
+
+// Column Count
+=column-count($count)
+	-webkit-column-count: $count
+	-moz-column-count:    $count
+	-ms-column-count:     $count
+	-o-column-count:      $count
+	column-count:         $count
+
+// Column Count
+=column-width($width)
+	-webkit-column-width: $width
+	-moz-column-width:    $width
+	-ms-column-width:     $width
+	-o-column-width:      $width
+	column-width:         $width
+
+// border
+@mixin border( $coordinates: 0 0 0 0, $colour: #000000, $style: solid )
+	$top: nth($coordinates, 1)
+	$right: nth($coordinates, 2)
+	$bottom: nth($coordinates, 3)
+	$left: nth($coordinates, 4)
+	
+	@if not(unitless($top))
+		border-top: $top $style $colour
+	@if not(unitless($right))
+		border-right: $right $style $colour
+	@if not(unitless($bottom))
+		border-bottom: $bottom $style $colour
+	@if not(unitless($left))
+		border-left: $left $style $colour
+
+
+///////////////////// DEFAULT ///////////////////////
+
+
+/* line 2, ../scss/_extensions.scss */
+.container, body article.page .content
+	max-width: 840px
+	margin: 0 auto
+
+/* line 7, ../scss/_extensions.scss */
+.stretchy-bg, body article.page .big-image
+	background-position: center center
+	background-repeat: none
+	-webkit-background-size: cover
+	-moz-background-size: cover
+	-o-background-size: cover
+	background-size: cover
+
+/* line 13, ../scss/_extensions.scss */
+.big-image, body article.page .big-image
+	height: 300px
+
+@media only screen and (min-width: 500px)
+	/* line 13, ../scss/_extensions.scss */
+	.big-image, body article.page .big-image
+		height: 420px
+
+
+/* line 61, ../../../../../../../../../Applications/LiveReload.app/Contents/Resources/SASS.lrplugin/lib/compass/frameworks/compass/stylesheets/compass/typography/_vertical_rhythm.scss */
+* html
+	font-size: 125%
+
+/* line 64, ../../../../../../../../../Applications/LiveReload.app/Contents/Resources/SASS.lrplugin/lib/compass/frameworks/compass/stylesheets/compass/typography/_vertical_rhythm.scss */
+html
+	font-size: 20px
+	line-height: 0.3em
+
+/* line 4, ../scss/_mixins.scss */
+::-webkit-scrollbar
+	width: 3px
+	height: 3px
+
+/* line 9, ../scss/_mixins.scss */
+::-webkit-scrollbar-thumb
+	background: #666666
+
+/* line 13, ../scss/_mixins.scss */
+::-webkit-scrollbar-track
+	background: rgba(255, 255, 255, 0.1)
+
+/* line 18, ../scss/_mixins.scss */
+body
+	scrollbar-face-color: #666666
+	scrollbar-track-color: rgba(255, 255, 255, 0.1)
+
+/* line 11, ../scss/styles.scss */
+body
+	font-family: _avenirLight, Helvetica, sans-serif
+	color: #555
+	padding: 20px
+	padding: 0
+	margin: 0
+	-webkit-backface-visibility: hidden
+	-webkit-font-smoothing: antialiased
+	text-rendering: optimizeLegibility
+	line-height: 1.8em
+	/* Responsive typography, yay! */
+	font-size: 80%
+	/* Page-wrap styles.  */
+
+@media only screen and (min-width: 500px)
+	/* line 11, ../scss/styles.scss */
+	body
+		font-size: 100%
+
+/* line 27, ../scss/styles.scss */
+body h1
+	font-family: _didot, Helvetica, sans-serif
+
+/* line 31, ../scss/styles.scss */
+body h1, body h2, body h3, body h4, body h5, body h6
+	color: #333
+
+/* line 36, ../scss/styles.scss */
+body article.page
+	-webkit-transform-origin: bottom center
+	/* Class applied when when page fades away. */
+	/* The large image that accompanies every post. */
+	/* The content. */
+
+/* line 39, ../scss/styles.scss */
+body article.page.hidden
+	display: none
+
+/* line 42, ../scss/styles.scss */
+body article.page.next .big-image, body article.page.next .big-image
+	cursor: pointer
+
+/* line 43, ../scss/styles.scss */
+body article.page.next .big-image .inner, body article.page.next .big-image .inner
+	opacity: 1
+
+/* line 47, ../scss/styles.scss */
+body article.page.content-hidden .content
+	display: none
+
+/* line 51, ../scss/styles.scss */
+body article.page.fade-up-out
+	opacity: 0
+	@include transform(scale(0.8) translate3d(0, -10%, 0))
+	@include transition(all, 450ms, cubic-bezier(0.165, 0.84, 0.44, 1))
+
+/* line 57, ../scss/styles.scss */
+body article.page.easing-upward
+	@include transition(all, 450ms, cubic-bezier(0.165, 0.84, 0.44, 1))
+
+/* line 62, ../scss/styles.scss */
+body article.page .big-image, body article.page .big-image
+  font-size: 80%
+
+@media only screen and (min-width: 500px)
+	/* line 62, ../scss/styles.scss */
+	body article.page .big-image, body article.page .big-image
+		font-size: 100%
+
+/* line 69, ../scss/styles.scss */
+body article.page .big-image .inner, body article.page .big-image .inner
+	position: relative
+	width: 100%
+	height: 100%
+	text-align: center
+	opacity: 0
+	text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2)
+	@include transition(all, 0.1s, ease)
+
+/* line 78, ../scss/styles.scss */
+body article.page .big-image .inner .fader, body article.page .big-image .inner .fader
+	width: 100%
+	height: 100%
+	background: rgba(0, 0, 0, 0.3)
+
+/* line 83, ../scss/styles.scss */
+body article.page .big-image .inner .fader .text
+	position: absolute
+	top: 50%
+	left: 50%
+	width: 80%
+	@include transform(translateX(-50%) translateY(-50%))
+
+/* line 89, ../scss/styles.scss */
+body article.page .big-image .inner .fader .text a, body article.page .big-image .inner .fader .text h1, body article.page .big-image .inner .fader .text h2
+	color: white
+
+/* line 91, ../scss/styles.scss */
+body article.page .big-image .inner .fader .text a
+	color: white
+	border-bottom: 1px solid white
+	text-decoration: none
+	font-style: italic
+
+/* line 99, ../scss/styles.scss */
+body article.page .big-image .inner .fader .text h1
+	margin: 0
+	margin-top: 0.1em
+	padding-top: 0em
+	padding-bottom: 0em
+	margin-bottom: 0em
+	font-size: 3em
+	line-height: 1.1em
+
+/* line 105, ../scss/styles.scss */
+body article.page .big-image .inner .fader .text h2
+	margin: 0
+	font-style: italic
+	font-weight: normal
+	margin-top: 0.2em
+	padding-top: 0em
+	padding-bottom: 0em
+	margin-bottom: 0em
+	font-size: 1.5em
+	line-height: 2.0em
+
+/* line 119, ../scss/styles.scss */
+body article.page .content
+	padding: 0 3em
+
+/* line 123, ../scss/styles.scss */
+body article.page .content h3
+	color: #000
+	font-family: _avenirLight, Helvetica, sans-serif
+	font-weight: 400
+	margin-top: 3em
+	padding-top: 0em
+	padding-bottom: 0em
+	margin-bottom: 0.375em
+	font-size: 1.2em
+	line-height: 1.5em
+	font-style: italic
+
+body article.page .content h4
+	font-size: 1.0em
+
+
+/* line 136, ../scss/styles.scss */
+body article.page .content h2.description
+  font-weight: normal
+  font-style: italic
+
+/* line 140, ../scss/styles.scss */
+body article.page .content p:last-child
+	margin-bottom: 3em
+
+
+
+h4
+	font-size: 1.0rem!important
+
+
+.title
+	font-size: 3.6rem
+	font-weight: 200
+	line-height: 6.4rem
+	margin: 3.2rem auto
+	padding-top: 0em
+	padding-bottom: 0em
+	color: #333
+
+.img-container
+	margin: 3.6rem auto
+	width: 80%
+
+img
+	width: 100%
+	box-shadow: 5px 5px 30px #eee
+
+
+ul
+	margin: 0 0 3.2rem 0
+
+
+.caption
+	color: #aaa
+	font-size: 1rem
+	line-height: 1.2rem
+	text-align: center
+
+.caption li
+	list-style: none
+
+.improve
+	color: #c27ba0
+	text-decoration: none
+	text-align: center
+
+.goto-next
+	font-size: 1.4rem
+	font-weight: 900
+	font-family: _avenirMedium, Helvetica, sans-serif;
+
+
+@media screen and (max-width: 1600px)
+	/* NONE */
+
+
+@media screen and (max-width: 1024px)
+	/* NONE */
+	body article.page .content
+		padding: 0 1em
+
+	.title
+		font-size: 1.8rem
+		line-height: 2.4rem
+		margin: 1.6rem auto
+
+	body article.page .content h2
+		font-size: 1.0rem
+		line-height: 1.5rem
+
+	.img-container
+		width: 100%
+
+	.caption
+		font-size: 0.8rem
+		line-height: 1.2rem
+
+	.goto-next
+		font-size: 1.0rem
+
+/* iPad */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape)
+	/* NONE */
+
+@media screen and (max-width: 760px)
+	/* NONE */
+
+@media screen and (max-width: 640px)
+	/* NONE */
+
+

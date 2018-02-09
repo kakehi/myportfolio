@@ -213,6 +213,7 @@ function movePage() {
 */
 function _ScrollTimeOut(n){
 
+
 	var delayTime = 1000;
 	if(n!=0)
 		delayTime = n;
@@ -244,6 +245,8 @@ function _HERO_MoveNext(){
 		_ScrollTimeOut(0);
 
 		_HERO_ApplyScroll();
+	}else{
+		_ScrollTimeOut(0);
 	}
 }
 
@@ -254,6 +257,12 @@ function _HERO_MoveNext(){
 function _HERO_MovePrev(){
 	
 	if(_$heroCounter > 0 && _$bAnimation == true){
+
+		// If the page is showing the grid, make sure to return unless if the scroll position is at the top of the container.
+		if(_$heroCounter >= _$heroCount && $('#projectContainer').scrollTop() > 0){
+			return;
+		}
+
 		_$heroCounter -= 1;
 			
 		if(_$heroCounter < _$heroCount){
@@ -265,6 +274,8 @@ function _HERO_MovePrev(){
 		_ScrollTimeOut(0);
 
 		_HERO_ApplyScroll();
+	}else{
+		_ScrollTimeOut(0);
 	}
 }
 
@@ -405,6 +416,11 @@ function _CreateAnimationAndEventsToProjects() {
 				}
 				// -- Check Where mouse entered from
 			}
+		}else{
+
+			// If it's mobile, completely remove GIF secondary image
+			$('.secondary').css({'display':'none'});
+
 		}
 		
 		/*
